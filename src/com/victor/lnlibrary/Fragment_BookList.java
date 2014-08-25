@@ -30,7 +30,7 @@ public class Fragment_BookList extends Fragment{
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.fragment_booklist, container, false);
-	    mLayout = ((LinearLayout)view.findViewById(R.id.booklistlayout));
+	    mLayout = (LinearLayout)view.findViewById(R.id.booklistlayout);
 	    new FuncTask(getActivity(), mLayout, command, title).execute("");
 	    
 	    return view;

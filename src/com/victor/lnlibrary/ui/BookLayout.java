@@ -102,20 +102,19 @@ public class BookLayout extends LinearLayout{
     		bookcover.setImageBitmap(imageOperator.loadImage(mBook.getTitle() + "/bookcover"));
     	}
     
-    super.setOnClickListener(new View.OnClickListener()
-    {
-      public void onClick(View paramView)
-      {
-        FragmentTransaction localFragmentTransaction = ((Activity)BookLayout.this.getContext()).getFragmentManager().beginTransaction();
-        Fragment_BookDetail localFragment_BookDetail = new Fragment_BookDetail();
-        localFragment_BookDetail.setBookLayout(BookLayout.this.self);
-        localFragment_BookDetail.setTitle(BookLayout.this.mBook.getTitle());
-        localFragment_BookDetail.setLink(BookLayout.this.mBook.getBookLink());
-        localFragmentTransaction.replace(2131165187, localFragment_BookDetail);
-        localFragmentTransaction.addToBackStack("list");
-        localFragmentTransaction.commit();
-      }
-    });
+    	setOnClickListener(new View.OnClickListener(){
+    		@Override
+    		public void onClick(View paramView){
+    			FragmentTransaction ft = ((Activity)getContext()).getFragmentManager().beginTransaction();
+    			Fragment_BookDetail fragment_BookDetail = new Fragment_BookDetail();
+    			fragment_BookDetail.setBookLayout(self);
+    			fragment_BookDetail.setTitle(mBook.getTitle());
+    			fragment_BookDetail.setLink(mBook.getBookLink());
+    			ft.replace(R.id.fragment_home, fragment_BookDetail);
+    			ft.addToBackStack("list");
+    			ft.commit();
+    		}
+    	});
 
   }
 
@@ -136,26 +135,25 @@ public class BookLayout extends LinearLayout{
     	
     	ImageView bookcover = (ImageView)findViewById(R.id.bookcover);
     	FileOperator operator = new FileOperator();
-    	if(operator.isFileExist("Images/" + mBook.getTitle() + "/bookcover" + ".png")){
+    	if(operator.isFileExist("Images/" + bookBrief.getTitle() + "/bookcover" + ".png")){
     		ImageOperator imageOperator = new ImageOperator();
-    		bookcover.setImageBitmap(imageOperator.loadImage(mBook.getTitle() + "/bookcover"));
+    		bookcover.setImageBitmap(imageOperator.loadImage(bookBrief.getTitle() + "/bookcover"));
     	}else{
     		new ImageLoadTask((Activity)getContext(), bookcover, bookBrief.getImageLink(), bookBrief.getTitle(), "bookcover").execute("");
     	}
-    super.setOnClickListener(new View.OnClickListener()
-    {
-      public void onClick(View paramView)
-      {
-        FragmentTransaction localFragmentTransaction = ((Activity)BookLayout.this.getContext()).getFragmentManager().beginTransaction();
-        Fragment_BookDetail localFragment_BookDetail = new Fragment_BookDetail();
-        localFragment_BookDetail.setBookLayout(BookLayout.this.self);
-        localFragment_BookDetail.setTitle(BookLayout.this.details.getTitle());
-        localFragment_BookDetail.setLink(BookLayout.this.details.getBooklink());
-        localFragmentTransaction.replace(2131165187, localFragment_BookDetail);
-        localFragmentTransaction.addToBackStack("list");
-        localFragmentTransaction.commit();
-      }
-    });
+    	setOnClickListener(new OnClickListener(){
+    		@Override
+    		public void onClick(View paramView){
+    			FragmentTransaction ft = ((Activity)getContext()).getFragmentManager().beginTransaction();
+    			Fragment_BookDetail fragment_BookDetail = new Fragment_BookDetail();
+    			fragment_BookDetail.setBookLayout(self);
+    			fragment_BookDetail.setTitle(details.getTitle());
+    			fragment_BookDetail.setLink(details.getBooklink());
+    			ft.replace(R.id.fragment_home, fragment_BookDetail);
+    			ft.addToBackStack("list");
+    			ft.commit();
+    		}
+    	});
     
 	}
 	

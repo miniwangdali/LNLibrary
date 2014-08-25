@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.ComponentName;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 
@@ -29,14 +30,14 @@ public class MainActivity extends Activity{
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu){
-		getMenuInflater().inflate(R.id.menu_search, menu);
+		getMenuInflater().inflate(R.menu.main, menu);
 		SearchView searchView = (SearchView)menu.findItem(R.id.menu_search).getActionView();
 		if (searchView == null){
 			Toast.makeText(this, "找不到搜索框", Toast.LENGTH_SHORT).show();
 			return true;
 		}
 		searchView.setIconifiedByDefault(true);
-		SearchableInfo searchableInfo = ((SearchManager)getSystemService("search")).getSearchableInfo(new ComponentName(this, SearchResultActivity.class));
+		SearchableInfo searchableInfo = ((SearchManager)getSystemService(Context.SEARCH_SERVICE)).getSearchableInfo(new ComponentName(this, SearchResultActivity.class));
 		if (searchableInfo == null){
 			Toast.makeText(this, "info is null", Toast.LENGTH_SHORT).show();
 		}

@@ -39,9 +39,9 @@ public class BlockLayout extends LinearLayout{
 	}
 
 	private void initialize(String blockname){
-		TextView name = (TextView)super.findViewById(2131165206);
+		TextView name = (TextView)findViewById(R.id.blockname);
 		name.setText(blockname);
-		name.setOnClickListener(new View.OnClickListener(){
+		name.setOnClickListener(new OnClickListener(){
 			public void onClick(View v){
 				if(title.equals("我的书库")){
 					FragmentManager fragmentManager = ((Activity)getContext()).getFragmentManager();
@@ -49,7 +49,7 @@ public class BlockLayout extends LinearLayout{
 					Fragment_BookList fragment_BookList = new Fragment_BookList();
 					fragment_BookList.setTitle(title);
 					fragment_BookList.setCommand("mylibrary");
-					fTransaction.replace(R.id.blockname, fragment_BookList);
+					fTransaction.replace(R.id.fragment_home, fragment_BookList);
 					fTransaction.addToBackStack("home");
 					fTransaction.commit();
 				}else{
@@ -58,7 +58,7 @@ public class BlockLayout extends LinearLayout{
 					Fragment_BookList fragment_BookList = new Fragment_BookList();
 					fragment_BookList.setTitle(title);
 					fragment_BookList.setCommand("block");
-					fTransaction.replace(R.id.blockname, fragment_BookList);
+					fTransaction.replace(R.id.fragment_home, fragment_BookList);
 					fTransaction.addToBackStack("home");
 					fTransaction.commit();
 				}

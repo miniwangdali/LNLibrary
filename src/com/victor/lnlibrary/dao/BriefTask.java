@@ -6,6 +6,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.example.lnlibrary.R;
 import com.victor.lnlibrary.htmlparser.BookBrief;
 import com.victor.lnlibrary.ui.BookLayout;
 import java.util.ArrayList;
@@ -52,7 +54,7 @@ public class BriefTask extends AsyncTask<String, Integer, String>{
 					BookLayout bookLayout = new BookLayout(mActivity, brief);
 				    bookLayout.setVisibility(4);
 				    mLayout.addView(bookLayout);
-				    Animation localAnimation = AnimationUtils.loadAnimation(this.mActivity, 2130968576);
+				    Animation localAnimation = AnimationUtils.loadAnimation(mActivity, R.anim.slide_down);
 				    bookLayout.setVisibility(0);
 				    bookLayout.startAnimation(localAnimation);
 				}

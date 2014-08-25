@@ -72,8 +72,7 @@ public class DossierListAdapter extends BaseAdapter{
     		}
     		TextView dossiername = (TextView)convertView.findViewById(R.id.title);
     		dossiername.setText(title.get(position));
-    		//label136: ((TextView)convertView.findViewById(R.id.title)).setText(title.get(position));
-    		Animation animation = AnimationUtils.loadAnimation(mActivity, R.id.dossierlist);
+    		Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.slide_down);
     		convertView.setAnimation(animation);
     		listMap.put(position, convertView);
     	}else{
