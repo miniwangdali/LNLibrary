@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">轻小说文库</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="search_result">搜索结果</string>
+    <string name="search_hint">小说名/作者/标题</string>
+    <string name="title_activity_reading">ReadingActivity</string>
+</resources>

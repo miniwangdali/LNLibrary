@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" 
+    android:background="@drawable/customlayout" 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    style="@style/CustomLayout" >
+    <ImageView android:id="@+id/bookcover" 
+        android:layout_width="0.0dip" 
+        android:layout_height="fill_parent" 
+        android:layout_marginRight="4.0dip" 
+        android:scaleType="fitCenter" 
+        android:minHeight="50.0dip" 
+        android:layout_weight="3.0" />
+    <LinearLayout 
+        android:orientation="vertical" 
+        android:layout_width="0.0dip" 
+        android:layout_height="wrap_content" 
+        android:layout_weight="7.0">
+        <TextView android:id="@+id/bookname" 
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content" 
+            android:text="unknown" />
+        <LinearLayout 
+            android:orientation="horizontal" 
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content">
+            <LinearLayout 
+                android:orientation="horizontal" 
+                android:layout_width="0.0dip" 
+                android:layout_height="fill_parent" 
+                android:layout_weight="1.0">
+                <TextView 
+                    android:layout_width="wrap_content" 
+                    android:layout_height="fill_parent" 
+                    android:text="作者：" />
+                <TextView 
+                    android:id="@+id/author" 
+                    android:layout_width="wrap_content" 
+                    android:layout_height="fill_parent" 
+                    android:text="unknown" />
+            </LinearLayout>
+            <LinearLayout 
+                android:orientation="horizontal" 
+                android:layout_width="0.0dip" 
+                android:layout_height="fill_parent" 
+                android:layout_weight="1.0">
+                <TextView 
+                    android:layout_width="wrap_content" 
+                    android:layout_height="fill_parent" 
+                    android:text="插画：" />
+                <TextView 
+                    android:id="@+id/illustrator" 
+                    android:layout_width="wrap_content" 
+                    android:layout_height="fill_parent" 
+                    android:text="unknown" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout 
+            android:orientation="horizontal" 
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content">
+            <TextView 
+                android:layout_width="wrap_content" 
+                android:layout_height="fill_parent" 
+                android:text="文库：" />
+            <TextView 
+                android:id="@+id/publisher" 
+                android:layout_width="wrap_content" 
+                android:layout_height="fill_parent" 
+                android:text="unknown" />
+        </LinearLayout>
+        <LinearLayout 
+            android:orientation="horizontal" 
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content">
+            <TextView 
+                android:layout_width="wrap_content" 
+                android:layout_height="fill_parent" 
+                android:text="最新章节：" />
+            <TextView 
+                android:id="@+id/newest" 
+                android:layout_width="wrap_content" 
+                android:layout_height="fill_parent" 
+                android:text="unknown" />
+        </LinearLayout>
+        <LinearLayout 
+            android:orientation="horizontal" 
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content">
+            <TextView 
+                android:layout_width="wrap_content" 
+                android:layout_height="fill_parent" 
+                android:text="更新日期：" />
+            <TextView 
+                android:id="@+id/updatetime" 
+                android:layout_width="wrap_content" 
+                android:layout_height="fill_parent" 
+                android:text="unknown" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
