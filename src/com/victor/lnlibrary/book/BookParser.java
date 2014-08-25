@@ -70,11 +70,11 @@ public class BookParser implements XmlParser{
 					}else{
 						contents.add("");
 					}
-				          
+					eventType = parser.next();
 				}else if(parser.getName().equals("img")){
 					eventType = parser.next();
 					imageList.add(parser.getText());
-					
+					eventType = parser.next();
 				}
 				break;
 			case XmlPullParser.END_TAG:

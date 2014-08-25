@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.example.lnlibrary.R;
 import com.victor.lnlibrary.config.StaticConfig;
@@ -22,7 +23,7 @@ public class LaunchActivity extends Activity{
 		if(StaticConfig.hasSDCard()){
 			new LoadBookTask(this).execute("");
 		}else{
-			
+			Toast.makeText(this, "无sd卡", Toast.LENGTH_SHORT).show();
 		}
 	}
 }
