@@ -67,7 +67,7 @@ public class FuncTask extends AsyncTask<String, Integer, String>{
 			for(Book book : bookList){
 				BookLayout bookLayout = new BookLayout(mActivity, book);
 				bookLayout.setVisibility(View.INVISIBLE);
-			    this.mLayout.addView(bookLayout);
+			    mLayout.addView(bookLayout);
 			    Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.slide_down);
 			    bookLayout.setVisibility(View.VISIBLE);
 			    bookLayout.startAnimation(animation);

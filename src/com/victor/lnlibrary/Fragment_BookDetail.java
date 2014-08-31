@@ -43,42 +43,80 @@ public class Fragment_BookDetail extends Fragment{
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.fragment_bookdetail, container, false);
-		
 		mLayout = (LinearLayout)view.findViewById(R.id.bookdetail);
 		BookLayout bookLayout = new BookLayout(mBookLayout);
 		mLayout.addView(bookLayout, 0);
 		
 		if(StaticConfig.hasInternet(getActivity())){
 			new DetailTask(getActivity(), mLayout, title, link).execute("");
-			Library.getTempBook().setTitle(((TextView)mBookLayout.findViewById(R.id.bookname)).getText().toString());
-			Library.getTempBook().setAuthor(((TextView)mBookLayout.findViewById(R.id.author)).getText().toString());
-			Library.getTempBook().setIllustrator(((TextView)mBookLayout.findViewById(R.id.illustrator)).getText().toString());
-			Library.getTempBook().setPublisher(((TextView)mBookLayout.findViewById(R.id.publisher)).getText().toString());
-			Library.getTempBook().setNewest(((TextView)mBookLayout.findViewById(R.id.newest)).getText().toString());
-			Library.getTempBook().setUpdatetime(((TextView)mBookLayout.findViewById(R.id.updatetime)).getText().toString());
-			Library.getTempBook().setBookLink(link);
-			TextView save = (TextView)view.findViewById(R.id.save);
-			save.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					try{
-						Library.getTempBook().setSaved(true);
-						Library.addBook(Library.getTempBook());
-						BookParser parser = new BookParser();
-						FileOperator operator = new FileOperator();
-						if (operator.writeFile("Books", title + ".txt", parser.serialize(Library.getTempBook()))){
-							((BaseAdapter)((ListView)mLayout.findViewById(R.id.dossierlist)).getAdapter()).notifyDataSetChanged();
-						}	
+			
+			if(Library.isInLibrary(title)){
+				Book book = Library.getBook(title);
+				Library.setTempBook(book);
+				Library.getTempBook().setTitle(((TextView)mBookLayout.findViewById(R.id.bookname)).getText().toString());
+				Library.getTempBook().setAuthor(((TextView)mBookLayout.findViewById(R.id.author)).getText().toString());
+				Library.getTempBook().setIllustrator(((TextView)mBookLayout.findViewById(R.id.illustrator)).getText().toString());
+				Library.getTempBook().setPublisher(((TextView)mBookLayout.findViewById(R.id.publisher)).getText().toString());
+				Library.getTempBook().setNewest(((TextView)mBookLayout.findViewById(R.id.newest)).getText().toString());
+				Library.getTempBook().setUpdatetime(((TextView)mBookLayout.findViewById(R.id.updatetime)).getText().toString());
+				Library.getTempBook().setBookLink(link);
+				TextView save = (TextView)view.findViewById(R.id.save);
+				save.setText("已收藏");
+				save.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						try{
+							Library.getTempBook().setSaved(true);
+							Library.addBook(Library.getTempBook());
+							BookParser parser = new BookParser();
+							FileOperator operator = new FileOperator();
+							if (operator.writeFile("Books", title + ".txt", parser.serialize(Library.getTempBook()))){
+								((BaseAdapter)((ListView)mLayout.findViewById(R.id.dossierlist)).getAdapter()).notifyDataSetChanged();
+							}	
+						}
+						catch (Exception e){
+							e.printStackTrace();
+							Library.getTempBook().setSaved(false);
+							Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+						}
 					}
-					catch (Exception e){
-						e.printStackTrace();
-						Library.getTempBook().setSaved(false);
-						Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+				});
+			}else{
+				Library.setTempBook(new Book());
+				Library.getTempBook().setTitle(((TextView)mBookLayout.findViewById(R.id.bookname)).getText().toString());
+				Library.getTempBook().setAuthor(((TextView)mBookLayout.findViewById(R.id.author)).getText().toString());
+				Library.getTempBook().setIllustrator(((TextView)mBookLayout.findViewById(R.id.illustrator)).getText().toString());
+				Library.getTempBook().setPublisher(((TextView)mBookLayout.findViewById(R.id.publisher)).getText().toString());
+				Library.getTempBook().setNewest(((TextView)mBookLayout.findViewById(R.id.newest)).getText().toString());
+				Library.getTempBook().setUpdatetime(((TextView)mBookLayout.findViewById(R.id.updatetime)).getText().toString());
+				Library.getTempBook().setBookLink(link);
+				TextView save = (TextView)view.findViewById(R.id.save);
+				save.setText("收藏");
+				save.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						try{
+							Library.getTempBook().setSaved(true);
+							Library.addBook(Library.getTempBook());
+							BookParser parser = new BookParser();
+							FileOperator operator = new FileOperator();
+							if (operator.writeFile("Books", title + ".txt", parser.serialize(Library.getTempBook()))){
+								((BaseAdapter)((ListView)mLayout.findViewById(R.id.dossierlist)).getAdapter()).notifyDataSetChanged();
+							}	
+						}
+						catch (Exception e){
+							e.printStackTrace();
+							Library.getTempBook().setSaved(false);
+							Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+						}
 					}
-				}
-			});
+				});
+			}
+			
 			
 		}else{
 			if(Library.isInLibrary(title)){

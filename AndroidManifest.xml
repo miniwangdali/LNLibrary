@@ -21,7 +21,13 @@
             </intent-filter>
         </activity>
         <activity android:label="@string/app_name" 
-            android:name="com.victor.lnlibrary.MainActivity" />
+            android:name="com.victor.lnlibrary.MainActivity" >
+            <intent-filter>
+                <action android:name="com.victor.lnlibrary.MainActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        
         <activity android:label="@string/search_result" 
             android:name="com.victor.lnlibrary.SearchResultActivity">
             <intent-filter>
@@ -31,6 +37,8 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity android:label="@string/title_activity_reading" 
-            android:name="com.victor.lnlibrary.ReadingActivity" />
+            android:name="com.victor.lnlibrary.ReadingActivity" >
+           
+        </activity>
     </application>
 </manifest>

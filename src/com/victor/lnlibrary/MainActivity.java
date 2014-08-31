@@ -13,15 +13,12 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.lnlibrary.R;
-import com.victor.lnlibrary.bean.Library;
 
 public class MainActivity extends Activity{
-	public static Library library = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		library = new Library();
 		setContentView(R.layout.activity_main);
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		ft.add(R.id.fragment_home, new Fragment_Home());

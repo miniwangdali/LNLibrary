@@ -40,7 +40,7 @@ public class FileOperator{
 		FileOutputStream fos = null;
 		try{
 			createSDDir(foldername);
-			file = createSDFile(foldername + "/" + bookname + ".txt");
+			file = createSDFile(foldername + "/" + bookname);
 			fos = new FileOutputStream(file);
 			fos.write(content.getBytes());
 			fos.flush();
@@ -59,7 +59,7 @@ public class FileOperator{
 		FileOutputStream fos = null;
 		try{
 			createSDDir(foldername);
-			file = createSDFile(foldername + "/" + filename + ".txt");
+			file = createSDFile(foldername + "/" + filename);
 			fos = new FileOutputStream(file);
 			image.compress(CompressFormat.PNG, 100, fos);
 			

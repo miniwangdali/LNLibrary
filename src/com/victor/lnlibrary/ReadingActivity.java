@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.Window;
 import android.widget.ImageView;
@@ -22,9 +23,7 @@ import android.widget.Toast;
 
 import com.example.lnlibrary.R;
 import com.victor.lnlibrary.bean.Library;
-import com.victor.lnlibrary.book.Book;
 import com.victor.lnlibrary.book.ChapterContent;
-import com.victor.lnlibrary.book.Dossier;
 import com.victor.lnlibrary.book.ImageOperator;
 import com.victor.lnlibrary.dao.ImageLoadTask;
 import com.victor.lnlibrary.htmlparser.Content;
@@ -63,19 +62,20 @@ public class ReadingActivity extends Activity{
 	    chapterTitleText.setText(chaptertitle);
 	    
 	    IntentFilter intentFilter = new IntentFilter();
-	    intentFilter.addAction("currenttime");
+	    intentFilter.addAction(Intent.ACTION_TIME_TICK);
 	    registerReceiver(timeReceiver, intentFilter);
-	    timeThread.start();
+
 	    
 	    scrollView = (ScrollView)findViewById(R.id.readingscroll);
-	    scrollView.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+	    ViewTreeObserver vto = scrollView.getViewTreeObserver();
+	    vto.addOnPreDrawListener(new OnPreDrawListener() {
 			
 			@Override
 			public boolean onPreDraw() {
 				// TODO Auto-generated method stub
 				pageHeight = scrollView.getHeight();
 				fullHeight = scrollView.getMeasuredHeight();
-				return false;
+				return true;
 			}
 		});
 	    
@@ -133,7 +133,7 @@ public class ReadingActivity extends Activity{
 				BigDecimal bigDecimal = new BigDecimal(progress);
 				progress = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				TextView progressText = (TextView)findViewById(R.id.progress);
-				progressText.setText("当前进度：" + progress + "%");
+				progressText.setText("当前进度：" + String.valueOf(progress) + "%");
 			}
 			return true;
 		case KeyEvent.KEYCODE_VOLUME_UP:
@@ -151,7 +151,7 @@ public class ReadingActivity extends Activity{
 				BigDecimal bigDecimal = new BigDecimal(progress);
 				progress = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				TextView progressText = (TextView)findViewById(R.id.progress);
-				progressText.setText("当前进度：" + progress + "%");
+				progressText.setText("当前进度：" + String.valueOf(progress) + "%");
 			}
 			return true;
 		default:
@@ -177,9 +177,10 @@ public class ReadingActivity extends Activity{
 	}
 	
 	private BroadcastReceiver timeReceiver = new BroadcastReceiver(){
+		@Override
 		public void onReceive(Context context, Intent intent){
 
-			if (intent.getAction().equals("currenttime")){
+			if (intent.getAction().equals(Intent.ACTION_TIME_TICK)){
 				String hour = new String();
 				String minute = new String();
 				Time time = new Time();
@@ -198,20 +199,6 @@ public class ReadingActivity extends Activity{
 				timeText.setText(hour + ":" + minute);
 			}
 		}};
-	
-	private Thread timeThread = new Thread(){
-		public void run(){
-			try{
-				Intent intent = new Intent();
-				intent.setAction("currenttime");
-				sendBroadcast(intent);
-				Thread.sleep(1000);
-			}catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
-			}
-		}
-	};
 	
 	private void loadNextChapter(){
     	readingContent.removeAllViews();
@@ -353,8 +340,15 @@ public class ReadingActivity extends Activity{
 			super.onProgressUpdate(values);
 		}
 		
-		
-		
 	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		unregisterReceiver(timeReceiver);
+		super.onDestroy();
+	}
+	
+	
 	
 }
