@@ -45,7 +45,7 @@ containing a value of this type.
         public static final int yangpizhi=0x7f020003;
     }
     public static final class id {
-        public static final int action_settings=0x7f07001f;
+        public static final int action_settings=0x7f070021;
         public static final int author=0x7f070019;
         public static final int blockname=0x7f070016;
         public static final int bookcover=0x7f070017;
@@ -64,8 +64,10 @@ containing a value of this type.
         public static final int illustrator=0x7f07001a;
         public static final int introduction=0x7f070012;
         public static final int mainlayout=0x7f070002;
-        public static final int menu_search=0x7f07001e;
+        public static final int menu_search=0x7f07001f;
+        public static final int menu_setting=0x7f070020;
         public static final int newest=0x7f07001c;
+        public static final int pref_seek=0x7f07001e;
         public static final int progress=0x7f070008;
         public static final int progressbar=0x7f07000c;
         public static final int publisher=0x7f07001b;
@@ -91,6 +93,7 @@ containing a value of this type.
         public static final int fragment_reading=0x7f030009;
         public static final int layout_block=0x7f03000a;
         public static final int layout_book=0x7f03000b;
+        public static final int seekbar=0x7f03000c;
     }
     public static final class menu {
         public static final int main=0x7f0a0000;
@@ -125,6 +128,7 @@ containing a value of this type.
     }
     public static final class xml {
         public static final int searchable=0x7f050000;
+        public static final int settings=0x7f050001;
     }
     public static final class styleable {
         /** Attributes that can be used with a ExpandableTextView.

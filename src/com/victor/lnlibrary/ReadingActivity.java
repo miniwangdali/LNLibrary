@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lnlibrary.R;
+import com.victor.lnlibrary.bean.Config;
 import com.victor.lnlibrary.bean.Library;
 import com.victor.lnlibrary.book.ChapterContent;
 import com.victor.lnlibrary.book.ImageOperator;
@@ -88,8 +89,8 @@ public class ReadingActivity extends Activity{
 		for(int i = 0; i < contentList.size(); i ++){
 			MyTextView contentTextView = new MyTextView(this);
 			contentTextView.setText(contentList.get(i));
-			contentTextView.setTextAppearance(self, R.style.ReadingText);
-			contentTextView.setLineSpacing(3.0f, 1.5f);
+			contentTextView.setTextSize(Config.getFontsize());
+			contentTextView.setLineSpacing(3.0f, Config.getLinespace());
 			readingContent.addView(contentTextView);
 			if(i < imageList.size()){
 				if(Library.getTempBook().getDossier(dossiername).isDownloaded()){
@@ -219,8 +220,8 @@ public class ReadingActivity extends Activity{
     		for(int i = 0; i < contentList.size(); i ++){
     			MyTextView contentTextView = new MyTextView(this);
     			contentTextView.setText(contentList.get(i));
-    			contentTextView.setTextAppearance(self, R.style.ReadingText);
-    			contentTextView.setLineSpacing(3.0f, 1.5f);
+    			contentTextView.setTextSize(Config.getFontsize());
+    			contentTextView.setLineSpacing(3.0f, Config.getLinespace());
     			readingContent.addView(contentTextView);
     			if(i < imageList.size()){
     				if(Library.getTempBook().getDossier(dossiername).isDownloaded()){
@@ -257,8 +258,8 @@ public class ReadingActivity extends Activity{
     		for(int i = 0; i < contentList.size(); i ++){
     			MyTextView contentTextView = new MyTextView(this);
     			contentTextView.setText(contentList.get(i));
-    			contentTextView.setTextAppearance(self, R.style.ReadingText);
-    			contentTextView.setLineSpacing(3.0f, 1.5f);
+    			contentTextView.setTextSize(Config.getFontsize());
+    			contentTextView.setLineSpacing(3.0f, Config.getLinespace());
     			readingContent.addView(contentTextView);
     			if(i < imageList.size()){
     				if(Library.getTempBook().getDossier(dossiername).isDownloaded()){
@@ -313,8 +314,8 @@ public class ReadingActivity extends Activity{
 	    		for(int i = 0; i < contentList.size(); i ++){
 	    			MyTextView contentTextView = new MyTextView(self);
 	    			contentTextView.setText(contentList.get(i));
-	    			contentTextView.setTextAppearance(self, R.style.ReadingText);
-	    			contentTextView.setLineSpacing(3.0f, 1.2f);
+	    			contentTextView.setTextSize(Config.getFontsize());
+	    			contentTextView.setLineSpacing(3.0f, Config.getLinespace());
 	    			readingContent.addView(contentTextView);
 	    			if(i < imageList.size()){
 	    				if(Library.getTempBook().getDossier(dossiername).isDownloaded()){

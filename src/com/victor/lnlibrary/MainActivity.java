@@ -6,13 +6,17 @@ import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.lnlibrary.R;
+import com.victor.lnlibrary.bean.Config;
 
 public class MainActivity extends Activity{
 
@@ -23,7 +27,34 @@ public class MainActivity extends Activity{
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		ft.add(R.id.fragment_home, new Fragment_Home());
 		ft.commit();
+		
+		SharedPreferences settings = getSharedPreferences("settings", Activity.MODE_PRIVATE);
+		Config.setFontsize(settings.getFloat("fontsize", 18.0f));
+		Config.setLinespace(settings.getFloat("linespace", 1.2f));
+		Config.setNightmode(settings.getBoolean("nightmode", false));
+		
+		
 	}
+
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case R.id.menu_setting:
+			
+			Intent intent = new Intent();
+			intent.setClass(this, SettingsActivity.class);
+			startActivity(intent);
+			
+			break;
+
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu){
