@@ -27,7 +27,8 @@
         <LinearLayout android:id="@+id/contentlayout"
             android:orientation="vertical"  
             android:layout_width="fill_parent" 
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            style="@style/ReadingLayout" />
     </ScrollView>
     <LinearLayout 
         android:orientation="horizontal" 

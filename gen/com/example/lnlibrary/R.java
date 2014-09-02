@@ -120,6 +120,8 @@ containing a value of this type.
         public static final int AppBaseTheme=0x7f090000;
         public static final int AppTheme=0x7f090001;
         public static final int CustomLayout=0x7f090002;
+        public static final int ReadingLayout=0x7f090003;
+        public static final int ReadingText=0x7f090004;
     }
     public static final class xml {
         public static final int searchable=0x7f050000;

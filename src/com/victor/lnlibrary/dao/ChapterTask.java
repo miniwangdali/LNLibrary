@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.victor.lnlibrary.ReadingActivity;
 import com.victor.lnlibrary.bean.Library;
+import com.victor.lnlibrary.book.ChapterContent;
 import com.victor.lnlibrary.htmlparser.Chapter;
 import com.victor.lnlibrary.ui.Expand_Custom_Animation;
 
@@ -56,7 +57,21 @@ public class ChapterTask extends AsyncTask<String, Integer, String>{
 	protected void onPostExecute(String result) {
 		// TODO Auto-generated method stub
 		if(result.equals("success")){
-			Library.getBook(bookname).getDossier(title).setChapters(chapters.getChapterList());
+			if(Library.isInLibrary(bookname)){
+				Library.getBook(bookname).getDossier(title).setChapters(chapters.getChapterList());
+				for(int i = 0; i < chapters.getChapterList().size(); i ++){
+					ChapterContent chapterContent = new ChapterContent();
+					chapterContent.setChaptertitle(chapters.getChapterList().get(i));
+					chapterContent.setChapterlink(chapters.getLinkList().get(i));
+    				Library.getBook(bookname).getDossier(title).getChapterContents().add(chapterContent);
+				}
+			}
+			for(int i = 0; i < chapters.getChapterList().size(); i ++){
+				ChapterContent chapterContent = new ChapterContent();
+				chapterContent.setChaptertitle(chapters.getChapterList().get(i));
+				chapterContent.setChapterlink(chapters.getLinkList().get(i));
+				Library.getTempBook().getDossier(title).getChapterContents().add(chapterContent);
+			}
 			Library.getTempBook().getDossier(title).setChapters(chapters.getChapterList());
 			mListView.removeAllViews();
 			for(int i = 0; i < chapters.getChapterList().size(); i ++){
@@ -66,8 +81,8 @@ public class ChapterTask extends AsyncTask<String, Integer, String>{
 			    mListView.addView(chapterText);
 			    chapterText.setOnClickListener(new OnClickListener(){
 			    	public void onClick(View v){
-			    		if(Library.getBook(bookname).isSaved()){
-			    			if(Library.getBook(bookname).getDossier(title).isDownloaded()){
+			    		if(Library.getTempBook().isSaved()){
+			    			if(Library.getTempBook().getDossier(title).isDownloaded()){
 			    				Intent intent = new Intent();
 			    				intent.setClass(mActivity, ReadingActivity.class);
 			    				intent.putExtra("bookname", bookname);
@@ -75,9 +90,12 @@ public class ChapterTask extends AsyncTask<String, Integer, String>{
 			    				intent.putExtra("chapter", chapterText.getText().toString());
 			    				mActivity.startActivity(intent);
 			    			}else{
+			    				
+
 			    				new TempChapterTask(mActivity, bookname, title, chapterText.getText().toString()).execute("");
 			    			}
 			    		}else{
+			    			
 			    			new TempChapterTask(mActivity, bookname, title, chapterText.getText().toString()).execute("");
 			    		}
 			    	}

@@ -27,6 +27,8 @@ import com.victor.lnlibrary.book.ChapterContent;
 import com.victor.lnlibrary.book.ImageOperator;
 import com.victor.lnlibrary.dao.ImageLoadTask;
 import com.victor.lnlibrary.htmlparser.Content;
+import com.victor.lnlibrary.ui.MyTextView;
+
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
@@ -84,8 +86,10 @@ public class ReadingActivity extends Activity{
 	    List<String> contentList = contents.getContents();
 		List<String> imageList = contents.getImageList();
 		for(int i = 0; i < contentList.size(); i ++){
-			TextView contentTextView = new TextView(this);
+			MyTextView contentTextView = new MyTextView(this);
 			contentTextView.setText(contentList.get(i));
+			contentTextView.setTextAppearance(self, R.style.ReadingText);
+			contentTextView.setLineSpacing(3.0f, 1.5f);
 			readingContent.addView(contentTextView);
 			if(i < imageList.size()){
 				if(Library.getTempBook().getDossier(dossiername).isDownloaded()){
@@ -93,12 +97,12 @@ public class ReadingActivity extends Activity{
 					Bitmap image = operator.loadImage(imageList.get(i));
 					ImageView imageView = new ImageView(this);
 					imageView.setImageBitmap(image);
-					imageView.setScaleType(ScaleType.CENTER_INSIDE);
+					imageView.setScaleType(ScaleType.FIT_CENTER);
 					readingContent.addView(imageView);
 				}else{
 					ImageView imageView = new ImageView(this);
 					new ImageLoadTask(this, imageView, imageList.get(i), bookname, "tempImage" + i).execute("");
-					imageView.setScaleType(ScaleType.CENTER_INSIDE);
+					imageView.setScaleType(ScaleType.FIT_CENTER);
 					readingContent.addView(imageView);
 				}
 			}
@@ -213,8 +217,10 @@ public class ReadingActivity extends Activity{
     		List<String> contentList = contents.getContents();
     		List<String> imageList = contents.getImageList();
     		for(int i = 0; i < contentList.size(); i ++){
-    			TextView contentTextView = new TextView(this);
+    			MyTextView contentTextView = new MyTextView(this);
     			contentTextView.setText(contentList.get(i));
+    			contentTextView.setTextAppearance(self, R.style.ReadingText);
+    			contentTextView.setLineSpacing(3.0f, 1.5f);
     			readingContent.addView(contentTextView);
     			if(i < imageList.size()){
     				if(Library.getTempBook().getDossier(dossiername).isDownloaded()){
@@ -249,8 +255,10 @@ public class ReadingActivity extends Activity{
     		List<String> contentList = contents.getContents();
     		List<String> imageList = contents.getImageList();
     		for(int i = 0; i < contentList.size(); i ++){
-    			TextView contentTextView = new TextView(this);
+    			MyTextView contentTextView = new MyTextView(this);
     			contentTextView.setText(contentList.get(i));
+    			contentTextView.setTextAppearance(self, R.style.ReadingText);
+    			contentTextView.setLineSpacing(3.0f, 1.5f);
     			readingContent.addView(contentTextView);
     			if(i < imageList.size()){
     				if(Library.getTempBook().getDossier(dossiername).isDownloaded()){
@@ -303,8 +311,10 @@ public class ReadingActivity extends Activity{
 				List<String> contentList = contents.getContents();
 	    		List<String> imageList = contents.getImageList();
 	    		for(int i = 0; i < contentList.size(); i ++){
-	    			TextView contentTextView = new TextView(self);
+	    			MyTextView contentTextView = new MyTextView(self);
 	    			contentTextView.setText(contentList.get(i));
+	    			contentTextView.setTextAppearance(self, R.style.ReadingText);
+	    			contentTextView.setLineSpacing(3.0f, 1.2f);
 	    			readingContent.addView(contentTextView);
 	    			if(i < imageList.size()){
 	    				if(Library.getTempBook().getDossier(dossiername).isDownloaded()){
