@@ -2,6 +2,8 @@ package com.victor.lnlibrary;
 
 import com.example.lnlibrary.R;
 import com.victor.lnlibrary.bean.Config;
+import com.victor.lnlibrary.ui.SeekPreference;
+
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -27,31 +29,13 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		
 		//字号
-		Preference fontSize = (Preference)findPreference("fontsize");
-		fontSize.setSummary("当前字体大小：" + Config.getFontsize());
-		fontSize.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-			
-			@Override
-			public boolean onPreferenceClick(Preference preference) {
-				// TODO Auto-generated method stub
-				
-				
-				
-				return true;
-			}
-		});
+		SeekPreference fontSize = (SeekPreference)findPreference("fontsize");
+		fontSize.setSummary(String.valueOf(Config.getFontsize()));
+		
 		//行间距
-		Preference linespace = (Preference)findPreference("linespace");
-		linespace.setSummary("当前行间距：" + Config.getLinespace());
-		linespace.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-			
-			@Override
-			public boolean onPreferenceClick(Preference preference) {
-				// TODO Auto-generated method stub
-				
-				return true;
-			}
-		});
+		SeekPreference linespace = (SeekPreference)findPreference("linespace");
+		linespace.setSummary(String.valueOf(Config.getLinespace()));
+		
 		
 		//夜间模式
 		CheckBoxPreference nightmode = (CheckBoxPreference)findPreference("nightmode");

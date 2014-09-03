@@ -53,6 +53,10 @@ public class LoadBookTask extends AsyncTask<String, Integer, String>{
 		    mActivity.finish();
 		    Toast.makeText(mActivity, "本地书目加载成功", Toast.LENGTH_SHORT).show();
 		}else if(result.equals("empty")){
+			Intent intent = new Intent();
+		    intent.setClass(mActivity, MainActivity.class);
+		    mActivity.startActivity(intent);
+		    mActivity.finish();
 			Toast.makeText(mActivity, "无书目", Toast.LENGTH_SHORT).show();
 		}else{
 			Toast.makeText(mActivity, result, Toast.LENGTH_SHORT).show();

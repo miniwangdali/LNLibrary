@@ -12,6 +12,7 @@ public class Dossier{
 	private String imagepath = new String();
 	private boolean isDownloaded = false;
 	private int lastRead = -1;
+	
 
 	public ChapterContent getChapterContent(String chaptertitle){
 		Iterator<ChapterContent> iterator = chapterContents.iterator();
@@ -53,9 +54,6 @@ public class Dossier{
 		return this.imagepath;
 	}
 
-	public int getLastRead(){
-		return this.lastRead;
-	}
 
 	public boolean isDownloaded(){
 		return this.isDownloaded;
@@ -85,7 +83,12 @@ public class Dossier{
  		this.imagepath = imagepath;
  	}
 
- 	public void setLastRead(int lastRead){
- 		this.lastRead = lastRead;
- 	}
+	public int getLastRead() {
+		return lastRead;
+	}
+
+	public void setLastRead(int lastRead) {
+		this.lastRead = lastRead;
+	}
+
 }

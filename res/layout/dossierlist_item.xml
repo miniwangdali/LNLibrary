@@ -49,8 +49,8 @@
                 <TextView android:id="@+id/readtag"
                     android:gravity="center" 
                     android:layout_width="0.0dip" 
-                    android:layout_height="wrap_content" 
-                    android:text="继续阅读" 
+                    android:layout_height="wrap_content"  
+                    android:text="从未读过"
                     android:layout_weight="1.0" />
             </LinearLayout>
         </LinearLayout>

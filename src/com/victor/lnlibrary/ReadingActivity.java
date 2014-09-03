@@ -9,10 +9,13 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.ViewTreeObserver.OnPreDrawListener;
+import android.view.ViewTreeObserver.OnScrollChangedListener;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -24,10 +27,13 @@ import android.widget.Toast;
 import com.example.lnlibrary.R;
 import com.victor.lnlibrary.bean.Config;
 import com.victor.lnlibrary.bean.Library;
+import com.victor.lnlibrary.book.BookParser;
 import com.victor.lnlibrary.book.ChapterContent;
+import com.victor.lnlibrary.book.FileOperator;
 import com.victor.lnlibrary.book.ImageOperator;
 import com.victor.lnlibrary.dao.ImageLoadTask;
 import com.victor.lnlibrary.htmlparser.Content;
+import com.victor.lnlibrary.ui.FoldMenu;
 import com.victor.lnlibrary.ui.MyTextView;
 
 import java.math.BigDecimal;
@@ -46,6 +52,7 @@ public class ReadingActivity extends Activity{
 	private ScrollView scrollView;
 	Activity self = this;
 	private double progress;
+	private FoldMenu foldMenu;
 
 	
 	@Override
@@ -60,6 +67,8 @@ public class ReadingActivity extends Activity{
 	    dossiername = intent.getStringExtra("dossiername");
 	    chaptertitle = intent.getStringExtra("chapter");
 	    chapterId = Library.getTempBook().getDossier(dossiername).getChapterId(chaptertitle);
+	    Library.getBook(bookname).getDossier(dossiername).setLastRead(chapterId);
+	    progress = Library.getTempBook().getDossier(dossiername).getChapterContent(chaptertitle).getProgress();
 	    
 	    TextView chapterTitleText = (TextView)findViewById(R.id.chaptertitle);
 	    chapterTitleText.setText(chaptertitle);
@@ -77,8 +86,29 @@ public class ReadingActivity extends Activity{
 			public boolean onPreDraw() {
 				// TODO Auto-generated method stub
 				pageHeight = scrollView.getHeight();
-				fullHeight = scrollView.getMeasuredHeight();
 				return true;
+			}
+		});
+	    vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+			
+			@Override
+			public void onGlobalLayout() {
+				// TODO Auto-generated method stub
+				if(Library.getTempBook().getDossier(dossiername).getChapterContent(chaptertitle).getProgress() < 0){
+					scrollView.scrollTo(0, 0);
+				}else{
+					Double p = Library.getTempBook().getDossier(dossiername).getChapterContent(chaptertitle).getProgress();
+					scrollView.scrollTo(0, (int)(p * readingContent.getMeasuredHeight()) / 100 - pageHeight);
+				}
+			}
+		});
+	    vto.addOnScrollChangedListener(new OnScrollChangedListener() {
+			
+			@Override
+			public void onScrollChanged() {
+				// TODO Auto-generated method stub
+				TextView progressText = (TextView)findViewById(R.id.progress);
+				progressText.setText("当前进度：" + String.valueOf(progress) + "%");
 			}
 		});
 	    
@@ -107,8 +137,14 @@ public class ReadingActivity extends Activity{
 					readingContent.addView(imageView);
 				}
 			}
-			scrollView.scrollTo(0, 0);
+			
 		}
+		
+		
+		
+		//FoldMenu
+		foldMenu = (FoldMenu)findViewById(R.id.id_foldmenu);
+
 		
 	}
 	
@@ -137,8 +173,9 @@ public class ReadingActivity extends Activity{
 				progress = 100.0 * (scrollView.getScrollY() + pageHeight) / readingContent.getMeasuredHeight();
 				BigDecimal bigDecimal = new BigDecimal(progress);
 				progress = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-				TextView progressText = (TextView)findViewById(R.id.progress);
-				progressText.setText("当前进度：" + String.valueOf(progress) + "%");
+				
+				Library.getBook(bookname).getDossier(dossiername).getChapterContent(chaptertitle).setProgress(progress);
+				Library.setTempBook(Library.getBook(bookname));
 			}
 			return true;
 		case KeyEvent.KEYCODE_VOLUME_UP:
@@ -155,8 +192,9 @@ public class ReadingActivity extends Activity{
 				progress = 100.0 * (scrollView.getScrollY() + pageHeight) / readingContent.getMeasuredHeight();
 				BigDecimal bigDecimal = new BigDecimal(progress);
 				progress = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-				TextView progressText = (TextView)findViewById(R.id.progress);
-				progressText.setText("当前进度：" + String.valueOf(progress) + "%");
+				
+				Library.getBook(bookname).getDossier(dossiername).getChapterContent(chaptertitle).setProgress(progress);
+				Library.setTempBook(Library.getBook(bookname));
 			}
 			return true;
 		default:
@@ -210,6 +248,8 @@ public class ReadingActivity extends Activity{
     	chapterId = chapterId + 1;
     	chaptertitle = ((ChapterContent)Library.getTempBook().getDossier(dossiername).getChapterContents().get(chapterId)).getChaptertitle();
     	contents = ((ChapterContent)Library.getTempBook().getDossier(dossiername).getChapterContents().get(chapterId));
+    	Library.getBook(bookname).getDossier(dossiername).setLastRead(chapterId);
+    	Library.setTempBook(Library.getBook(bookname));
     	if(contents.getContents().size() == 0){
     		new TempTask().execute("");
     	}else{
@@ -248,6 +288,8 @@ public class ReadingActivity extends Activity{
     	chapterId = chapterId - 1;
     	chaptertitle = ((ChapterContent)Library.getTempBook().getDossier(dossiername).getChapterContents().get(chapterId)).getChaptertitle();
     	contents = ((ChapterContent)Library.getTempBook().getDossier(dossiername).getChapterContents().get(chapterId));
+    	Library.getBook(bookname).getDossier(dossiername).setLastRead(chapterId);
+    	Library.setTempBook(Library.getBook(bookname));
     	if(contents.getContents().size() == 0){
     		new TempTask().execute("");
     	}else{
@@ -351,6 +393,20 @@ public class ReadingActivity extends Activity{
 			super.onProgressUpdate(values);
 		}
 		
+	}
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		BookParser parser = new BookParser();
+		FileOperator operator = new FileOperator();
+		try {
+			operator.writeFile("Books", bookname + ".txt", parser.serialize(Library.getBook(bookname)));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		super.onStop();
 	}
 
 	@Override

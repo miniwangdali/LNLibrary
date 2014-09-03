@@ -2,10 +2,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/action_settings" >
     <PreferenceCategory android:title="阅读设置">
-        <Preference android:key="fontsize"
+        <com.victor.lnlibrary.ui.SeekPreference android:key="fontsize"
             android:title="字体大小"
         	android:defaultValue="0" />	
-        <Preference android:key="linespace"
+        <com.victor.lnlibrary.ui.SeekPreference android:key="linespace"
             android:title="行间距"
         	android:defaultValue="0" />
         <CheckBoxPreference android:key="nightmode"

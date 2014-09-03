@@ -1,6 +1,7 @@
 package com.victor.lnlibrary.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.SparseArray;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lnlibrary.R;
+import com.victor.lnlibrary.ReadingActivity;
 import com.victor.lnlibrary.bean.Library;
 import com.victor.lnlibrary.book.Dossier;
 import com.victor.lnlibrary.book.FileOperator;
@@ -82,6 +84,7 @@ public class DossierListAdapter extends BaseAdapter{
     	
     	
     	TextView download = (TextView)convertView.findViewById(R.id.download);
+    	TextView readTag = (TextView)convertView.findViewById(R.id.readtag);
     	if(Library.isInLibrary(book)){
     		if(Library.getTempBook().getDossier(title.get(position)).isDownloaded()){
     			download.setText("删除");
@@ -89,6 +92,30 @@ public class DossierListAdapter extends BaseAdapter{
     			download.setClickable(true);
     			ProgressBar progress = (ProgressBar)convertView.findViewById(R.id.progressbar);
     			progress.setProgress(100);
+    			final int lastread = Library.getTempBook().getDossier(title.get(position)).getLastRead();
+    			if(lastread < 0){
+    				readTag.setText("从未读过");
+    				readTag.setTextColor(Color.GRAY);
+    				readTag.setClickable(false);
+    			}else{
+    				final String dossiername = title.get(position);
+    				readTag.setText("继续阅读");
+    				readTag.setClickable(true);
+    				readTag.setOnClickListener(new OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							Intent intent = new Intent();
+							intent.setClass(mActivity, ReadingActivity.class);
+							intent.putExtra("bookname", book);
+		    				intent.putExtra("dossiername", dossiername);
+		    				intent.putExtra("chapter", Library.getTempBook().getDossier(dossiername).getChapterContents().get(lastread).getChaptertitle());
+		    				mActivity.startActivity(intent);
+						}
+					});
+    			}
+    			
     		}else{
     			download.setText("下载");
     			download.setTextColor(Color.BLACK);

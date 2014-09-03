@@ -8,6 +8,7 @@ public class ChapterContent{
 	private String chaptertitle = new String();
 	private List<String> contents = new ArrayList<String>();
 	private List<String> imageList = new ArrayList<String>();
+	private double progress = - 1.00;
 	
 	public String getChapterlink() {
 		return chapterlink;
@@ -32,6 +33,12 @@ public class ChapterContent{
 	}
 	public void setImageList(List<String> imageList) {
 		this.imageList = imageList;
+	}
+	public double getProgress() {
+		return progress;
+	}
+	public void setProgress(double progress) {
+		this.progress = progress;
 	}
 
 	

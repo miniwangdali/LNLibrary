@@ -92,7 +92,7 @@ public class Fragment_BookDetail extends Fragment{
 				Library.getTempBook().setNewest(((TextView)mBookLayout.findViewById(R.id.newest)).getText().toString());
 				Library.getTempBook().setUpdatetime(((TextView)mBookLayout.findViewById(R.id.updatetime)).getText().toString());
 				Library.getTempBook().setBookLink(link);
-				TextView save = (TextView)view.findViewById(R.id.save);
+				final TextView save = (TextView)view.findViewById(R.id.save);
 				save.setText("收藏");
 				save.setOnClickListener(new OnClickListener() {
 					
@@ -107,6 +107,7 @@ public class Fragment_BookDetail extends Fragment{
 							if (operator.writeFile("Books", title + ".txt", parser.serialize(Library.getTempBook()))){
 								((BaseAdapter)((ListView)mLayout.findViewById(R.id.dossierlist)).getAdapter()).notifyDataSetChanged();
 							}	
+							save.setText("已收藏");
 						}
 						catch (Exception e){
 							e.printStackTrace();

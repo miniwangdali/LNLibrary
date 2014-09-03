@@ -19,7 +19,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int expanded=0x7f010000;
+        public static final int expanded=0x7f010002;
         /** <p>Must be an integer value, such as "<code>100</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -27,7 +27,30 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int minLines=0x7f010001;
+        public static final int minLines=0x7f010003;
+        /** <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>left_top</code></td><td>0</td><td></td></tr>
+<tr><td><code>right_top</code></td><td>1</td><td></td></tr>
+<tr><td><code>right_bottom</code></td><td>2</td><td></td></tr>
+<tr><td><code>left_bottom</code></td><td>3</td><td></td></tr>
+</table>
+         */
+        public static final int position=0x7f010000;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int radius=0x7f010001;
     }
     public static final class dimen {
         /** 
@@ -35,8 +58,8 @@ containing a value of this type.
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f060000;
-        public static final int activity_vertical_margin=0x7f060001;
+        public static final int activity_horizontal_margin=0x7f070000;
+        public static final int activity_vertical_margin=0x7f070001;
     }
     public static final class drawable {
         public static final int customlayout=0x7f020000;
@@ -45,40 +68,49 @@ containing a value of this type.
         public static final int yangpizhi=0x7f020003;
     }
     public static final class id {
-        public static final int action_settings=0x7f070021;
-        public static final int author=0x7f070019;
-        public static final int blockname=0x7f070016;
-        public static final int bookcover=0x7f070017;
-        public static final int bookdetail=0x7f070010;
-        public static final int booklistlayout=0x7f070014;
-        public static final int bookname=0x7f070018;
-        public static final int chapter=0x7f070009;
-        public static final int chapterlist=0x7f07000f;
-        public static final int chaptertitle=0x7f070004;
-        public static final int contentlayout=0x7f070007;
-        public static final int cover=0x7f07000a;
-        public static final int dossierlist=0x7f070013;
-        public static final int download=0x7f07000d;
-        public static final int fragment_home=0x7f070003;
-        public static final int homeLayout=0x7f070015;
-        public static final int illustrator=0x7f07001a;
-        public static final int introduction=0x7f070012;
-        public static final int mainlayout=0x7f070002;
-        public static final int menu_search=0x7f07001f;
-        public static final int menu_setting=0x7f070020;
-        public static final int newest=0x7f07001c;
-        public static final int pref_seek=0x7f07001e;
-        public static final int progress=0x7f070008;
-        public static final int progressbar=0x7f07000c;
-        public static final int publisher=0x7f07001b;
-        public static final int readingscroll=0x7f070006;
-        public static final int readtag=0x7f07000e;
-        public static final int save=0x7f070011;
-        public static final int tag=0x7f070000;
-        public static final int tag_expandable_text_view_reused=0x7f070001;
-        public static final int time=0x7f070005;
-        public static final int title=0x7f07000b;
-        public static final int updatetime=0x7f07001d;
+        public static final int action_settings=0x7f06002a;
+        public static final int author=0x7f06001f;
+        public static final int blockname=0x7f06001c;
+        public static final int bookcover=0x7f06001d;
+        public static final int bookdetail=0x7f060016;
+        public static final int booklistlayout=0x7f06001a;
+        public static final int bookname=0x7f06001e;
+        public static final int chapter=0x7f06000f;
+        public static final int chapterlist=0x7f060015;
+        public static final int chaptertitle=0x7f060008;
+        public static final int contentlayout=0x7f06000b;
+        public static final int cover=0x7f060010;
+        public static final int decline=0x7f060025;
+        public static final int dossierlist=0x7f060019;
+        public static final int download=0x7f060013;
+        public static final int fragment_home=0x7f060007;
+        public static final int homeLayout=0x7f06001b;
+        public static final int id_button=0x7f06000e;
+        public static final int id_foldmenu=0x7f06000d;
+        public static final int illustrator=0x7f060020;
+        public static final int introduction=0x7f060018;
+        public static final int left_bottom=0x7f060003;
+        public static final int left_top=0x7f060000;
+        public static final int mainlayout=0x7f060006;
+        public static final int menu_search=0x7f060028;
+        public static final int menu_setting=0x7f060029;
+        public static final int newest=0x7f060022;
+        public static final int plus=0x7f060027;
+        public static final int pref_title=0x7f060024;
+        public static final int progress=0x7f06000c;
+        public static final int progressbar=0x7f060012;
+        public static final int publisher=0x7f060021;
+        public static final int readingscroll=0x7f06000a;
+        public static final int readtag=0x7f060014;
+        public static final int right_bottom=0x7f060002;
+        public static final int right_top=0x7f060001;
+        public static final int save=0x7f060017;
+        public static final int tag=0x7f060004;
+        public static final int tag_expandable_text_view_reused=0x7f060005;
+        public static final int time=0x7f060009;
+        public static final int title=0x7f060011;
+        public static final int updatetime=0x7f060023;
+        public static final int value=0x7f060026;
     }
     public static final class layout {
         public static final int activity_launch=0x7f030000;
@@ -93,7 +125,7 @@ containing a value of this type.
         public static final int fragment_reading=0x7f030009;
         public static final int layout_block=0x7f03000a;
         public static final int layout_book=0x7f03000b;
-        public static final int seekbar=0x7f03000c;
+        public static final int seekpreference=0x7f03000c;
     }
     public static final class menu {
         public static final int main=0x7f0a0000;
@@ -144,7 +176,7 @@ containing a value of this type.
            @see #ExpandableTextView_minLines
          */
         public static final int[] ExpandableTextView = {
-            0x7f010000, 0x7f010001
+            0x7f010002, 0x7f010003
         };
         /**
           <p>This symbol is the offset where the {@link com.example.lnlibrary.R.attr#expanded}
@@ -174,5 +206,55 @@ containing a value of this type.
           @attr name com.example.lnlibrary:minLines
         */
         public static final int ExpandableTextView_minLines = 1;
+        /** Attributes that can be used with a FoldMenu.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #FoldMenu_position com.example.lnlibrary:position}</code></td><td></td></tr>
+           <tr><td><code>{@link #FoldMenu_radius com.example.lnlibrary:radius}</code></td><td></td></tr>
+           </table>
+           @see #FoldMenu_position
+           @see #FoldMenu_radius
+         */
+        public static final int[] FoldMenu = {
+            0x7f010000, 0x7f010001
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.example.lnlibrary.R.attr#position}
+          attribute's value can be found in the {@link #FoldMenu} array.
+
+
+          <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>left_top</code></td><td>0</td><td></td></tr>
+<tr><td><code>right_top</code></td><td>1</td><td></td></tr>
+<tr><td><code>right_bottom</code></td><td>2</td><td></td></tr>
+<tr><td><code>left_bottom</code></td><td>3</td><td></td></tr>
+</table>
+          @attr name com.example.lnlibrary:position
+        */
+        public static final int FoldMenu_position = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.example.lnlibrary.R.attr#radius}
+          attribute's value can be found in the {@link #FoldMenu} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.example.lnlibrary:radius
+        */
+        public static final int FoldMenu_radius = 1;
     };
 }

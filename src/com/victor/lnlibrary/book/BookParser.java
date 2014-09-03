@@ -51,8 +51,8 @@ public class BookParser implements XmlParser{
 					dossier.setDossiertitle(parser.getAttributeValue("", "title"));
 					dossier.setImagepath(parser.getAttributeValue("", "image"));
 					dossier.setDossierLink(parser.getAttributeValue("", "dossierlink"));
-					dossier.setLastRead(0);
 					dossier.setDownloaded(Boolean.parseBoolean(parser.getAttributeValue("", "downloaded")));
+					dossier.setLastRead(Integer.parseInt(parser.getAttributeValue("", "lastread")));
 		              
 		            eventType = parser.next();
 				}else if (parser.getName().equals("chapter")){
@@ -60,6 +60,7 @@ public class BookParser implements XmlParser{
 		            chapter.setChaptertitle(parser.getAttributeValue("", "title"));
 		            dossier.getChapters().add(parser.getAttributeValue("", "title"));
 		            chapter.setChapterlink(parser.getAttributeValue("", "chapterlink"));
+		            chapter.setProgress(Double.parseDouble(parser.getAttributeValue("","progress")));
 		            contents = new ArrayList<String>();
 		            imageList = new ArrayList<String>();
 		            eventType = parser.next();
@@ -127,14 +128,16 @@ public class BookParser implements XmlParser{
 			serializer.startTag("", "dossier");
 		    serializer.attribute("", "title", dossier.getDossiertitle());
 		    serializer.attribute("", "image", dossier.getImagepath());
-		    serializer.attribute("", "lastread", String.valueOf(dossier.getLastRead()));
+		    
 		    serializer.attribute("", "dossierlink", dossier.getDossierLink());
 		    serializer.attribute("", "downloaded", String.valueOf(dossier.isDownloaded()));
+		    serializer.attribute("", "lastread", String.valueOf(dossier.getLastRead()));
 		    
 		    for(ChapterContent chapterContent : dossier.getChapterContents()){
 		    	serializer.startTag("", "chapter");
 		        serializer.attribute("", "title", chapterContent.getChaptertitle());
 		        serializer.attribute("", "chapterlink", chapterContent.getChapterlink());
+		        serializer.attribute("", "progress", String.valueOf(chapterContent.getProgress()));
 		        
 		        for(String content : chapterContent.getContents()){
 		        	serializer.startTag("", "content");
