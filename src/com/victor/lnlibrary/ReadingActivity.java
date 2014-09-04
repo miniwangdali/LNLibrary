@@ -1,13 +1,16 @@
 package com.victor.lnlibrary;
 
+import android.R.integer;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -25,18 +28,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lnlibrary.R;
-import com.victor.lnlibrary.bean.Config;
 import com.victor.lnlibrary.bean.Library;
 import com.victor.lnlibrary.book.BookParser;
 import com.victor.lnlibrary.book.ChapterContent;
 import com.victor.lnlibrary.book.FileOperator;
 import com.victor.lnlibrary.book.ImageOperator;
+import com.victor.lnlibrary.config.Config;
 import com.victor.lnlibrary.dao.ImageLoadTask;
 import com.victor.lnlibrary.htmlparser.Content;
 import com.victor.lnlibrary.ui.FoldMenu;
 import com.victor.lnlibrary.ui.MyTextView;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -76,7 +80,6 @@ public class ReadingActivity extends Activity{
 	    IntentFilter intentFilter = new IntentFilter();
 	    intentFilter.addAction(Intent.ACTION_TIME_TICK);
 	    registerReceiver(timeReceiver, intentFilter);
-
 	    
 	    scrollView = (ScrollView)findViewById(R.id.readingscroll);
 	    ViewTreeObserver vto = scrollView.getViewTreeObserver();
@@ -112,16 +115,23 @@ public class ReadingActivity extends Activity{
 			}
 		});
 	    
+	    int cLines = countLines();
+	    int cLetters = countLetters();
+	    
 	    readingContent = (LinearLayout)findViewById(R.id.contentlayout);
 	    contents = Library.getTempBook().getDossier(dossiername).getChapterContent(chaptertitle);
 	    List<String> contentList = contents.getContents();
 		List<String> imageList = contents.getImageList();
 		for(int i = 0; i < contentList.size(); i ++){
-			MyTextView contentTextView = new MyTextView(this);
-			contentTextView.setText(contentList.get(i));
-			contentTextView.setTextSize(Config.getFontsize());
-			contentTextView.setLineSpacing(3.0f, Config.getLinespace());
-			readingContent.addView(contentTextView);
+			
+			List<String> dividedText = contentDivider(contentList.get(i), cLines, cLetters);
+			for(String text : dividedText){
+				MyTextView contentTextView = new MyTextView(this);
+				contentTextView.setTextSize(Config.getFontsize());
+				contentTextView.setLineSpacing(3.0f, Config.getLinespace());
+				contentTextView.setText(text);
+				readingContent.addView(contentTextView);
+			}
 			if(i < imageList.size()){
 				if(Library.getTempBook().getDossier(dossiername).isDownloaded()){
 					ImageOperator operator = new ImageOperator();
@@ -244,6 +254,7 @@ public class ReadingActivity extends Activity{
 		}};
 	
 	private void loadNextChapter(){
+		progress = 0;
     	readingContent.removeAllViews();
     	chapterId = chapterId + 1;
     	chaptertitle = ((ChapterContent)Library.getTempBook().getDossier(dossiername).getChapterContents().get(chapterId)).getChaptertitle();
@@ -284,6 +295,7 @@ public class ReadingActivity extends Activity{
     }
 
 	private void loadPreviousChapter(){
+		progress = 0;
 		readingContent.removeAllViews();
     	chapterId = chapterId - 1;
     	chaptertitle = ((ChapterContent)Library.getTempBook().getDossier(dossiername).getChapterContents().get(chapterId)).getChaptertitle();
@@ -416,6 +428,71 @@ public class ReadingActivity extends Activity{
 		super.onDestroy();
 	}
 	
-	
-	
+	//获取可以显示的行数
+	private int countLines(){
+		int lines = 0;
+		int screenHeight = getWindowManager().getDefaultDisplay().getHeight(); 		// 屏幕高
+		double contentHeight = screenHeight * 0.94;
+		TextView tempTextView = new MyTextView(self);
+		tempTextView.setTextSize(Config.getFontsize());
+		tempTextView.setLineSpacing(3.0f, Config.getLinespace());
+		lines = (int)(contentHeight / tempTextView.getLineHeight());
+		Toast.makeText(this, lines + "", Toast.LENGTH_SHORT).show();
+		return lines;
+	}
+	//获得一行显示的字数
+	private int countLetters(){
+		int letters = 0;
+		int screenWidth  = getWindowManager().getDefaultDisplay().getWidth();  		// 屏幕宽  
+		double contentWidth = screenWidth - 10 * getResources().getDisplayMetrics().density;
+		TextView tempTextView = new MyTextView(self);
+		tempTextView.setTextSize(Config.getFontsize());
+		tempTextView.setLineSpacing(3.0f, Config.getLinespace());
+		letters = (int)(contentWidth / tempTextView.getTextSize());
+		Toast.makeText(this, letters + "", Toast.LENGTH_SHORT).show();
+		return letters;
+	}
+	//处理字符串，增加缩进
+	private String addTab(String text){
+		String newText = new String();
+		String[] tempString = text.toString().split("\n");
+		for(int i = 0; i < tempString.length; i ++){
+			tempString[i] = "\b\b\b\b\b\b\b" + tempString[i];
+			newText = newText + tempString[i] + "\n";
+		}
+		return newText;
+	}
+	//将内容分割成一整页能显示的大小
+	private List<String> contentDivider(String contentString,int cline, int cletter){
+		List<String> result = new ArrayList<String>();
+		String tempString = new String();
+		String originalString = addTab(contentString);
+		String[] originalStrings = originalString.split("\n");
+		TextView tempTextView = new MyTextView(self);
+		tempTextView.setTextSize(Config.getFontsize());
+		tempTextView.setLineSpacing(3.0f, Config.getLinespace());
+		float contentWidth = cletter * tempTextView.getTextSize();
+		TextPaint mPaint = tempTextView.getPaint();
+		
+		int i = 0;
+		for(int j = 0; j < originalStrings.length ; j ++){
+			originalStrings[j] = originalStrings[j] + "\n";
+			while(originalStrings[j].length() != 0){
+				i ++;
+				int count = mPaint.breakText(originalStrings[j], true, contentWidth, null);
+				tempString = tempString + originalStrings[j].substring(0, count);
+				originalStrings[j] = originalStrings[j].substring(count);
+				if(i == cline){
+					i = 0;
+					result.add(tempString);
+					tempString = "";
+				}
+			}
+		}
+		if(tempString.length() > 0){
+			result.add(tempString);
+		}
+		
+		return result;
+	}
 }

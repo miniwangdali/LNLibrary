@@ -16,7 +16,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.lnlibrary.R;
-import com.victor.lnlibrary.bean.Config;
+import com.victor.lnlibrary.config.Config;
 
 public class MainActivity extends Activity{
 
@@ -32,7 +32,6 @@ public class MainActivity extends Activity{
 		Config.setFontsize(settings.getFloat("fontsize", 18.0f));
 		Config.setLinespace(settings.getFloat("linespace", 1.2f));
 		Config.setNightmode(settings.getBoolean("nightmode", false));
-		
 		
 	}
 

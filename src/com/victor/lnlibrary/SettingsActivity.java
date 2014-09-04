@@ -1,7 +1,7 @@
 package com.victor.lnlibrary;
 
 import com.example.lnlibrary.R;
-import com.victor.lnlibrary.bean.Config;
+import com.victor.lnlibrary.config.Config;
 import com.victor.lnlibrary.ui.SeekPreference;
 
 import android.app.Activity;
@@ -31,7 +31,6 @@ public class SettingsActivity extends PreferenceActivity {
 		//字号
 		SeekPreference fontSize = (SeekPreference)findPreference("fontsize");
 		fontSize.setSummary(String.valueOf(Config.getFontsize()));
-		
 		//行间距
 		SeekPreference linespace = (SeekPreference)findPreference("linespace");
 		linespace.setSummary(String.valueOf(Config.getLinespace()));

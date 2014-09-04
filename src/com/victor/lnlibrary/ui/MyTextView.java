@@ -13,13 +13,13 @@ public class MyTextView extends TextView {
 	@Override
 	public void setText(CharSequence text, BufferType type) {
 		// TODO Auto-generated method stub
-		String newText = new String(); 
+		/*String newText = new String(); 
 		String[] tempString = text.toString().split("\n");
 		for(int i = 0; i < tempString.length; i ++){
 			tempString[i] = "\b\b\b\b\b\b\b" + tempString[i];
 			newText = newText + tempString[i] + "\n";
-		}
-		super.setText(newText, type);
+		}*/
+		super.setText(text, type);
 	}
 
 	

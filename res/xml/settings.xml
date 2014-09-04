@@ -4,10 +4,10 @@
     <PreferenceCategory android:title="阅读设置">
         <com.victor.lnlibrary.ui.SeekPreference android:key="fontsize"
             android:title="字体大小"
-        	android:defaultValue="0" />	
+        	android:defaultValue="18sp" />
         <com.victor.lnlibrary.ui.SeekPreference android:key="linespace"
             android:title="行间距"
-        	android:defaultValue="0" />
+        	android:defaultValue="1.0f" />
         <CheckBoxPreference android:key="nightmode"
             android:title="夜间模式"
             android:summaryOn="已开启"
