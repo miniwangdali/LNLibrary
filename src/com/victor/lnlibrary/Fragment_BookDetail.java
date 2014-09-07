@@ -2,6 +2,7 @@ package com.victor.lnlibrary;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,6 +40,9 @@ public class Fragment_BookDetail extends Fragment{
 	private BookLayout mBookLayout;
 	private LinearLayout mLayout;
 	private String title;
+	
+	private ImageView saveButton;
+	private AnimationDrawable animationDrawable;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,7 +66,59 @@ public class Fragment_BookDetail extends Fragment{
 				Library.getTempBook().setNewest(((TextView)mBookLayout.findViewById(R.id.newest)).getText().toString());
 				Library.getTempBook().setUpdatetime(((TextView)mBookLayout.findViewById(R.id.updatetime)).getText().toString());
 				Library.getTempBook().setBookLink(link);
-				TextView save = (TextView)view.findViewById(R.id.save);
+				
+				saveButton = (ImageView)view.findViewById(R.id.saveBtn);
+				saveButton.setImageResource(R.drawable.deleteanim);
+				saveButton.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						if(Library.isInLibrary(title)){
+							saveButton.setImageResource(R.drawable.deleteanim);
+							animationDrawable = (AnimationDrawable)saveButton.getDrawable();
+							animationDrawable.start();
+							try{
+								Library.getTempBook().setSaved(false);
+								Library.deleteBook(Library.getTempBook());
+								
+								FileOperator operator = new FileOperator();
+								if (operator.deleteFile("Books", title + ".txt")){
+									((BaseAdapter)((ListView)mLayout.findViewById(R.id.dossierlist)).getAdapter()).notifyDataSetChanged();
+								}else{
+									Library.getTempBook().setSaved(true);
+									Library.addBook(Library.getTempBook());
+								}
+							}
+							catch (Exception e){
+								e.printStackTrace();
+								Library.getTempBook().setSaved(true);
+								Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+							}
+						}else{
+							saveButton.setImageResource(R.drawable.saveanim);
+							animationDrawable = (AnimationDrawable)saveButton.getDrawable();
+							animationDrawable.start();
+							try{
+								Library.getTempBook().setSaved(true);
+								Library.addBook(Library.getTempBook());
+								BookParser parser = new BookParser();
+								FileOperator operator = new FileOperator();
+								if (operator.writeFile("Books", title + ".txt", parser.serialize(Library.getTempBook()))){
+									((BaseAdapter)((ListView)mLayout.findViewById(R.id.dossierlist)).getAdapter()).notifyDataSetChanged();
+								}	
+							}
+							catch (Exception e){
+								e.printStackTrace();
+								Library.getTempBook().setSaved(false);
+								Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+							}
+						}
+						
+					}
+				});
+				
+				/*TextView save = (TextView)view.findViewById(R.id.save);
 				save.setText("已收藏");
 				save.setOnClickListener(new OnClickListener() {
 					
@@ -82,7 +140,7 @@ public class Fragment_BookDetail extends Fragment{
 							Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
 						}
 					}
-				});
+				});*/
 			}else{
 				Library.setTempBook(new Book());
 				Library.getTempBook().setTitle(((TextView)mBookLayout.findViewById(R.id.bookname)).getText().toString());
@@ -92,7 +150,83 @@ public class Fragment_BookDetail extends Fragment{
 				Library.getTempBook().setNewest(((TextView)mBookLayout.findViewById(R.id.newest)).getText().toString());
 				Library.getTempBook().setUpdatetime(((TextView)mBookLayout.findViewById(R.id.updatetime)).getText().toString());
 				Library.getTempBook().setBookLink(link);
-				final TextView save = (TextView)view.findViewById(R.id.save);
+				
+				saveButton = (ImageView)view.findViewById(R.id.saveBtn);
+				saveButton.setImageResource(R.drawable.saveanim);
+				saveButton.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						if(Library.isInLibrary(title)){
+							saveButton.setImageResource(R.drawable.deleteanim);
+							animationDrawable = (AnimationDrawable)saveButton.getDrawable();
+							animationDrawable.start();
+							try{
+								Library.getTempBook().setSaved(false);
+								Library.deleteBook(Library.getTempBook());
+								
+								FileOperator operator = new FileOperator();
+								if (operator.deleteFile("Books", title + ".txt")){
+									((BaseAdapter)((ListView)mLayout.findViewById(R.id.dossierlist)).getAdapter()).notifyDataSetChanged();
+								}else{
+									Library.getTempBook().setSaved(true);
+									Library.addBook(Library.getTempBook());
+								}
+							}
+							catch (Exception e){
+								e.printStackTrace();
+								Library.getTempBook().setSaved(true);
+								Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+							}
+						}else{
+							saveButton.setImageResource(R.drawable.saveanim);
+							animationDrawable = (AnimationDrawable)saveButton.getDrawable();
+							animationDrawable.start();
+							try{
+								Library.getTempBook().setSaved(true);
+								Library.addBook(Library.getTempBook());
+								BookParser parser = new BookParser();
+								FileOperator operator = new FileOperator();
+								if (operator.writeFile("Books", title + ".txt", parser.serialize(Library.getTempBook()))){
+									((BaseAdapter)((ListView)mLayout.findViewById(R.id.dossierlist)).getAdapter()).notifyDataSetChanged();
+								}	
+							}
+							catch (Exception e){
+								e.printStackTrace();
+								Library.getTempBook().setSaved(false);
+								Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+							}
+						}
+						
+					}
+				});
+				/*saveButton = (ImageView)view.findViewById(R.id.saveBtn);
+				saveButton.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						animationDrawable = (AnimationDrawable)saveButton.getDrawable();
+						animationDrawable.start();
+						try{
+							Library.getTempBook().setSaved(true);
+							Library.addBook(Library.getTempBook());
+							BookParser parser = new BookParser();
+							FileOperator operator = new FileOperator();
+							if (operator.writeFile("Books", title + ".txt", parser.serialize(Library.getTempBook()))){
+								((BaseAdapter)((ListView)mLayout.findViewById(R.id.dossierlist)).getAdapter()).notifyDataSetChanged();
+							}	
+						}
+						catch (Exception e){
+							e.printStackTrace();
+							Library.getTempBook().setSaved(false);
+							Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+						}
+					}
+				});*/
+				
+				/*final TextView save = (TextView)view.findViewById(R.id.save);
 				save.setText("收藏");
 				save.setOnClickListener(new OnClickListener() {
 					
@@ -115,7 +249,7 @@ public class Fragment_BookDetail extends Fragment{
 							Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
 						}
 					}
-				});
+				});*/
 			}
 			
 			
@@ -143,6 +277,58 @@ public class Fragment_BookDetail extends Fragment{
 			    		introduction.toggle();
 			        }
 			    });
+			    
+			    saveButton = (ImageView)view.findViewById(R.id.saveBtn);
+				saveButton.setImageResource(R.drawable.deleteanim);
+				saveButton.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						if(Library.isInLibrary(title)){
+							saveButton.setImageResource(R.drawable.deleteanim);
+							animationDrawable = (AnimationDrawable)saveButton.getDrawable();
+							animationDrawable.start();
+							try{
+								Library.getTempBook().setSaved(false);
+								Library.deleteBook(Library.getTempBook());
+								
+								FileOperator operator = new FileOperator();
+								if (operator.deleteFile("Books", title + ".txt")){
+									((BaseAdapter)((ListView)mLayout.findViewById(R.id.dossierlist)).getAdapter()).notifyDataSetChanged();
+								}else{
+									Library.getTempBook().setSaved(true);
+									Library.addBook(Library.getTempBook());
+								}
+							}
+							catch (Exception e){
+								e.printStackTrace();
+								Library.getTempBook().setSaved(true);
+								Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+							}
+						}else{
+							saveButton.setImageResource(R.drawable.saveanim);
+							animationDrawable = (AnimationDrawable)saveButton.getDrawable();
+							animationDrawable.start();
+							try{
+								Library.getTempBook().setSaved(true);
+								Library.addBook(Library.getTempBook());
+								BookParser parser = new BookParser();
+								FileOperator operator = new FileOperator();
+								if (operator.writeFile("Books", title + ".txt", parser.serialize(Library.getTempBook()))){
+									((BaseAdapter)((ListView)mLayout.findViewById(R.id.dossierlist)).getAdapter()).notifyDataSetChanged();
+								}	
+							}
+							catch (Exception e){
+								e.printStackTrace();
+								Library.getTempBook().setSaved(false);
+								Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+							}
+						}
+						
+					}
+				});
+			    
 			    DossierListAdapter dossierAdapter = new DossierListAdapter(getActivity(), title);
 			    List<String> dossiertitles = new ArrayList<String>();
 			    List<String> linkList = new ArrayList<String>();
@@ -165,7 +351,11 @@ public class Fragment_BookDetail extends Fragment{
 			        				final TextView chapterText = new TextView(getActivity());
 					                chapterText.setText(Library.getTempBook().getDossiers().get(position).getChapters().get(i));
 					                chapterText.setGravity(Gravity.CENTER);
+					                chapterText.setPadding(0, 10, 0, 10);
+					                chapterText.setTextSize(14.0f);
+					                chapterText.setBackgroundResource(R.drawable.chapterselector);
 					                chapterList.addView(chapterText);
+					                
 					                chapterText.setOnClickListener(new OnClickListener(){
 					                	@Override
 					                	public void onClick(View v){

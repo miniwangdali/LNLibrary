@@ -1,6 +1,7 @@
 package com.victor.lnlibrary.dao;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.Gravity;
@@ -30,6 +31,7 @@ public class DetailTask extends AsyncTask<String, Integer, String>{
 	private Activity mActivity;
 	private LinearLayout mLayout;
 	private String name;
+	private ProgressDialog pd;
 
 	public DetailTask(Activity activity, LinearLayout layout, String bookname, String booklink){
     	mActivity = activity;
@@ -106,6 +108,10 @@ public class DetailTask extends AsyncTask<String, Integer, String>{
 			        				final TextView chapterText = new TextView(mActivity);
 					                chapterText.setText(Library.getBook(name).getDossiers().get(position).getChapters().get(i));
 					                chapterText.setGravity(Gravity.CENTER);
+					                chapterText.setPadding(0, 10, 0, 10);
+					                
+					                chapterText.setTextSize(14.0f);
+					                chapterText.setBackgroundResource(R.drawable.chapterselector);
 					                chapterList.addView(chapterText);
 					                chapterText.setOnClickListener(new OnClickListener(){
 					                	@Override
@@ -218,12 +224,15 @@ public class DetailTask extends AsyncTask<String, Integer, String>{
 			Toast.makeText(mActivity, result, Toast.LENGTH_SHORT).show();
 		}
 	
+		pd.dismiss();
+		
 		super.onPostExecute(result);
 	}
 
 	@Override
 	protected void onPreExecute() {
 		// TODO Auto-generated method stub
+		pd = ProgressDialog.show(mActivity, "", "加载中，请稍后……", true, false);
 		super.onPreExecute();
 	}
 

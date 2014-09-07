@@ -84,6 +84,18 @@ public class FileOperator{
 			return null;
 		}
 	}
+	
+	public boolean deleteFile(String foldername, String filename){
+		try{
+			File file = new File(SDPATH + FILEPATH + foldername + "/" + filename);
+			file.delete();
+			return true;
+		}catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+		
+	}
 
 	public boolean isHasSD() {
 		return hasSD;

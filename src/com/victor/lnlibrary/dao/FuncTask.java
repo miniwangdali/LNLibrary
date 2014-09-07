@@ -1,6 +1,7 @@
 package com.victor.lnlibrary.dao;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.animation.Animation;

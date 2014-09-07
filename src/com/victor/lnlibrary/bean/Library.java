@@ -12,6 +12,15 @@ public class Library{
 	public static void addBook(Book book){
 		myLibrary.add(book);
 	}
+	
+	public static void deleteBook(Book book){
+		for(int i = 0; i < myLibrary.size(); i ++){
+			if(book.getTitle().equals(myLibrary.get(i).getTitle())){
+				myLibrary.remove(i);
+				return;
+			}
+		}
+	}
 
 	public static Book getBook(String bookname){
 		Iterator<Book> iterator = myLibrary.iterator();

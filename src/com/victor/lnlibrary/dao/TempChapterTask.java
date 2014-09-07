@@ -1,6 +1,7 @@
 package com.victor.lnlibrary.dao;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ public class TempChapterTask extends AsyncTask<String, Integer, String>{
 	private String chaptertitle;
 	private String dossiername;
 	private Activity mActivity;
+	private ProgressDialog pd;
 	
 	public TempChapterTask(Activity activity, String bookname, String dossiername, String chaptertitle){
 		mActivity = activity;
@@ -58,6 +60,7 @@ public class TempChapterTask extends AsyncTask<String, Integer, String>{
 		}else{
 			Toast.makeText(mActivity, result, Toast.LENGTH_SHORT).show();
 		}
+		pd.dismiss();
 		super.onPostExecute(result);
 	}
 
@@ -65,6 +68,7 @@ public class TempChapterTask extends AsyncTask<String, Integer, String>{
 	@Override
 	protected void onPreExecute() {
 		// TODO Auto-generated method stub
+		pd = ProgressDialog.show(mActivity, "", "加载中，请稍后……", true, false);
 		super.onPreExecute();
 	}
 

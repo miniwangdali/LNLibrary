@@ -1,10 +1,12 @@
 package com.victor.lnlibrary.dao;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.lnlibrary.R;
@@ -31,6 +33,7 @@ public class BriefTask extends AsyncTask<String, Integer, String>{
 	@Override
 	protected String doInBackground(String... params) {
 		// TODO Auto-generated method stub
+		
 		try{
 			briefs = new ArrayList<BookBrief>();
 			for(int i = 0; i < bookList.size(); i ++){
@@ -48,6 +51,8 @@ public class BriefTask extends AsyncTask<String, Integer, String>{
 	@Override
 	protected void onPostExecute(String result) {
 		// TODO Auto-generated method stub
+		//mLayout.removeViewAt(0);
+		
 		if(result.equals("completed")){
 			if(briefs.size() != 0){
 				for(BookBrief brief : briefs){
@@ -72,6 +77,7 @@ public class BriefTask extends AsyncTask<String, Integer, String>{
 	@Override
 	protected void onPreExecute() {
 		// TODO Auto-generated method stub
+		
 		super.onPreExecute();
 	}
 

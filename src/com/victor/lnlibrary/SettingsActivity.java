@@ -4,6 +4,7 @@ import com.example.lnlibrary.R;
 import com.victor.lnlibrary.config.Config;
 import com.victor.lnlibrary.ui.SeekPreference;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -22,6 +23,9 @@ public class SettingsActivity extends PreferenceActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		
+		ActionBar actionBar = getActionBar();
+		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbarlayer));
 		
 		addPreferencesFromResource(R.xml.settings);
 		

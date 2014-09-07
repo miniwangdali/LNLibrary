@@ -2,6 +2,7 @@ package com.victor.lnlibrary;
 
 import com.example.lnlibrary.R;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
@@ -17,6 +18,11 @@ public class SearchResultActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		
+		ActionBar actionBar = getActionBar();
+		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbarlayer));
+		actionBar.setIcon(R.drawable.icon);
+		
 		setContentView(R.layout.activity_search);
 		doSearchQuery(getIntent());
 	}

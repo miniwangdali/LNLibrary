@@ -1,10 +1,15 @@
 package com.victor.lnlibrary.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
 import android.util.SparseArray;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -14,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.LinearLayout.LayoutParams;
 
 import com.example.lnlibrary.R;
 import com.victor.lnlibrary.ReadingActivity;
@@ -68,7 +74,18 @@ public class DossierListAdapter extends BaseAdapter{
     		FileOperator operator = new FileOperator();
     		if(operator.isFileExist("Images/" + book + "/dossier-" + position + ".png")){
     			ImageOperator imageOperator = new ImageOperator();
-    			dossiercover.setImageBitmap(imageOperator.loadImage(book + "/dossier-" + String.valueOf(position)));
+    			Drawable drawable = new BitmapDrawable(imageOperator.loadImage(book + "/dossier-" + String.valueOf(position)));
+        		
+        		WindowManager manager = (WindowManager)mActivity.getSystemService(Context.WINDOW_SERVICE);
+            	DisplayMetrics dm = new DisplayMetrics();
+            	manager.getDefaultDisplay().getMetrics(dm);
+            	int width = dm.widthPixels * 1 / 6;
+            
+            	int height = (int) ((float) width/drawable.getMinimumWidth() * drawable.getMinimumHeight());
+            	LayoutParams params = new LayoutParams(0, height, 1);
+            	params.setMargins(0, 0, (int)(8 * mActivity.getResources().getDisplayMetrics().density), 1);
+            	dossiercover.setLayoutParams(params);
+            	dossiercover.setImageDrawable(drawable);
     		}else{
     			new ImageLoadTask(mActivity, dossiercover, imagelinkList.get(position), book, "dossier-" + position).execute("");
     		}
@@ -101,6 +118,7 @@ public class DossierListAdapter extends BaseAdapter{
     				final String dossiername = title.get(position);
     				readTag.setText("继续阅读");
     				readTag.setClickable(true);
+    				readTag.setBackgroundResource(R.drawable.buttonselector);
     				readTag.setOnClickListener(new OnClickListener() {
 						
 						@Override

@@ -1,5 +1,6 @@
 package com.victor.lnlibrary;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
@@ -23,7 +24,14 @@ public class MainActivity extends Activity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		
+		ActionBar actionBar = getActionBar();
+		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbarlayer));
+		actionBar.setIcon(R.drawable.icon);
+		
+		
 		setContentView(R.layout.activity_main);
+		
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		ft.add(R.id.fragment_home, new Fragment_Home());
 		ft.commit();
@@ -32,6 +40,7 @@ public class MainActivity extends Activity{
 		Config.setFontsize(settings.getFloat("fontsize", 18.0f));
 		Config.setLinespace(settings.getFloat("linespace", 1.2f));
 		Config.setNightmode(settings.getBoolean("nightmode", false));
+		
 		
 	}
 

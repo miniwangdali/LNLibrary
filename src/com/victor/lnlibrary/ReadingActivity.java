@@ -2,6 +2,7 @@ package com.victor.lnlibrary;
 
 import android.R.integer;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -57,7 +58,10 @@ public class ReadingActivity extends Activity{
 	Activity self = this;
 	private double progress;
 	private FoldMenu foldMenu;
-
+	
+	private int cLines;
+	private int cLetters;
+	private int currentViewNumber = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -179,6 +183,7 @@ public class ReadingActivity extends Activity{
 					progressText.setText("当前进度：0.00%");
 				}
 			}else{
+				
 				scrollView.scrollTo(0, scrollView.getScrollY() + pageHeight);
 				progress = 100.0 * (scrollView.getScrollY() + pageHeight) / readingContent.getMeasuredHeight();
 				BigDecimal bigDecimal = new BigDecimal(progress);
@@ -269,11 +274,14 @@ public class ReadingActivity extends Activity{
     		List<String> contentList = contents.getContents();
     		List<String> imageList = contents.getImageList();
     		for(int i = 0; i < contentList.size(); i ++){
-    			MyTextView contentTextView = new MyTextView(this);
-    			contentTextView.setText(contentList.get(i));
-    			contentTextView.setTextSize(Config.getFontsize());
-    			contentTextView.setLineSpacing(3.0f, Config.getLinespace());
-    			readingContent.addView(contentTextView);
+    			List<String> dividedText = contentDivider(contentList.get(i), cLines, cLetters);
+    			for(String text : dividedText){
+    				MyTextView contentTextView = new MyTextView(this);
+    				contentTextView.setTextSize(Config.getFontsize());
+    				contentTextView.setLineSpacing(3.0f, Config.getLinespace());
+    				contentTextView.setText(text);
+    				readingContent.addView(contentTextView);
+    			}
     			if(i < imageList.size()){
     				if(Library.getTempBook().getDossier(dossiername).isDownloaded()){
     					ImageOperator operator = new ImageOperator();
@@ -310,11 +318,14 @@ public class ReadingActivity extends Activity{
     		List<String> contentList = contents.getContents();
     		List<String> imageList = contents.getImageList();
     		for(int i = 0; i < contentList.size(); i ++){
-    			MyTextView contentTextView = new MyTextView(this);
-    			contentTextView.setText(contentList.get(i));
-    			contentTextView.setTextSize(Config.getFontsize());
-    			contentTextView.setLineSpacing(3.0f, Config.getLinespace());
-    			readingContent.addView(contentTextView);
+    			List<String> dividedText = contentDivider(contentList.get(i), cLines, cLetters);
+    			for(String text : dividedText){
+    				MyTextView contentTextView = new MyTextView(this);
+    				contentTextView.setTextSize(Config.getFontsize());
+    				contentTextView.setLineSpacing(3.0f, Config.getLinespace());
+    				contentTextView.setText(text);
+    				readingContent.addView(contentTextView);
+    			}
     			if(i < imageList.size()){
     				if(Library.getTempBook().getDossier(dossiername).isDownloaded()){
     					ImageOperator operator = new ImageOperator();
@@ -337,6 +348,8 @@ public class ReadingActivity extends Activity{
 	
 	private class TempTask extends AsyncTask<String, Integer, String>{
 
+		private ProgressDialog pd;
+		
 		@Override
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
@@ -366,11 +379,14 @@ public class ReadingActivity extends Activity{
 				List<String> contentList = contents.getContents();
 	    		List<String> imageList = contents.getImageList();
 	    		for(int i = 0; i < contentList.size(); i ++){
-	    			MyTextView contentTextView = new MyTextView(self);
-	    			contentTextView.setText(contentList.get(i));
-	    			contentTextView.setTextSize(Config.getFontsize());
-	    			contentTextView.setLineSpacing(3.0f, Config.getLinespace());
-	    			readingContent.addView(contentTextView);
+	    			List<String> dividedText = contentDivider(contentList.get(i), cLines, cLetters);
+	    			for(String text : dividedText){
+	    				MyTextView contentTextView = new MyTextView(self);
+	    				contentTextView.setTextSize(Config.getFontsize());
+	    				contentTextView.setLineSpacing(3.0f, Config.getLinespace());
+	    				contentTextView.setText(text);
+	    				readingContent.addView(contentTextView);
+	    			}
 	    			if(i < imageList.size()){
 	    				if(Library.getTempBook().getDossier(dossiername).isDownloaded()){
 	    					ImageOperator operator = new ImageOperator();
@@ -390,12 +406,14 @@ public class ReadingActivity extends Activity{
 	    		}
 				
 			}
+			pd.dismiss();
 			super.onPostExecute(result);
 		}
 
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
+			pd = ProgressDialog.show(self, "", "加载中，请稍后……", true, false);
 			super.onPreExecute();
 		}
 
@@ -457,7 +475,7 @@ public class ReadingActivity extends Activity{
 		String newText = new String();
 		String[] tempString = text.toString().split("\n");
 		for(int i = 0; i < tempString.length; i ++){
-			tempString[i] = "\b\b\b\b\b\b\b" + tempString[i];
+			tempString[i] = "　　" + tempString[i];
 			newText = newText + tempString[i] + "\n";
 		}
 		return newText;

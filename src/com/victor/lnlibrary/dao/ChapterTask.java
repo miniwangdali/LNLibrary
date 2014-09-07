@@ -1,6 +1,7 @@
 package com.victor.lnlibrary.dao;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.Gravity;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.lnlibrary.R;
 import com.victor.lnlibrary.ReadingActivity;
 import com.victor.lnlibrary.bean.Library;
 import com.victor.lnlibrary.book.ChapterContent;
@@ -21,6 +24,7 @@ public class ChapterTask extends AsyncTask<String, Integer, String>{
 	private Activity mActivity;
 	private LinearLayout mListView;
 	private String title;
+	private ProgressDialog pd;
 
 	public ChapterTask(Activity activity, String dossierlink, String dossiername, LinearLayout expandLayout, String bookname){
 		mActivity = activity;
@@ -78,6 +82,9 @@ public class ChapterTask extends AsyncTask<String, Integer, String>{
 				final TextView chapterText = new TextView(mActivity);
 			    chapterText.setText(chapters.getChapterList().get(i));
 			    chapterText.setGravity(Gravity.CENTER);
+			    chapterText.setPadding(0, 10, 0, 10);
+                chapterText.setTextSize(14.0f);
+                chapterText.setBackgroundResource(R.drawable.chapterselector);
 			    mListView.addView(chapterText);
 			    chapterText.setOnClickListener(new OnClickListener(){
 			    	public void onClick(View v){
@@ -107,6 +114,9 @@ public class ChapterTask extends AsyncTask<String, Integer, String>{
 			Expand_Custom_Animation animation = new Expand_Custom_Animation(mListView, 500);
 		    mListView.startAnimation(animation);
 		}
+		
+		pd.dismiss();
+		
 		super.onPostExecute(result);
 	}
 
@@ -116,6 +126,7 @@ public class ChapterTask extends AsyncTask<String, Integer, String>{
 	@Override
 	protected void onPreExecute() {
 		// TODO Auto-generated method stub
+		pd = ProgressDialog.show(mActivity, "", "加载中，请稍后……", true, false);
 		super.onPreExecute();
 	}
 

@@ -3,6 +3,7 @@ package com.victor.lnlibrary.dao;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.victor.lnlibrary.MainActivity;
 import com.victor.lnlibrary.bean.Library;
@@ -13,9 +14,11 @@ import java.io.FileInputStream;
 
 public class LoadBookTask extends AsyncTask<String, Integer, String>{
 	private Activity mActivity;
+	private ProgressBar mBar;
 	
-	public LoadBookTask(Activity activity){
+	public LoadBookTask(Activity activity, ProgressBar progressBar){
     	mActivity = activity;
+    	mBar = progressBar;
 	}
 	
 	
@@ -26,6 +29,7 @@ public class LoadBookTask extends AsyncTask<String, Integer, String>{
 		if(operator.isFileExist("Books")){
 			File[] files = operator.readFiles("Books");
 			for(int i = 0; i < files.length; i ++){
+				publishProgress(100 / files.length * (i + 1));
 				try{
 					FileInputStream fis = new FileInputStream(files[i]);
 			        Library.addBook(new BookParser().parse(fis));
@@ -75,6 +79,8 @@ public class LoadBookTask extends AsyncTask<String, Integer, String>{
 	@Override
 	protected void onProgressUpdate(Integer... values) {
 		// TODO Auto-generated method stub
+		mBar.setProgress(values[0]);
+		
 		super.onProgressUpdate(values);
 	}
 	

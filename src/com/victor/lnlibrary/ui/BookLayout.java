@@ -3,8 +3,12 @@ package com.victor.lnlibrary.ui;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -76,7 +80,18 @@ public class BookLayout extends LinearLayout{
     	updatetime.setText(((TextView)bookLayout.findViewById(R.id.updatetime)).getText().toString());
     	
     	ImageView bookcover = (ImageView)findViewById(R.id.bookcover);
-    	bookcover.setImageDrawable(((ImageView)bookLayout.findViewById(R.id.bookcover)).getDrawable());
+    	
+    	WindowManager manager = (WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE);
+    	DisplayMetrics dm = new DisplayMetrics();
+    	manager.getDefaultDisplay().getMetrics(dm);
+    	int width = dm.widthPixels * 2 / 9;
+    	
+    	Drawable drawable = ((ImageView)bookLayout.findViewById(R.id.bookcover)).getDrawable();
+    	int height = (int) ((float) width/drawable.getMinimumWidth() * drawable.getMinimumHeight());
+    	LayoutParams params = new LayoutParams(0, height, 2.0f);
+    	params.setMargins(0, 0, (int)(10 * getContext().getResources().getDisplayMetrics().density), 1);
+    	bookcover.setLayoutParams(params);
+    	bookcover.setImageDrawable(drawable);
     	
 	}
 	
@@ -99,7 +114,18 @@ public class BookLayout extends LinearLayout{
     	FileOperator operator = new FileOperator();
     	if(operator.isFileExist("Images/" + mBook.getTitle() + "/bookcover" + ".png")){
     		ImageOperator imageOperator = new ImageOperator();
-    		bookcover.setImageBitmap(imageOperator.loadImage(mBook.getTitle() + "/bookcover"));
+    		Drawable drawable = new BitmapDrawable(imageOperator.loadImage(book.getTitle() + "/bookcover"));
+    		
+    		WindowManager manager = (WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE);
+        	DisplayMetrics dm = new DisplayMetrics();
+        	manager.getDefaultDisplay().getMetrics(dm);
+        	int width = dm.widthPixels * 2 / 9;
+        
+        	int height = (int) ((float) width/drawable.getMinimumWidth() * drawable.getMinimumHeight());
+        	LayoutParams params = new LayoutParams(0, height, 2.0f);
+        	params.setMargins(0, 0, (int)(10 * getContext().getResources().getDisplayMetrics().density), 1);
+        	bookcover.setLayoutParams(params);
+        	bookcover.setImageDrawable(drawable);
     	}
     
     	setOnClickListener(new View.OnClickListener(){
@@ -137,7 +163,18 @@ public class BookLayout extends LinearLayout{
     	FileOperator operator = new FileOperator();
     	if(operator.isFileExist("Images/" + bookBrief.getTitle() + "/bookcover" + ".png")){
     		ImageOperator imageOperator = new ImageOperator();
-    		bookcover.setImageBitmap(imageOperator.loadImage(bookBrief.getTitle() + "/bookcover"));
+    		Drawable drawable = new BitmapDrawable(imageOperator.loadImage(bookBrief.getTitle() + "/bookcover"));
+    		
+    		WindowManager manager = (WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE);
+        	DisplayMetrics dm = new DisplayMetrics();
+        	manager.getDefaultDisplay().getMetrics(dm);
+        	int width = dm.widthPixels * 2 / 9;
+        
+        	int height = (int) ((float) width/drawable.getMinimumWidth() * drawable.getMinimumHeight());
+        	LayoutParams params = new LayoutParams(0, height, 2.0f);
+        	params.setMargins(0, 0, (int)(10 * getContext().getResources().getDisplayMetrics().density), 1);
+        	bookcover.setLayoutParams(params);
+        	bookcover.setImageDrawable(drawable);
     	}else{
     		new ImageLoadTask((Activity)getContext(), bookcover, bookBrief.getImageLink(), bookBrief.getTitle(), "bookcover").execute("");
     	}

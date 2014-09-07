@@ -6,15 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.LinearLayout.LayoutParams;
 
 import com.example.lnlibrary.R;
 import com.victor.lnlibrary.dao.FuncTask;
 
 public class Fragment_BookList extends Fragment{
 	private String command = new String();
-	private LinearLayout mLayout;
+	private LinearLayout mLayout = null;
 	private String title = new String();
-	
+	private View view = null;
 	
 	public void setCommand(String command) {
 		this.command = command;
@@ -29,11 +31,20 @@ public class Fragment_BookList extends Fragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		View view = inflater.inflate(R.layout.fragment_booklist, container, false);
-	    mLayout = (LinearLayout)view.findViewById(R.id.booklistlayout);
-	    new FuncTask(getActivity(), mLayout, command, title).execute("");
-	    
-	    return view;
+		if(view == null){
+			view = inflater.inflate(R.layout.fragment_booklist, container, false);
+		    mLayout = (LinearLayout)view.findViewById(R.id.booklistlayout);
+		    /*ProgressBar progressBar = new ProgressBar(getActivity());
+		    LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		    progressBar.setLayoutParams(params);
+			progressBar.setIndeterminate(true);
+			mLayout.addView(progressBar, 0);*/
+		    new FuncTask(getActivity(), mLayout, command, title).execute("");
+		    return view;
+		}else{
+			return view;
+		}
+		
 	}
 
 
