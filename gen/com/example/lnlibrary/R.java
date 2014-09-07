@@ -81,14 +81,20 @@ containing a value of this type.
         public static final int ic_save_9=0x7f020010;
         public static final int ic_search=0x7f020011;
         public static final int ic_setting=0x7f020012;
-        public static final int icon=0x7f020013;
-        public static final int launchbackground=0x7f020014;
-        public static final int listlayer=0x7f020015;
-        public static final int listselector=0x7f020016;
-        public static final int loadingpage=0x7f020017;
-        public static final int progressbar=0x7f020018;
-        public static final int saveanim=0x7f020019;
-        public static final int yangpizhi=0x7f02001a;
+        public static final int ic_setting_daynight=0x7f020013;
+        public static final int ic_setting_more=0x7f020014;
+        public static final int ic_setting_next=0x7f020015;
+        public static final int ic_setting_pre=0x7f020016;
+        public static final int ic_setting_progress=0x7f020017;
+        public static final int ic_setting_read=0x7f020018;
+        public static final int icon=0x7f020019;
+        public static final int launchbackground=0x7f02001a;
+        public static final int listlayer=0x7f02001b;
+        public static final int listselector=0x7f02001c;
+        public static final int loadingpage=0x7f02001d;
+        public static final int progressbar=0x7f02001e;
+        public static final int saveanim=0x7f02001f;
+        public static final int yangpizhi=0x7f020020;
     }
     public static final class id {
         public static final int action_settings=0x7f06002d;

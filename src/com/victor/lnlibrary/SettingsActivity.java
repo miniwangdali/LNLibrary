@@ -13,7 +13,6 @@ import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
-import android.preference.SwitchPreference;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -35,10 +34,11 @@ public class SettingsActivity extends PreferenceActivity {
 		//字号
 		SeekPreference fontSize = (SeekPreference)findPreference("fontsize");
 		fontSize.setSummary(String.valueOf(Config.getFontsize()));
+		
 		//行间距
 		SeekPreference linespace = (SeekPreference)findPreference("linespace");
 		linespace.setSummary(String.valueOf(Config.getLinespace()));
-		
+		fontSize.notifyDependencyChange(false);
 		
 		//夜间模式
 		CheckBoxPreference nightmode = (CheckBoxPreference)findPreference("nightmode");
@@ -56,6 +56,23 @@ public class SettingsActivity extends PreferenceActivity {
 			}
 		});
 		
+		//屏幕常亮
+		CheckBoxPreference awake = (CheckBoxPreference)findPreference("awake");
+		awake.setChecked(Config.isAwake());
+		awake.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				// TODO Auto-generated method stub
+				Config.setAwake(!Config.isAwake());
+				Editor editor = settings.edit();
+				editor.putBoolean("awake", Config.isAwake());
+				editor.commit();
+				return true;
+			}
+		});		
+
+		
 		//关于
 		Preference about = (Preference)findPreference("about");
 		linespace.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -67,6 +84,18 @@ public class SettingsActivity extends PreferenceActivity {
 				return true;
 			}
 		});
+	}
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		Editor editor = settings.edit();
+		editor.putBoolean("nightmode", Config.isNightmode());
+		editor.putFloat("fontsize", Config.getFontsize());
+		editor.putFloat("linespace", Config.getLinespace());
+		editor.putBoolean("awake", Config.isAwake());
+		editor.commit();
+		super.onStop();
 	}
 	
 	

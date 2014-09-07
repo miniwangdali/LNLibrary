@@ -11,11 +11,15 @@ import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.text.TextPaint;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.ViewTreeObserver.OnPreDrawListener;
@@ -63,12 +67,21 @@ public class ReadingActivity extends Activity{
 	private int cLetters;
 	private int currentViewNumber = 0;
 	
+	private PowerManager powerManager = null;
+	private WakeLock wakeLock = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_reading);
+		
+		if(Config.isAwake()){
+			powerManager = (PowerManager)getSystemService(Context.POWER_SERVICE);
+			wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "reading lock");
+		}
+		
 		
 		Intent intent = getIntent();
 		bookname = intent.getStringExtra("bookname");
@@ -77,6 +90,23 @@ public class ReadingActivity extends Activity{
 	    chapterId = Library.getTempBook().getDossier(dossiername).getChapterId(chaptertitle);
 	    Library.getBook(bookname).getDossier(dossiername).setLastRead(chapterId);
 	    progress = Library.getTempBook().getDossier(dossiername).getChapterContent(chaptertitle).getProgress();
+	    
+	    String hour = new String();
+		String minute = new String();
+		Time time = new Time();
+		time.setToNow();
+		if(time.hour >= 10){
+			hour = String.valueOf(time.hour);
+		}else{
+			hour = "0" + String.valueOf(time.hour);
+		}
+		if(time.minute >= 10){
+			minute = String.valueOf(time.minute);
+		}else{
+			minute = "0" + String.valueOf(time.minute);
+		}
+		TextView timeText = (TextView)findViewById(R.id.time);
+		timeText.setText(hour + ":" + minute);
 	    
 	    TextView chapterTitleText = (TextView)findViewById(R.id.chaptertitle);
 	    chapterTitleText.setText(chaptertitle);
@@ -119,8 +149,8 @@ public class ReadingActivity extends Activity{
 			}
 		});
 	    
-	    int cLines = countLines();
-	    int cLetters = countLetters();
+	    cLines = countLines();
+	    cLetters = countLetters();
 	    
 	    readingContent = (LinearLayout)findViewById(R.id.contentlayout);
 	    contents = Library.getTempBook().getDossier(dossiername).getChapterContent(chaptertitle);
@@ -158,7 +188,39 @@ public class ReadingActivity extends Activity{
 		
 		//FoldMenu
 		foldMenu = (FoldMenu)findViewById(R.id.id_foldmenu);
-
+		ImageView nextImageView = (ImageView)foldMenu.findViewWithTag("Next");
+		nextImageView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				loadNextChapter();
+				TextView progressText = (TextView)findViewById(R.id.progress);
+				progressText.setText("当前进度：0.00%");
+			}
+		});
+		ImageView preImageView = (ImageView)foldMenu.findViewWithTag("Previous");
+		preImageView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				loadPreviousChapter();
+				TextView progressText = (TextView)findViewById(R.id.progress);
+				progressText.setText("当前进度：0.00%");
+			}
+		});
+		ImageView moreImageView = (ImageView)foldMenu.findViewWithTag("More");
+		moreImageView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent();
+				intent.setClass(self, SettingsActivity.class);
+				startActivity(intent);
+			}
+		});
 		
 	}
 	
@@ -450,7 +512,7 @@ public class ReadingActivity extends Activity{
 	private int countLines(){
 		int lines = 0;
 		int screenHeight = getWindowManager().getDefaultDisplay().getHeight(); 		// 屏幕高
-		double contentHeight = screenHeight * 0.94;
+		double contentHeight = screenHeight * 0.92;
 		TextView tempTextView = new MyTextView(self);
 		tempTextView.setTextSize(Config.getFontsize());
 		tempTextView.setLineSpacing(3.0f, Config.getLinespace());
@@ -513,4 +575,24 @@ public class ReadingActivity extends Activity{
 		
 		return result;
 	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		if(wakeLock != null){
+			wakeLock.release();
+		}
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		if(wakeLock != null){
+			wakeLock.acquire();
+		}
+	}
+	
+	
 }

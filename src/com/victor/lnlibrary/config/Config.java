@@ -2,6 +2,7 @@ package com.victor.lnlibrary.config;
 
 public class Config {
 	private static boolean nightmode = false;
+	private static boolean awake = false;
 	private static float fontsize = 18.0f;
 	private static float linespace = 1.2f;
 	
@@ -22,5 +23,11 @@ public class Config {
 	}
 	public static void setLinespace(float linespace) {
 		Config.linespace = linespace;
+	}
+	public static boolean isAwake() {
+		return awake;
+	}
+	public static void setAwake(boolean awake) {
+		Config.awake = awake;
 	}
 }

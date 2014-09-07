@@ -45,7 +45,7 @@ public class FoldMenu extends ViewGroup implements OnClickListener {
 	/** 
      * 菜单显示的半径，默认100dp 
      */  
-    private int mRadius = 100;  
+    private int mRadius = 300;  
     /** 
      * 用户点击的按钮 
      */  

@@ -13,22 +13,26 @@
         android:orientation="horizontal" 
         android:layout_width="fill_parent" 
         android:layout_height="0.0dip" 
-        android:layout_weight="3.0">
+        android:padding="2dp"
+        android:layout_weight="4.0">
         <TextView android:id="@+id/chaptertitle" 
             android:layout_width="0.0dip" 
             android:layout_height="fill_parent" 
             android:text="unknown" 
+            android:textSize="12sp"
             android:layout_weight="8.0" />
         <TextView android:id="@+id/time" 
             android:layout_width="0.0dip" 
             android:layout_height="fill_parent" 
             android:text="00:00" 
+            android:textSize="12sp"
+            android:gravity="right"
             android:layout_weight="2.0" />
     </LinearLayout>
     <ScrollView android:id="@+id/readingscroll" 
         android:layout_width="fill_parent" 
         android:layout_height="0.0dip" 
-        android:layout_weight="94.0">
+        android:layout_weight="92.0">
         <LinearLayout android:id="@+id/contentlayout"
             android:orientation="vertical"  
             android:layout_width="fill_parent" 
@@ -39,10 +43,12 @@
         android:orientation="horizontal" 
         android:layout_width="fill_parent" 
         android:layout_height="0.0dip" 
-        android:layout_weight="3.0">
+        android:padding="2dp"
+        android:layout_weight="4.0">
         <TextView android:id="@+id/progress" 
             android:layout_width="match_parent" 
             android:layout_height="fill_parent" 
+            android:textSize="12sp"
             android:text="当前进度：0.00%" />
     </LinearLayout>
     
@@ -52,44 +58,67 @@
         android:layout_height="wrap_content"
 
         app:position="right_bottom"  
-        app:radius="130dp">
+        app:radius="150dp">
         <RelativeLayout  
             android:layout_width="wrap_content"  
             android:layout_height="wrap_content"   >  
   
             <ImageView  
                 android:id="@+id/id_button"  
-                android:layout_width="wrap_content"  
-                android:layout_height="wrap_content"  
+                android:layout_width="30dp"  
+                android:layout_height="30dp"  
                 android:layout_centerInParent="true"  
-                android:src="@drawable/ic_launcher" />  
+                android:src="@drawable/ic_setting_read" />  
     	</RelativeLayout>
-    	<ImageView  
+    	<RelativeLayout  
             android:layout_width="wrap_content"  
-            android:layout_height="wrap_content"  
+            android:layout_height="wrap_content">
+            <ImageView  
+			android:layout_width="30dp"  
+            android:layout_height="30dp"   
             android:layout_centerInParent="true"  
-            android:src="@drawable/ic_launcher"  
-            android:tag="Camera" />  
-  
-        <ImageView  
+            android:src="@drawable/ic_setting_next"  
+            android:tag="Next" />  
+  		</RelativeLayout>
+        <RelativeLayout  
             android:layout_width="wrap_content"  
-            android:layout_height="wrap_content"  
+            android:layout_height="wrap_content"   >
+            <ImageView  
+			android:layout_width="30dp"  
+            android:layout_height="30dp"  
             android:layout_centerInParent="true"  
-            android:src="@drawable/ic_launcher"  
-            android:tag="Sun" />  
-  
-        <ImageView  
+            android:src="@drawable/ic_setting_daynight"  
+            android:tag="NightMode" />  
+  		</RelativeLayout>
+        <RelativeLayout  
             android:layout_width="wrap_content"  
-            android:layout_height="wrap_content"  
+            android:layout_height="wrap_content"   >
+            <ImageView  
+ 			android:layout_width="30dp"  
+            android:layout_height="30dp"   
             android:layout_centerInParent="true"  
-            android:src="@drawable/ic_launcher"  
-            android:tag="Place" />  
-          
-        <ImageView  
+            android:src="@drawable/ic_setting_more"  
+            android:tag="More" />  
+        </RelativeLayout>
+        <RelativeLayout  
             android:layout_width="wrap_content"  
-            android:layout_height="wrap_content"  
+            android:layout_height="wrap_content"   >
+            <ImageView  
+			android:layout_width="30dp"  
+            android:layout_height="30dp"   
             android:layout_centerInParent="true"  
-            android:src="@drawable/ic_launcher"  
-            android:tag="Sleep" />
+            android:src="@drawable/ic_setting_progress"  
+            android:tag="Progress" />
+        </RelativeLayout>
+        <RelativeLayout  
+            android:layout_width="wrap_content"  
+            android:layout_height="wrap_content"   >
+            <ImageView  
+			android:layout_width="30dp"  
+            android:layout_height="30dp"  
+            android:layout_centerInParent="true"  
+            android:src="@drawable/ic_setting_pre"  
+            android:tag="Previous" />
+        </RelativeLayout>
    	</com.victor.lnlibrary.ui.FoldMenu>
 </RelativeLayout>
