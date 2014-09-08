@@ -9,12 +9,14 @@ import android.content.IntentFilter;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.text.TextPaint;
 import android.text.format.Time;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -44,6 +46,7 @@ import com.victor.lnlibrary.htmlparser.Content;
 import com.victor.lnlibrary.ui.FoldMenu;
 import com.victor.lnlibrary.ui.MyTextView;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,6 +60,7 @@ public class ReadingActivity extends Activity{
 	private String dossiername;
 	private int fullHeight;
 	private int pageHeight;
+	private int statusBarHeight;
 	private LinearLayout readingContent;
 	private ScrollView scrollView;
 	Activity self = this;
@@ -193,7 +197,7 @@ public class ReadingActivity extends Activity{
 	  			loadContent();
 	  		}
 	  	});
-	    
+	  	statusBarHeight = getBarHeight();
 	}
 	
 	@Override
@@ -406,13 +410,17 @@ public class ReadingActivity extends Activity{
 	//获取可以显示的行数
 	private int countLines(){
 		int lines = 0;
-		int screenHeight = getWindowManager().getDefaultDisplay().getHeight(); 		// 屏幕高
+
+		DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+		int screenHeight = dm.heightPixels; 
+		//screenHeight = screenHeight - statusBarHeight;// 屏幕高
 		double contentHeight = screenHeight * 0.92;
 		TextView tempTextView = new MyTextView(self);
 		tempTextView.setTextSize(Config.getFontsize());
 		tempTextView.setLineSpacing(3.0f, Config.getLinespace());
 		lines = (int)(contentHeight / tempTextView.getLineHeight());
-		Toast.makeText(this, lines + "", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(this, lines + "", Toast.LENGTH_SHORT).show();
 		return lines;
 	}
 	//获得一行显示的字数
@@ -424,7 +432,7 @@ public class ReadingActivity extends Activity{
 		tempTextView.setTextSize(Config.getFontsize());
 		tempTextView.setLineSpacing(3.0f, Config.getLinespace());
 		letters = (int)(contentWidth / tempTextView.getTextSize());
-		Toast.makeText(this, letters + "", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(this, letters + "", Toast.LENGTH_SHORT).show();
 		return letters;
 	}
 	//处理字符串，增加缩进
@@ -489,6 +497,12 @@ public class ReadingActivity extends Activity{
 			wakeLock.acquire();
 		}
 	    
+		
+		DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+		
+		TEXTPARAMS = new LayoutParams(LayoutParams.MATCH_PARENT, (int)((dm.heightPixels - statusBarHeight) * 0.92));
+		
 		cLines = countLines();
 	    cLetters = countLetters();
 		
@@ -539,7 +553,6 @@ public class ReadingActivity extends Activity{
 		List<String> contentList = contents.getContents();
 		List<String> imageList = contents.getImageList();
 		for(int i = 0; i < contentList.size(); i ++){
-			
 			List<String> dividedText = contentDivider(contentList.get(i), cLines, cLetters);
 			for(String text : dividedText){
 				MyTextView contentTextView = new MyTextView(self);
@@ -559,13 +572,15 @@ public class ReadingActivity extends Activity{
 					ImageOperator operator = new ImageOperator();
 					Bitmap image = operator.loadImage(imageList.get(i));
 					ImageView imageView = new ImageView(self);
+					imageView.setLayoutParams(TEXTPARAMS);
 					imageView.setImageBitmap(image);
-					imageView.setScaleType(ScaleType.FIT_CENTER);
+					imageView.setScaleType(ScaleType.CENTER_CROP);
 					readingContent.addView(imageView);
 				}else{
 					ImageView imageView = new ImageView(self);
+					imageView.setLayoutParams(TEXTPARAMS);
 					new ImageLoadTask(self, imageView, imageList.get(i), bookname, "tempImage" + i).execute("");
-					imageView.setScaleType(ScaleType.FIT_CENTER);
+					imageView.setScaleType(ScaleType.CENTER_CROP);
 					readingContent.addView(imageView);
 				}
 			}
@@ -573,4 +588,22 @@ public class ReadingActivity extends Activity{
 		}
 	}
 	
+	 public int getBarHeight(){
+	        Class<?> c = null;
+	        Object obj = null;
+	        Field field = null;
+	        int x = 0, sbar = 38;//默认为38，貌似大部分是这样的
+
+	        try {
+	            c = Class.forName("com.android.internal.R$dimen");
+	            obj = c.newInstance();
+	            field = c.getField("status_bar_height");
+	            x = Integer.parseInt(field.get(obj).toString());
+	            sbar = getResources().getDimensionPixelSize(x);
+
+	        } catch (Exception e1) {
+	            e1.printStackTrace();
+	        }
+	        return sbar;
+	    }
 }

@@ -16,8 +16,8 @@
         <item name="android:layout_marginBottom">5.0dip</item>
     </style>
     <style name="ReadingLayout">
-        <item name="android:layout_marginLeft">5.0dip</item>
-        <item name="android:layout_marginTop">5.0dip</item>
+        <item name="android:layout_marginLeft">10.0dip</item>
+        <item name="android:layout_marginTop">0dip</item>
         <item name="android:layout_marginRight">5.0dip</item>
         <item name="android:layout_marginBottom">5.0dip</item>
     </style>

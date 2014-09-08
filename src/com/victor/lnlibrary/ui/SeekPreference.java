@@ -1,12 +1,11 @@
 package com.victor.lnlibrary.ui;
 
+import java.math.BigDecimal;
+
 import com.example.lnlibrary.R;
 import com.victor.lnlibrary.config.Config;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.preference.Preference;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -55,6 +54,8 @@ public class SeekPreference extends Preference {
 				if(title.equals("行间距")){
 					float i = Float.parseFloat(value);
 					i = i + 0.1f;
+					BigDecimal bigDecimal = new BigDecimal((double)i);
+					i = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
 					value = String.valueOf(i);
 					sizeEditText.setText(value);
 					Config.setLinespace(i);
@@ -77,6 +78,8 @@ public class SeekPreference extends Preference {
 				if(title.equals("行间距")){
 					float i = Float.parseFloat(value);
 					i = i - 0.1f;
+					BigDecimal bigDecimal = new BigDecimal((double)i);
+					i = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
 					value = String.valueOf(i);
 					sizeEditText.setText(value);
 					Config.setLinespace(i);

@@ -20,13 +20,14 @@
             android:layout_height="fill_parent" 
             android:text="unknown" 
             android:textSize="12sp"
+            android:gravity="center_vertical"
             android:layout_weight="8.0" />
         <TextView android:id="@+id/time" 
             android:layout_width="0.0dip" 
             android:layout_height="fill_parent" 
             android:text="00:00" 
             android:textSize="12sp"
-            android:gravity="right"
+            android:gravity="right|center_vertical"
             android:layout_weight="2.0" />
     </LinearLayout>
     <ScrollView android:id="@+id/readingscroll" 
@@ -49,6 +50,7 @@
             android:layout_width="match_parent" 
             android:layout_height="fill_parent" 
             android:textSize="12sp"
+            android:gravity="center_vertical"
             android:text="当前进度：0.00%" />
     </LinearLayout>
     
