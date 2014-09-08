@@ -1,21 +1,20 @@
 package com.victor.lnlibrary;
 
-import android.R.integer;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.Paint;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.text.TextPaint;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -27,6 +26,7 @@ import android.view.ViewTreeObserver.OnScrollChangedListener;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -69,6 +69,7 @@ public class ReadingActivity extends Activity{
 	
 	private PowerManager powerManager = null;
 	private WakeLock wakeLock = null;
+	private LayoutParams TEXTPARAMS = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +83,6 @@ public class ReadingActivity extends Activity{
 			wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "reading lock");
 		}
 		
-		
 		Intent intent = getIntent();
 		bookname = intent.getStringExtra("bookname");
 	    dossiername = intent.getStringExtra("dossiername");
@@ -90,27 +90,7 @@ public class ReadingActivity extends Activity{
 	    chapterId = Library.getTempBook().getDossier(dossiername).getChapterId(chaptertitle);
 	    Library.getBook(bookname).getDossier(dossiername).setLastRead(chapterId);
 	    progress = Library.getTempBook().getDossier(dossiername).getChapterContent(chaptertitle).getProgress();
-	    
-	    String hour = new String();
-		String minute = new String();
-		Time time = new Time();
-		time.setToNow();
-		if(time.hour >= 10){
-			hour = String.valueOf(time.hour);
-		}else{
-			hour = "0" + String.valueOf(time.hour);
-		}
-		if(time.minute >= 10){
-			minute = String.valueOf(time.minute);
-		}else{
-			minute = "0" + String.valueOf(time.minute);
-		}
-		TextView timeText = (TextView)findViewById(R.id.time);
-		timeText.setText(hour + ":" + minute);
-	    
-	    TextView chapterTitleText = (TextView)findViewById(R.id.chaptertitle);
-	    chapterTitleText.setText(chaptertitle);
-	    
+		
 	    IntentFilter intentFilter = new IntentFilter();
 	    intentFilter.addAction(Intent.ACTION_TIME_TICK);
 	    registerReceiver(timeReceiver, intentFilter);
@@ -149,79 +129,71 @@ public class ReadingActivity extends Activity{
 			}
 		});
 	    
-	    cLines = countLines();
-	    cLetters = countLetters();
+	    //FoldMenu
+	  	foldMenu = (FoldMenu)findViewById(R.id.id_foldmenu);
+	  	ImageView nextImageView = (ImageView)foldMenu.findViewWithTag("Next");
+	  	nextImageView.setOnClickListener(new OnClickListener() {
+	  		
+	  		@Override
+	  		public void onClick(View v) {
+	  			// TODO Auto-generated method stub
+	  			loadNextChapter();
+	  			TextView progressText = (TextView)findViewById(R.id.progress);
+	  			progressText.setText("当前进度：0.00%");
+	  		}
+	  	});
+	  	ImageView preImageView = (ImageView)foldMenu.findViewWithTag("Previous");
+	  	preImageView.setOnClickListener(new OnClickListener() {
+	  		
+	  		@Override
+	  		public void onClick(View v) {
+	  			// TODO Auto-generated method stub
+	  			loadPreviousChapter();
+	  			TextView progressText = (TextView)findViewById(R.id.progress);
+	  			progressText.setText("当前进度：0.00%");
+	  		}
+	  	});
+	  	ImageView moreImageView = (ImageView)foldMenu.findViewWithTag("More");
+	  	moreImageView.setOnClickListener(new OnClickListener() {
+	  		
+	  		@Override
+	  		public void onClick(View v) {
+	  			// TODO Auto-generated method stub
+	  			Intent intent = new Intent();
+	  			intent.setClass(self, SettingsActivity.class);
+	  			startActivity(intent);
+	  		}
+	  	});
+	  	
+	  	ImageView nightImageView = (ImageView)foldMenu.findViewWithTag("NightMode");
+	  	nightImageView.setOnClickListener(new OnClickListener() {
+	  		
+	  		@Override
+	  		public void onClick(View v) {
+	  			// TODO Auto-generated method stub
+	  			Config.setNightmode(!Config.isNightmode());
+	  			TextView timeText = (TextView)findViewById(R.id.time);
+	  		    
+	  		    TextView chapterTitleText = (TextView)findViewById(R.id.chaptertitle);
+	  		    
+	  		    TextView progressText = (TextView)findViewById(R.id.progress);
+	  		    
+	  		    LinearLayout readingLayout =(LinearLayout)findViewById(R.id.readingbg);
+	  			if(Config.isNightmode()){
+	  				readingLayout.setBackgroundColor(Color.BLACK);
+	  				timeText.setTextColor(getResources().getColor(R.color.nighttext));
+	  				chapterTitleText.setTextColor(getResources().getColor(R.color.nighttext));
+	  				progressText.setTextColor(getResources().getColor(R.color.nighttext));
+	  			}else{
+	  				readingLayout.setBackgroundResource(R.drawable.yangpizhi);
+	  				timeText.setTextColor(getResources().getColor(R.color.daytext));
+	  				chapterTitleText.setTextColor(getResources().getColor(R.color.daytext));
+	  				progressText.setTextColor(getResources().getColor(R.color.daytext));
+	  			}
+	  			loadContent();
+	  		}
+	  	});
 	    
-	    readingContent = (LinearLayout)findViewById(R.id.contentlayout);
-	    contents = Library.getTempBook().getDossier(dossiername).getChapterContent(chaptertitle);
-	    List<String> contentList = contents.getContents();
-		List<String> imageList = contents.getImageList();
-		for(int i = 0; i < contentList.size(); i ++){
-			
-			List<String> dividedText = contentDivider(contentList.get(i), cLines, cLetters);
-			for(String text : dividedText){
-				MyTextView contentTextView = new MyTextView(this);
-				contentTextView.setTextSize(Config.getFontsize());
-				contentTextView.setLineSpacing(3.0f, Config.getLinespace());
-				contentTextView.setText(text);
-				readingContent.addView(contentTextView);
-			}
-			if(i < imageList.size()){
-				if(Library.getTempBook().getDossier(dossiername).isDownloaded()){
-					ImageOperator operator = new ImageOperator();
-					Bitmap image = operator.loadImage(imageList.get(i));
-					ImageView imageView = new ImageView(this);
-					imageView.setImageBitmap(image);
-					imageView.setScaleType(ScaleType.FIT_CENTER);
-					readingContent.addView(imageView);
-				}else{
-					ImageView imageView = new ImageView(this);
-					new ImageLoadTask(this, imageView, imageList.get(i), bookname, "tempImage" + i).execute("");
-					imageView.setScaleType(ScaleType.FIT_CENTER);
-					readingContent.addView(imageView);
-				}
-			}
-			
-		}
-		
-		
-		
-		//FoldMenu
-		foldMenu = (FoldMenu)findViewById(R.id.id_foldmenu);
-		ImageView nextImageView = (ImageView)foldMenu.findViewWithTag("Next");
-		nextImageView.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				loadNextChapter();
-				TextView progressText = (TextView)findViewById(R.id.progress);
-				progressText.setText("当前进度：0.00%");
-			}
-		});
-		ImageView preImageView = (ImageView)foldMenu.findViewWithTag("Previous");
-		preImageView.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				loadPreviousChapter();
-				TextView progressText = (TextView)findViewById(R.id.progress);
-				progressText.setText("当前进度：0.00%");
-			}
-		});
-		ImageView moreImageView = (ImageView)foldMenu.findViewWithTag("More");
-		moreImageView.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent();
-				intent.setClass(self, SettingsActivity.class);
-				startActivity(intent);
-			}
-		});
-		
 	}
 	
 	@Override
@@ -322,7 +294,7 @@ public class ReadingActivity extends Activity{
 	
 	private void loadNextChapter(){
 		progress = 0;
-    	readingContent.removeAllViews();
+    	//readingContent.removeAllViews();
     	chapterId = chapterId + 1;
     	chaptertitle = ((ChapterContent)Library.getTempBook().getDossier(dossiername).getChapterContents().get(chapterId)).getChaptertitle();
     	contents = ((ChapterContent)Library.getTempBook().getDossier(dossiername).getChapterContents().get(chapterId));
@@ -333,40 +305,16 @@ public class ReadingActivity extends Activity{
     	}else{
     		TextView chapterTitleText = (TextView)findViewById(R.id.chaptertitle);
     		chapterTitleText.setText(chaptertitle);
-    		List<String> contentList = contents.getContents();
-    		List<String> imageList = contents.getImageList();
-    		for(int i = 0; i < contentList.size(); i ++){
-    			List<String> dividedText = contentDivider(contentList.get(i), cLines, cLetters);
-    			for(String text : dividedText){
-    				MyTextView contentTextView = new MyTextView(this);
-    				contentTextView.setTextSize(Config.getFontsize());
-    				contentTextView.setLineSpacing(3.0f, Config.getLinespace());
-    				contentTextView.setText(text);
-    				readingContent.addView(contentTextView);
-    			}
-    			if(i < imageList.size()){
-    				if(Library.getTempBook().getDossier(dossiername).isDownloaded()){
-    					ImageOperator operator = new ImageOperator();
-    					Bitmap image = operator.loadImage(imageList.get(i));
-    					ImageView imageView = new ImageView(this);
-    					imageView.setImageBitmap(image);
-    					imageView.setScaleType(ScaleType.CENTER_INSIDE);
-    					readingContent.addView(imageView);
-    				}else{
-    					ImageView imageView = new ImageView(this);
-    					new ImageLoadTask(this, imageView, imageList.get(i), bookname, "tempImage" + i).execute("");
-    					imageView.setScaleType(ScaleType.CENTER_INSIDE);
-    					readingContent.addView(imageView);
-    				}
-    			}
-    			scrollView.scrollTo(0, 0);
-    		}
+    		
+    		loadContent();
+    		
+    		scrollView.scrollTo(0, 0);
     	}
     }
 
 	private void loadPreviousChapter(){
 		progress = 0;
-		readingContent.removeAllViews();
+		//readingContent.removeAllViews();
     	chapterId = chapterId - 1;
     	chaptertitle = ((ChapterContent)Library.getTempBook().getDossier(dossiername).getChapterContents().get(chapterId)).getChaptertitle();
     	contents = ((ChapterContent)Library.getTempBook().getDossier(dossiername).getChapterContents().get(chapterId));
@@ -377,34 +325,8 @@ public class ReadingActivity extends Activity{
     	}else{
     		TextView chapterTitleText = (TextView)findViewById(R.id.chaptertitle);
     		chapterTitleText.setText(chaptertitle);
-    		List<String> contentList = contents.getContents();
-    		List<String> imageList = contents.getImageList();
-    		for(int i = 0; i < contentList.size(); i ++){
-    			List<String> dividedText = contentDivider(contentList.get(i), cLines, cLetters);
-    			for(String text : dividedText){
-    				MyTextView contentTextView = new MyTextView(this);
-    				contentTextView.setTextSize(Config.getFontsize());
-    				contentTextView.setLineSpacing(3.0f, Config.getLinespace());
-    				contentTextView.setText(text);
-    				readingContent.addView(contentTextView);
-    			}
-    			if(i < imageList.size()){
-    				if(Library.getTempBook().getDossier(dossiername).isDownloaded()){
-    					ImageOperator operator = new ImageOperator();
-    					Bitmap image = operator.loadImage(imageList.get(i));
-    					ImageView imageView = new ImageView(this);
-    					imageView.setImageBitmap(image);
-    					imageView.setScaleType(ScaleType.CENTER_INSIDE);
-    					readingContent.addView(imageView);
-    				}else{
-    					ImageView imageView = new ImageView(this);
-    					new ImageLoadTask(this, imageView, imageList.get(i), bookname, "tempImage" + i).execute("");
-    					imageView.setScaleType(ScaleType.CENTER_INSIDE);
-    					readingContent.addView(imageView);
-    				}
-    			}
-    			scrollView.scrollTo(0, 0);
-    		}
+    		loadContent();
+    		scrollView.scrollTo(0, 0);
     	}
 	}
 	
@@ -438,35 +360,8 @@ public class ReadingActivity extends Activity{
 			if(result.equals("success")){
 				TextView chapterTitleText = (TextView)findViewById(R.id.chaptertitle);
 				chapterTitleText.setText(chaptertitle);
-				List<String> contentList = contents.getContents();
-	    		List<String> imageList = contents.getImageList();
-	    		for(int i = 0; i < contentList.size(); i ++){
-	    			List<String> dividedText = contentDivider(contentList.get(i), cLines, cLetters);
-	    			for(String text : dividedText){
-	    				MyTextView contentTextView = new MyTextView(self);
-	    				contentTextView.setTextSize(Config.getFontsize());
-	    				contentTextView.setLineSpacing(3.0f, Config.getLinespace());
-	    				contentTextView.setText(text);
-	    				readingContent.addView(contentTextView);
-	    			}
-	    			if(i < imageList.size()){
-	    				if(Library.getTempBook().getDossier(dossiername).isDownloaded()){
-	    					ImageOperator operator = new ImageOperator();
-	    					Bitmap image = operator.loadImage(imageList.get(i));
-	    					ImageView imageView = new ImageView(self);
-	    					imageView.setImageBitmap(image);
-	    					imageView.setScaleType(ScaleType.CENTER_INSIDE);
-	    					readingContent.addView(imageView);
-	    				}else{
-	    					ImageView imageView = new ImageView(self);
-	    					new ImageLoadTask(self, imageView, imageList.get(i), bookname, "tempImage" + i).execute("");
-	    					imageView.setScaleType(ScaleType.CENTER_INSIDE);
-	    					readingContent.addView(imageView);
-	    				}
-	    			}
-	    			scrollView.scrollTo(0, 0);
-	    		}
-				
+				loadContent();
+	    		scrollView.scrollTo(0, 0);
 			}
 			pd.dismiss();
 			super.onPostExecute(result);
@@ -589,10 +484,93 @@ public class ReadingActivity extends Activity{
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		
 		if(wakeLock != null){
 			wakeLock.acquire();
 		}
+	    
+		cLines = countLines();
+	    cLetters = countLetters();
+		
+	    String hour = new String();
+		String minute = new String();
+		Time time = new Time();
+		time.setToNow();
+		if(time.hour >= 10){
+			hour = String.valueOf(time.hour);
+		}else{
+			hour = "0" + String.valueOf(time.hour);
+		}
+		if(time.minute >= 10){
+			minute = String.valueOf(time.minute);
+		}else{
+			minute = "0" + String.valueOf(time.minute);
+		}
+		TextView timeText = (TextView)findViewById(R.id.time);
+		timeText.setText(hour + ":" + minute);
+	    
+	    TextView chapterTitleText = (TextView)findViewById(R.id.chaptertitle);
+	    chapterTitleText.setText(chaptertitle);
+	    
+	    TextView progressText = (TextView)findViewById(R.id.progress);
+	    
+	    readingContent = (LinearLayout)findViewById(R.id.contentlayout);
+	    contents = Library.getTempBook().getDossier(dossiername).getChapterContent(chaptertitle);
+	    
+	    LinearLayout readingLayout =(LinearLayout)findViewById(R.id.readingbg);
+		if(Config.isNightmode()){
+			readingLayout.setBackgroundColor(Color.BLACK);
+			timeText.setTextColor(getResources().getColor(R.color.nighttext));
+			chapterTitleText.setTextColor(getResources().getColor(R.color.nighttext));
+			progressText.setTextColor(getResources().getColor(R.color.nighttext));
+		}else{
+			readingLayout.setBackgroundResource(R.drawable.yangpizhi);
+			timeText.setTextColor(getResources().getColor(R.color.daytext));
+			chapterTitleText.setTextColor(getResources().getColor(R.color.daytext));
+			progressText.setTextColor(getResources().getColor(R.color.daytext));
+		}
+	    
+		loadContent();
+		
 	}
 	
+	private void loadContent(){
+		readingContent.removeAllViews();
+		List<String> contentList = contents.getContents();
+		List<String> imageList = contents.getImageList();
+		for(int i = 0; i < contentList.size(); i ++){
+			
+			List<String> dividedText = contentDivider(contentList.get(i), cLines, cLetters);
+			for(String text : dividedText){
+				MyTextView contentTextView = new MyTextView(self);
+				if(Config.isNightmode()){
+					contentTextView.setTextColor(getResources().getColor(R.color.nighttext));
+				}else{
+					contentTextView.setTextColor(getResources().getColor(R.color.daytext));
+				}
+				contentTextView.setLayoutParams(TEXTPARAMS);
+				contentTextView.setTextSize(Config.getFontsize());
+				contentTextView.setLineSpacing(3.0f, Config.getLinespace());
+				contentTextView.setText(text);
+				readingContent.addView(contentTextView);
+			}
+			if(i < imageList.size()){
+				if(Library.getTempBook().getDossier(dossiername).isDownloaded()){
+					ImageOperator operator = new ImageOperator();
+					Bitmap image = operator.loadImage(imageList.get(i));
+					ImageView imageView = new ImageView(self);
+					imageView.setImageBitmap(image);
+					imageView.setScaleType(ScaleType.FIT_CENTER);
+					readingContent.addView(imageView);
+				}else{
+					ImageView imageView = new ImageView(self);
+					new ImageLoadTask(self, imageView, imageList.get(i), bookname, "tempImage" + i).execute("");
+					imageView.setScaleType(ScaleType.FIT_CENTER);
+					readingContent.addView(imageView);
+				}
+			}
+			
+		}
+	}
 	
 }
