@@ -54,9 +54,9 @@ public class Fragment_BookDetail extends Fragment{
 		mLayout.addView(bookLayout, 0);
 		
 		if(StaticConfig.hasInternet(getActivity())){
-			new DetailTask(getActivity(), mLayout, title, link).execute("");
+			//new DetailTask(getActivity(), mLayout, title, link).execute("");
 			
-			if(Library.isInLibrary(title)){
+			if(Library.isInLibrary(title) && (Library.getBook(title).getDossiers().size() != 0)){
 				Book book = Library.getBook(title);
 				Library.setTempBook(book);
 				Library.getTempBook().setTitle(((TextView)mBookLayout.findViewById(R.id.bookname)).getText().toString());
@@ -67,7 +67,28 @@ public class Fragment_BookDetail extends Fragment{
 				Library.getTempBook().setUpdatetime(((TextView)mBookLayout.findViewById(R.id.updatetime)).getText().toString());
 				Library.getTempBook().setBookLink(link);
 				
-				saveButton = (ImageView)view.findViewById(R.id.saveBtn);
+				final ExpandableTextView introduction = (ExpandableTextView)mLayout.findViewById(R.id.introduction);
+			    introduction.setText(book.getIntroduction());
+			    introduction.setTag(R.id.tag_expandable_text_view_reused, new Object());
+			    introduction.setExpanded(false);
+			    introduction.setOnExpandListener(new ExpandableTextView.OnExpandListener(){
+			    	@Override
+			    	public void onExpand(ExpandableTextView parent){
+			    		introduction.setExpanded(true);
+			        }
+			    }).setOnCollapseListener(new ExpandableTextView.OnCollapseListener(){
+			    	@Override
+			        public void onCollapse(ExpandableTextView parent){
+			    		introduction.setExpanded(false);
+			        }
+			    }).setOnClickListener(new OnClickListener(){
+			    	@Override
+			        public void onClick(View v){
+			    		introduction.toggle();
+			        }
+			    });
+			    
+			    saveButton = (ImageView)view.findViewById(R.id.saveBtn);
 				saveButton.setImageResource(R.drawable.deleteanim);
 				saveButton.setOnClickListener(new OnClickListener() {
 					
@@ -117,7 +138,58 @@ public class Fragment_BookDetail extends Fragment{
 						
 					}
 				});
-				
+			    
+			    DossierListAdapter dossierAdapter = new DossierListAdapter(getActivity(), title);
+			    List<String> dossiertitles = new ArrayList<String>();
+			    List<String> linkList = new ArrayList<String>();
+			    for(Dossier dossier : book.getDossiers()){
+			    	dossiertitles.add(dossier.getDossiertitle());
+			    	linkList.add(dossier.getDossierLink());
+			    }
+			    dossierAdapter.setTitle(dossiertitles);
+			    dossierAdapter.setLinks(linkList);
+			    ListView dossiers = (ListView)view.findViewById(R.id.dossierlist);
+			    dossiers.setAdapter(dossierAdapter);
+			    dossiers.setOnItemClickListener(new OnItemClickListener(){
+			        @Override
+			    	public void onItemClick(AdapterView<?> adapterView, final View view, int position, long id){
+			        	LinearLayout chapterList = (LinearLayout)view.findViewById(R.id.chapterlist);
+			        	if(Library.getTempBook().getDossiers().get(position).getChapterContents().size() != 0){
+			        		if (chapterList.getVisibility() != 0){
+			        			chapterList.removeAllViews();
+			        			for(int i = 0; i < Library.getTempBook().getDossiers().get(position).getChapterContents().size(); i ++){
+			        				final TextView chapterText = new TextView(getActivity());
+					                chapterText.setText(Library.getTempBook().getDossiers().get(position).getChapters().get(i));
+					                chapterText.setGravity(Gravity.CENTER);
+					                chapterText.setPadding(0, 10, 0, 10);
+					                chapterText.setTextSize(14.0f);
+					                chapterText.setBackgroundResource(R.drawable.chapterselector);
+					                chapterList.addView(chapterText);
+					                
+					                chapterText.setOnClickListener(new OnClickListener(){
+					                	@Override
+					                	public void onClick(View v){
+					                    Intent intent = new Intent();
+					                    intent.setClass(getActivity(), ReadingActivity.class);
+					                    intent.putExtra("bookname", title);
+					                    intent.putExtra("dossiername", ((TextView)view.findViewById(R.id.title)).getText().toString());
+					                    intent.putExtra("chapter", chapterText.getText().toString());
+					                    getActivity().startActivity(intent);
+					                  }
+					                });
+					    			
+			        			}
+			        			Expand_Custom_Animation animation = new Expand_Custom_Animation(chapterList, 500);
+				    	        chapterList.startAnimation(animation);
+			        		}else{
+			        			Expand_Custom_Animation animation = new Expand_Custom_Animation(chapterList, 500);
+				    	        chapterList.startAnimation(animation);
+			        		}
+			        	}else{
+			        		new ChapterTask(getActivity(), Library.getTempBook().getDossiers().get(position).getDossierLink(), Library.getTempBook().getDossiers().get(position).getDossiertitle(), chapterList, title).execute("");
+			        	}
+			        }
+			    });
 				/*TextView save = (TextView)view.findViewById(R.id.save);
 				save.setText("已收藏");
 				save.setOnClickListener(new OnClickListener() {
@@ -142,6 +214,7 @@ public class Fragment_BookDetail extends Fragment{
 					}
 				});*/
 			}else{
+				new DetailTask(getActivity(), mLayout, title, link).execute("");
 				Library.setTempBook(new Book());
 				Library.getTempBook().setTitle(((TextView)mBookLayout.findViewById(R.id.bookname)).getText().toString());
 				Library.getTempBook().setAuthor(((TextView)mBookLayout.findViewById(R.id.author)).getText().toString());

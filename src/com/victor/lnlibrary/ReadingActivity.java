@@ -17,10 +17,13 @@ import android.os.PowerManager.WakeLock;
 import android.text.TextPaint;
 import android.text.format.Time;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.ViewTreeObserver.OnPreDrawListener;
@@ -73,7 +76,8 @@ public class ReadingActivity extends Activity{
 	
 	private PowerManager powerManager = null;
 	private WakeLock wakeLock = null;
-	private LayoutParams TEXTPARAMS = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+	private LayoutParams TEXTPARAMS;
+	private LayoutParams IMAGEPARAMS;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +134,14 @@ public class ReadingActivity extends Activity{
 				// TODO Auto-generated method stub
 				TextView progressText = (TextView)findViewById(R.id.progress);
 				progressText.setText("当前进度：" + String.valueOf(progress) + "%");
+			}
+		});
+	    scrollView.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				return true;
 			}
 		});
 	    
@@ -414,7 +426,7 @@ public class ReadingActivity extends Activity{
 		DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 		int screenHeight = dm.heightPixels; 
-		//screenHeight = screenHeight - statusBarHeight;// 屏幕高
+		screenHeight = screenHeight - statusBarHeight;// 屏幕高
 		double contentHeight = screenHeight * 0.92;
 		TextView tempTextView = new MyTextView(self);
 		tempTextView.setTextSize(Config.getFontsize());
@@ -441,7 +453,11 @@ public class ReadingActivity extends Activity{
 		String[] tempString = text.toString().split("\n");
 		for(int i = 0; i < tempString.length; i ++){
 			tempString[i] = "　　" + tempString[i];
-			newText = newText + tempString[i] + "\n";
+			if(i != tempString.length - 1){
+				newText = newText + tempString[i] + "\n";
+			}else{
+				newText = newText + tempString[i];
+			}
 		}
 		return newText;
 	}
@@ -502,6 +518,8 @@ public class ReadingActivity extends Activity{
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 		
 		TEXTPARAMS = new LayoutParams(LayoutParams.MATCH_PARENT, (int)((dm.heightPixels - statusBarHeight) * 0.92));
+		IMAGEPARAMS = new LayoutParams(LayoutParams.MATCH_PARENT, (int)((dm.heightPixels - statusBarHeight) * 0.92));	
+		IMAGEPARAMS.setMargins(8, 8, 8, 8);
 		
 		cLines = countLines();
 	    cLetters = countLetters();
@@ -550,6 +568,7 @@ public class ReadingActivity extends Activity{
 	
 	private void loadContent(){
 		readingContent.removeAllViews();
+		
 		List<String> contentList = contents.getContents();
 		List<String> imageList = contents.getImageList();
 		for(int i = 0; i < contentList.size(); i ++){
@@ -572,15 +591,15 @@ public class ReadingActivity extends Activity{
 					ImageOperator operator = new ImageOperator();
 					Bitmap image = operator.loadImage(imageList.get(i));
 					ImageView imageView = new ImageView(self);
-					imageView.setLayoutParams(TEXTPARAMS);
+					imageView.setLayoutParams(IMAGEPARAMS);
 					imageView.setImageBitmap(image);
-					imageView.setScaleType(ScaleType.CENTER_CROP);
+					imageView.setScaleType(ScaleType.FIT_CENTER);
 					readingContent.addView(imageView);
 				}else{
 					ImageView imageView = new ImageView(self);
-					imageView.setLayoutParams(TEXTPARAMS);
+					imageView.setLayoutParams(IMAGEPARAMS);
 					new ImageLoadTask(self, imageView, imageList.get(i), bookname, "tempImage" + i).execute("");
-					imageView.setScaleType(ScaleType.CENTER_CROP);
+					imageView.setScaleType(ScaleType.FIT_CENTER);
 					readingContent.addView(imageView);
 				}
 			}

@@ -21,12 +21,14 @@ public class BriefTask extends AsyncTask<String, Integer, String>{
 	private List<String> linkList = new ArrayList<String>();
 	private Activity mActivity;
 	private LinearLayout mLayout;
+	private ProgressDialog pd;
 
-	public BriefTask(Activity activity, LinearLayout layout, List<String> books, List<String> links){
+	public BriefTask(Activity activity, LinearLayout layout, List<String> books, List<String> links, ProgressDialog p){
     	mLayout = layout;
     	mActivity = activity;
     	bookList = books;
     	linkList = links;
+    	pd = p;
 	}
 
 	
@@ -70,6 +72,7 @@ public class BriefTask extends AsyncTask<String, Integer, String>{
 		}else{
 			Toast.makeText(mActivity, result, Toast.LENGTH_SHORT).show();
 		}
+		pd.dismiss();
 		super.onPostExecute(result);
 	}
 
@@ -77,7 +80,6 @@ public class BriefTask extends AsyncTask<String, Integer, String>{
 	@Override
 	protected void onPreExecute() {
 		// TODO Auto-generated method stub
-		
 		super.onPreExecute();
 	}
 

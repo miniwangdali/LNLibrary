@@ -80,6 +80,7 @@ public class DetailTask extends AsyncTask<String, Integer, String>{
 			    		introduction.toggle();
 			        }
 			    });
+			    
 			    Library.getBook(name).setIntroduction(detail.getIntroduction());
 			    for(int i = 0; i < detail.getDossierList().size(); i ++){
 			    	if(i >= Library.getBook(name).getDossiers().size() - 1){

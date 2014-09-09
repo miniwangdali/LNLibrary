@@ -5,6 +5,7 @@ public class Config {
 	private static boolean awake = false;
 	private static float fontsize = 18.0f;
 	private static float linespace = 1.2f;
+	private static int HorV = 0;
 	
 	public static boolean isNightmode() {
 		return nightmode;
@@ -29,5 +30,11 @@ public class Config {
 	}
 	public static void setAwake(boolean awake) {
 		Config.awake = awake;
+	}
+	public static int getHorV() {
+		return HorV;
+	}
+	public static void setHorV(int horV) {
+		HorV = horV;
 	}
 }

@@ -15,24 +15,29 @@
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_weight="5"
+        android:layout_weight="2"
         android:orientation="horizontal">
-        <Button android:id="@+id/decline"
-            android:layout_height="wrap_content"
+        <ImageView android:id="@+id/decline"
+            android:layout_height="40dp"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="-" />
+            android:maxHeight="10dp"
+            android:src="@drawable/minusselector"
+            android:scaleType="centerInside" />
         <EditText android:id="@+id/value"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="12sp"
-            android:text="0" />
-        <Button android:id="@+id/plus"
-            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@android:color/transparent" />
+        <ImageView android:id="@+id/plus"
+            android:layout_height="40dp"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="+" />
+            android:maxHeight="10dp"
+            android:src="@drawable/plusselector"
+            android:scaleType="centerInside" />
     </LinearLayout>
 
 </LinearLayout>

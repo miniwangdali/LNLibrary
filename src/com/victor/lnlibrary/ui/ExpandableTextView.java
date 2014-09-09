@@ -26,7 +26,7 @@ public class ExpandableTextView extends TextView {
     private int mOriginalHeight;
     private int mCollapseHeight;
 
-    private boolean mInitialized;
+    private boolean mInitialized = false;
     private boolean mAnimating;
     private long mAnimationDuration = DEFAULT_ANIMATION_DURATION;
 
@@ -73,11 +73,13 @@ public class ExpandableTextView extends TextView {
         } else if (getTag(R.id.tag_expandable_text_view_reused) != null && !mAnimating) {
             setTag(R.id.tag_expandable_text_view_reused, null);
             mOriginalWidth = getMeasuredWidth();
+            setMaxLines(mMinLines);
             final int lineHeight = getLineHeight();
             mOriginalHeight = lineHeight * getLineCount() + 1;
             mCollapseHeight = lineHeight * mMinLines + 1;
             setMeasuredDimension(mOriginalWidth, mExpanded ? mOriginalHeight : mCollapseHeight);
         }
+        
     }
 
     //region Expand And Collapse
@@ -211,7 +213,6 @@ public class ExpandableTextView extends TextView {
             } else {
                 mStartHeight = mCollapseHeight;
                 endHeight = mOriginalHeight;
-                setMaxLines(EXPANDER_MAX_LINES);
             }
             mDistance = endHeight - mStartHeight;
             setDuration(mAnimationDuration);
@@ -248,6 +249,7 @@ public class ExpandableTextView extends TextView {
                 setMaxLines(mMinLines);
                 toggleOnCollapseListener();
             } else {
+            	setMaxLines(EXPANDER_MAX_LINES);
                 toggleOnExpandListener();
             }
         }

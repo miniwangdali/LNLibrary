@@ -24,6 +24,7 @@ public class FuncTask extends AsyncTask<String, Integer, String>{
 	private Activity mActivity;
 	private LinearLayout mLayout;
 	private String param;
+	private ProgressDialog pd;
 
 	public FuncTask(Activity activity, LinearLayout layout, String command, String param){
     	mActivity = activity;
@@ -42,11 +43,11 @@ public class FuncTask extends AsyncTask<String, Integer, String>{
 			if(StaticConfig.hasInternet(mActivity)){
 				if(command.equals("block")){
 					BlockItems blockItems = new BlockItems(param);
-					new BriefTask(mActivity, mLayout, blockItems.getBookList(), blockItems.getBooklinkList()).execute("");
+					new BriefTask(mActivity, mLayout, blockItems.getBookList(), blockItems.getBooklinkList(), pd).execute("");
 					return "block";
 				}else if(command.equals("search")){
 					SearchItems searchItems = new SearchItems(param);
-					new BriefTask(mActivity, mLayout, searchItems.getBookList(), searchItems.getLinkList()).execute("");
+					new BriefTask(mActivity, mLayout, searchItems.getBookList(), searchItems.getLinkList(), pd).execute("");
 					return "search";
 				}else{
 					return null;
@@ -73,11 +74,13 @@ public class FuncTask extends AsyncTask<String, Integer, String>{
 			    bookLayout.setVisibility(View.VISIBLE);
 			    bookLayout.startAnimation(animation);
 			}
+			pd.dismiss();
 		}else if(result.equals("block")){
 			
 		}else if(result.equals("search")){
 			
 		}else if(result.equals("disconnected")){
+			pd.dismiss();
 			Toast.makeText(mActivity, "无网络连接", Toast.LENGTH_SHORT).show();
 		}
 		super.onPostExecute(result);
@@ -87,6 +90,7 @@ public class FuncTask extends AsyncTask<String, Integer, String>{
 	@Override
 	protected void onPreExecute() {
 		// TODO Auto-generated method stub
+		pd = ProgressDialog.show(mActivity, "", "加载中，请稍后……", true, false);
 		super.onPreExecute();
 	}
 

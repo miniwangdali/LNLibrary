@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SeekPreference extends Preference {
@@ -45,7 +46,7 @@ public class SeekPreference extends Preference {
 		titleTextView.setText(title);
 		final EditText sizeEditText = (EditText)view.findViewById(R.id.value);
 		sizeEditText.setText(value);
-		Button sizeup = (Button)view.findViewById(R.id.plus);
+		ImageView sizeup = (ImageView)view.findViewById(R.id.plus);
 		sizeup.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -69,7 +70,7 @@ public class SeekPreference extends Preference {
 				
 			}
 		});
-		Button sizedown = (Button)view.findViewById(R.id.decline);
+		ImageView sizedown = (ImageView)view.findViewById(R.id.decline);
 		sizedown.setOnClickListener(new OnClickListener() {
 			
 			@Override

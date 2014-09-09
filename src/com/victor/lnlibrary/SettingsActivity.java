@@ -25,6 +25,7 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		ActionBar actionBar = getActionBar();
 		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbarlayer));
+		actionBar.setIcon(R.drawable.icon);
 		
 		addPreferencesFromResource(R.xml.settings);
 		
