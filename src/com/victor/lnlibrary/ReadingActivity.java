@@ -1,5 +1,6 @@
 package com.victor.lnlibrary;
 
+import android.R.integer;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -73,6 +74,7 @@ public class ReadingActivity extends Activity{
 	private int cLines;
 	private int cLetters;
 	private int currentViewNumber = 0;
+	private List<View> viewList = new ArrayList<View>();
 	
 	private PowerManager powerManager = null;
 	private WakeLock wakeLock = null;
@@ -96,7 +98,9 @@ public class ReadingActivity extends Activity{
 	    dossiername = intent.getStringExtra("dossiername");
 	    chaptertitle = intent.getStringExtra("chapter");
 	    chapterId = Library.getTempBook().getDossier(dossiername).getChapterId(chaptertitle);
-	    Library.getBook(bookname).getDossier(dossiername).setLastRead(chapterId);
+	    if(Library.isInLibrary(bookname)){
+	    	Library.getBook(bookname).getDossier(dossiername).setLastRead(chapterId);
+	    }
 	    progress = Library.getTempBook().getDossier(dossiername).getChapterContent(chaptertitle).getProgress();
 		
 	    IntentFilter intentFilter = new IntentFilter();
@@ -104,6 +108,7 @@ public class ReadingActivity extends Activity{
 	    registerReceiver(timeReceiver, intentFilter);
 	    
 	    scrollView = (ScrollView)findViewById(R.id.readingscroll);
+	    
 	    ViewTreeObserver vto = scrollView.getViewTreeObserver();
 	    vto.addOnPreDrawListener(new OnPreDrawListener() {
 			
@@ -122,6 +127,7 @@ public class ReadingActivity extends Activity{
 				if(Library.getTempBook().getDossier(dossiername).getChapterContent(chaptertitle).getProgress() < 0){
 					scrollView.scrollTo(0, 0);
 				}else{
+					//这还有点问题
 					Double p = Library.getTempBook().getDossier(dossiername).getChapterContent(chaptertitle).getProgress();
 					scrollView.scrollTo(0, (int)(p * readingContent.getMeasuredHeight()) / 100 - pageHeight);
 				}
@@ -141,9 +147,10 @@ public class ReadingActivity extends Activity{
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
-				return true;
+				return false;
 			}
 		});
+	    
 	    
 	    //FoldMenu
 	  	foldMenu = (FoldMenu)findViewById(R.id.id_foldmenu);
@@ -239,8 +246,11 @@ public class ReadingActivity extends Activity{
 				BigDecimal bigDecimal = new BigDecimal(progress);
 				progress = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				
-				Library.getBook(bookname).getDossier(dossiername).getChapterContent(chaptertitle).setProgress(progress);
-				Library.setTempBook(Library.getBook(bookname));
+				if(Library.isInLibrary(bookname)){
+					Library.getBook(bookname).getDossier(dossiername).getChapterContent(chaptertitle).setProgress(progress);
+					Library.setTempBook(Library.getBook(bookname));
+				}
+				
 			}
 			return true;
 		case KeyEvent.KEYCODE_VOLUME_UP:
@@ -258,8 +268,11 @@ public class ReadingActivity extends Activity{
 				BigDecimal bigDecimal = new BigDecimal(progress);
 				progress = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				
-				Library.getBook(bookname).getDossier(dossiername).getChapterContent(chaptertitle).setProgress(progress);
-				Library.setTempBook(Library.getBook(bookname));
+				if(Library.isInLibrary(bookname)){
+					Library.getBook(bookname).getDossier(dossiername).getChapterContent(chaptertitle).setProgress(progress);
+					Library.setTempBook(Library.getBook(bookname));
+				}
+				
 			}
 			return true;
 		default:
@@ -314,8 +327,10 @@ public class ReadingActivity extends Activity{
     	chapterId = chapterId + 1;
     	chaptertitle = ((ChapterContent)Library.getTempBook().getDossier(dossiername).getChapterContents().get(chapterId)).getChaptertitle();
     	contents = ((ChapterContent)Library.getTempBook().getDossier(dossiername).getChapterContents().get(chapterId));
-    	Library.getBook(bookname).getDossier(dossiername).setLastRead(chapterId);
-    	Library.setTempBook(Library.getBook(bookname));
+    	if(Library.isInLibrary(bookname)){
+    		Library.getBook(bookname).getDossier(dossiername).setLastRead(chapterId);
+    		Library.setTempBook(Library.getBook(bookname));
+    	}
     	if(contents.getContents().size() == 0){
     		new TempTask().execute("");
     	}else{
@@ -334,8 +349,10 @@ public class ReadingActivity extends Activity{
     	chapterId = chapterId - 1;
     	chaptertitle = ((ChapterContent)Library.getTempBook().getDossier(dossiername).getChapterContents().get(chapterId)).getChaptertitle();
     	contents = ((ChapterContent)Library.getTempBook().getDossier(dossiername).getChapterContents().get(chapterId));
-    	Library.getBook(bookname).getDossier(dossiername).setLastRead(chapterId);
-    	Library.setTempBook(Library.getBook(bookname));
+    	if(Library.isInLibrary(bookname)){
+    		Library.getBook(bookname).getDossier(dossiername).setLastRead(chapterId);
+    		Library.setTempBook(Library.getBook(bookname));
+    	}
     	if(contents.getContents().size() == 0){
     		new TempTask().execute("");
     	}else{
@@ -517,12 +534,15 @@ public class ReadingActivity extends Activity{
 		DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 		
-		TEXTPARAMS = new LayoutParams(LayoutParams.MATCH_PARENT, (int)((dm.heightPixels - statusBarHeight) * 0.92));
-		IMAGEPARAMS = new LayoutParams(LayoutParams.MATCH_PARENT, (int)((dm.heightPixels - statusBarHeight) * 0.92));	
+		//TEXTPARAMS = new LayoutParams(LayoutParams.MATCH_PARENT, (int)((dm.heightPixels - statusBarHeight) * 0.92));
+		//IMAGEPARAMS = new LayoutParams(LayoutParams.MATCH_PARENT, (int)((dm.heightPixels - statusBarHeight) * 0.92));	
+        TEXTPARAMS = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        TEXTPARAMS.setMargins(8, 8, 8, 8);
+      	IMAGEPARAMS = new LayoutParams(LayoutParams.MATCH_PARENT, (int)((dm.heightPixels - statusBarHeight) * 0.92));
 		IMAGEPARAMS.setMargins(8, 8, 8, 8);
 		
-		cLines = countLines();
-	    cLetters = countLetters();
+		//cLines = countLines();
+	    //cLetters = countLetters();
 		
 	    String hour = new String();
 		String minute = new String();
@@ -572,7 +592,7 @@ public class ReadingActivity extends Activity{
 		List<String> contentList = contents.getContents();
 		List<String> imageList = contents.getImageList();
 		for(int i = 0; i < contentList.size(); i ++){
-			List<String> dividedText = contentDivider(contentList.get(i), cLines, cLetters);
+			/*List<String> dividedText = contentDivider(contentList.get(i), cLines, cLetters);
 			for(String text : dividedText){
 				MyTextView contentTextView = new MyTextView(self);
 				if(Config.isNightmode()){
@@ -585,7 +605,24 @@ public class ReadingActivity extends Activity{
 				contentTextView.setLineSpacing(3.0f, Config.getLinespace());
 				contentTextView.setText(text);
 				readingContent.addView(contentTextView);
-			}
+			}*/
+			String text = addTab(contentList.get(i));
+			//while(text.length() != 0){
+				MyTextView contentTextView = new MyTextView(self);
+				if(Config.isNightmode()){
+					contentTextView.setTextColor(getResources().getColor(R.color.nighttext));
+				}else{
+					contentTextView.setTextColor(getResources().getColor(R.color.daytext));
+				}
+				contentTextView.setLayoutParams(TEXTPARAMS);
+				contentTextView.setTextSize(Config.getFontsize());
+				contentTextView.setLineSpacing(3.0f, Config.getLinespace());
+				contentTextView.setText(text);
+				//int count = contentTextView.getCharNum();
+				//text = text.substring(count);
+				readingContent.addView(contentTextView);
+				//viewList.add(contentTextView);
+			//}
 			if(i < imageList.size()){
 				if(Library.getTempBook().getDossier(dossiername).isDownloaded()){
 					ImageOperator operator = new ImageOperator();
@@ -595,12 +632,14 @@ public class ReadingActivity extends Activity{
 					imageView.setImageBitmap(image);
 					imageView.setScaleType(ScaleType.FIT_CENTER);
 					readingContent.addView(imageView);
+					//viewList.add(imageView);
 				}else{
 					ImageView imageView = new ImageView(self);
 					imageView.setLayoutParams(IMAGEPARAMS);
 					new ImageLoadTask(self, imageView, imageList.get(i), bookname, "tempImage" + i).execute("");
 					imageView.setScaleType(ScaleType.FIT_CENTER);
 					readingContent.addView(imageView);
+					//viewList.add(imageView);
 				}
 			}
 			
