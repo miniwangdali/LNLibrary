@@ -234,6 +234,9 @@ public class DetailTask extends AsyncTask<String, Integer, String>{
 	protected void onPreExecute() {
 		// TODO Auto-generated method stub
 		pd = ProgressDialog.show(mActivity, "", "加载中，请稍后……", true, false);
+		if(Library.isInLibrary(name)){
+			pd.dismiss();
+		}
 		super.onPreExecute();
 	}
 

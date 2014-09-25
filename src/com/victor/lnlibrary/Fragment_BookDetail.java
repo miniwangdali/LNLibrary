@@ -57,6 +57,7 @@ public class Fragment_BookDetail extends Fragment{
 			//new DetailTask(getActivity(), mLayout, title, link).execute("");
 			
 			if(Library.isInLibrary(title) && (Library.getBook(title).getDossiers().size() != 0)){
+				new DetailTask(getActivity(), mLayout, title, link).execute("");
 				Book book = Library.getBook(title);
 				Library.setTempBook(book);
 				Library.getTempBook().setTitle(((TextView)mBookLayout.findViewById(R.id.bookname)).getText().toString());
