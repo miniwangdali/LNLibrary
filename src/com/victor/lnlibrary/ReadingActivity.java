@@ -147,6 +147,18 @@ public class ReadingActivity extends Activity{
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
+				if(event.getAction() == MotionEvent.ACTION_MOVE){
+					progress = 100.0 * (scrollView.getScrollY() + pageHeight) / readingContent.getMeasuredHeight();
+					BigDecimal bigDecimal = new BigDecimal(progress);
+					progress = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+					
+					if(Library.isInLibrary(bookname)){
+						Library.getBook(bookname).getDossier(dossiername).getChapterContent(chaptertitle).setProgress(progress);
+						Library.setTempBook(Library.getBook(bookname));
+					}
+					TextView progressText = (TextView)findViewById(R.id.progress);
+					progressText.setText("当前进度：" + String.valueOf(progress) + "%");
+				}
 				return false;
 			}
 		});
