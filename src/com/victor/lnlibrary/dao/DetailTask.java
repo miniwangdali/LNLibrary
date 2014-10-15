@@ -54,7 +54,6 @@ public class DetailTask extends AsyncTask<String, Integer, String>{
 	}
 	
 
-	//protected void onPostExecute(String paramString)
 	@Override
 	protected void onPostExecute(String result) {
 		// TODO Auto-generated method stub
@@ -83,7 +82,7 @@ public class DetailTask extends AsyncTask<String, Integer, String>{
 			    
 			    Library.getBook(name).setIntroduction(detail.getIntroduction());
 			    for(int i = 0; i < detail.getDossierList().size(); i ++){
-			    	if(i >= Library.getBook(name).getDossiers().size() - 1){
+			    	if(i >= Library.getBook(name).getDossiers().size()){
 			    		Dossier dossier = new Dossier();
 			    		dossier.setDossiertitle(detail.getDossierList().get(i));
 			            dossier.setDossierLink(detail.getLinkList().get(i));
