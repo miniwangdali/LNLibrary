@@ -7,6 +7,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -175,6 +177,7 @@ public class ReadingActivity extends Activity{
 	  			loadNextChapter();
 	  			TextView progressText = (TextView)findViewById(R.id.progress);
 	  			progressText.setText("当前进度：0.00%");
+	  			foldMenu.toggleMenu(300);
 	  		}
 	  	});
 	  	ImageView preImageView = (ImageView)foldMenu.findViewWithTag("Previous");
@@ -186,6 +189,7 @@ public class ReadingActivity extends Activity{
 	  			loadPreviousChapter();
 	  			TextView progressText = (TextView)findViewById(R.id.progress);
 	  			progressText.setText("当前进度：0.00%");
+	  			foldMenu.toggleMenu(300);
 	  		}
 	  	});
 	  	ImageView moreImageView = (ImageView)foldMenu.findViewWithTag("More");
@@ -197,6 +201,7 @@ public class ReadingActivity extends Activity{
 	  			Intent intent = new Intent();
 	  			intent.setClass(self, SettingsActivity.class);
 	  			startActivity(intent);
+	  			foldMenu.toggleMenu(300);
 	  		}
 	  	});
 	  	
@@ -226,6 +231,13 @@ public class ReadingActivity extends Activity{
 	  				progressText.setTextColor(getResources().getColor(R.color.daytext));
 	  			}
 	  			loadContent();
+	  			
+	  			SharedPreferences settings = getSharedPreferences("settings", Activity.MODE_PRIVATE);
+	  			Editor editor = settings.edit();
+				editor.putBoolean("nightmode", Config.isNightmode());
+				editor.commit();
+	  			
+	  			foldMenu.toggleMenu(300);
 	  		}
 	  	});
 	  	statusBarHeight = getBarHeight();
