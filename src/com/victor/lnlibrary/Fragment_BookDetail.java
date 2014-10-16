@@ -473,4 +473,14 @@ public class Fragment_BookDetail extends Fragment{
   	public void setTitle(String bookname){
   		title = bookname;
   	}
+
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		((BaseAdapter)((ListView)mLayout.findViewById(R.id.dossierlist)).getAdapter()).notifyDataSetChanged();
+	}
+  	
+  	
 }
