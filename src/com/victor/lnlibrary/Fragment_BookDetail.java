@@ -479,7 +479,11 @@ public class Fragment_BookDetail extends Fragment{
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		((BaseAdapter)((ListView)mLayout.findViewById(R.id.dossierlist)).getAdapter()).notifyDataSetChanged();
+		try{
+			((BaseAdapter)((ListView)mLayout.findViewById(R.id.dossierlist)).getAdapter()).notifyDataSetChanged();
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
   	
   	
