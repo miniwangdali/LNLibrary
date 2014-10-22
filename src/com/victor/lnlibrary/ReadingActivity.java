@@ -174,10 +174,15 @@ public class ReadingActivity extends Activity{
 	  		@Override
 	  		public void onClick(View v) {
 	  			// TODO Auto-generated method stub
-	  			loadNextChapter();
-	  			TextView progressText = (TextView)findViewById(R.id.progress);
-	  			progressText.setText("当前进度：0.00%");
-	  			foldMenu.toggleMenu(300);
+	  			if(chapterId == Library.getTempBook().getDossier(dossiername).getChapterContents().size() - 1){
+					Toast.makeText(self, "已经是本卷末了", Toast.LENGTH_SHORT).show();
+					foldMenu.toggleMenu(300);
+	  			}else{
+	  				loadNextChapter();
+	  				TextView progressText = (TextView)findViewById(R.id.progress);
+	  				progressText.setText("当前进度：0.00%");
+	  				foldMenu.toggleMenu(300);
+	  			}
 	  		}
 	  	});
 	  	ImageView preImageView = (ImageView)foldMenu.findViewWithTag("Previous");
@@ -186,10 +191,16 @@ public class ReadingActivity extends Activity{
 	  		@Override
 	  		public void onClick(View v) {
 	  			// TODO Auto-generated method stub
-	  			loadPreviousChapter();
-	  			TextView progressText = (TextView)findViewById(R.id.progress);
-	  			progressText.setText("当前进度：0.00%");
-	  			foldMenu.toggleMenu(300);
+	  			if(chapterId == 0){
+					Toast.makeText(self, "已经是本卷初了", Toast.LENGTH_SHORT).show();
+					foldMenu.toggleMenu(300);
+	  			}else{
+	  				loadPreviousChapter();
+		  			TextView progressText = (TextView)findViewById(R.id.progress);
+		  			progressText.setText("当前进度：0.00%");
+		  			foldMenu.toggleMenu(300);
+	  			}
+	  			
 	  		}
 	  	});
 	  	ImageView moreImageView = (ImageView)foldMenu.findViewWithTag("More");

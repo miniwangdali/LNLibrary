@@ -20,6 +20,9 @@
             android:defaultValue="false" />
     </PreferenceCategory>
     <PreferenceCategory android:title="软件信息">
+        <Preference android:key="checkupdate"
+            android:title="检查更新"
+            android:summary="unknown" />
         <Preference android:key="about"
             android:title="关于" />	
         

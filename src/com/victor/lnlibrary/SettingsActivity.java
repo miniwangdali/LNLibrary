@@ -8,11 +8,13 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
+import android.widget.Toast;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -72,19 +74,28 @@ public class SettingsActivity extends PreferenceActivity {
 				return true;
 			}
 		});		
-
 		
-		//关于
-		Preference about = (Preference)findPreference("about");
-		linespace.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+		//检查更新
+		Preference checkupdate = (Preference)findPreference("checkupdate");
+		try {
+			checkupdate.setSummary("当前版本：" + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+		} catch (NameNotFoundException e) {
+			// TODO Auto-generated catch block
+			checkupdate.setSummary("unknown");
+		}
+		checkupdate.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
 				// TODO Auto-generated method stub
 				
-				return true;
+				return false;
 			}
 		});
+		
+		//关于
+		Preference about = (Preference)findPreference("about");
+		
 	}
 
 	@Override
