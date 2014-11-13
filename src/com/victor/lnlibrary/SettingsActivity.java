@@ -3,13 +3,16 @@ package com.victor.lnlibrary;
 import com.example.lnlibrary.R;
 import com.victor.lnlibrary.config.Config;
 import com.victor.lnlibrary.ui.SeekPreference;
+import com.victor.update.UpdateUtil;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.os.Looper;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -19,6 +22,7 @@ import android.widget.Toast;
 public class SettingsActivity extends PreferenceActivity {
 
 	SharedPreferences settings = null;
+	Context mContext = this;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

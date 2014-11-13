@@ -671,7 +671,8 @@ public class ReadingActivity extends Activity{
 				}else{
 					ImageView imageView = new ImageView(self);
 					imageView.setLayoutParams(IMAGEPARAMS);
-					new ImageLoadTask(self, imageView, imageList.get(i), bookname, "tempImage" + i).execute("");
+					ImageLoadTask mImageLoadTask = new ImageLoadTask(self, imageView, imageList.get(i), bookname, "tempImage" + i);
+					mImageLoadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
 					imageView.setScaleType(ScaleType.FIT_CENTER);
 					readingContent.addView(imageView);
 					//viewList.add(imageView);

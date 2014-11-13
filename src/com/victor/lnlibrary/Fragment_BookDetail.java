@@ -3,6 +3,7 @@ package com.victor.lnlibrary;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -57,7 +58,8 @@ public class Fragment_BookDetail extends Fragment{
 			//new DetailTask(getActivity(), mLayout, title, link).execute("");
 			
 			if(Library.isInLibrary(title) && (Library.getBook(title).getDossiers().size() != 0)){
-				new DetailTask(getActivity(), mLayout, title, link).execute("");
+				DetailTask mDetailTask = new DetailTask(getActivity(), mLayout, title, link);
+				mDetailTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
 				Book book = Library.getBook(title);
 				Library.setTempBook(book);
 				Library.getTempBook().setTitle(((TextView)mBookLayout.findViewById(R.id.bookname)).getText().toString());
@@ -187,7 +189,8 @@ public class Fragment_BookDetail extends Fragment{
 				    	        chapterList.startAnimation(animation);
 			        		}
 			        	}else{
-			        		new ChapterTask(getActivity(), Library.getTempBook().getDossiers().get(position).getDossierLink(), Library.getTempBook().getDossiers().get(position).getDossiertitle(), chapterList, title).execute("");
+			        		ChapterTask mChapterTask =new ChapterTask(getActivity(), Library.getTempBook().getDossiers().get(position).getDossierLink(), Library.getTempBook().getDossiers().get(position).getDossiertitle(), chapterList, title);
+			        		mChapterTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
 			        	}
 			        }
 			    });
@@ -450,7 +453,8 @@ public class Fragment_BookDetail extends Fragment{
 				    	        chapterList.startAnimation(animation);
 			        		}
 			        	}else{
-			        		new ChapterTask(getActivity(), Library.getTempBook().getDossiers().get(position).getDossierLink(), Library.getTempBook().getDossiers().get(position).getDossiertitle(), chapterList, title).execute("");
+			        		ChapterTask mChapterTask = new ChapterTask(getActivity(), Library.getTempBook().getDossiers().get(position).getDossierLink(), Library.getTempBook().getDossiers().get(position).getDossiertitle(), chapterList, title);
+			        		mChapterTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
 			        	}
 			        }
 			    });

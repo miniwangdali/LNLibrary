@@ -9,7 +9,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -18,9 +20,13 @@ import android.widget.Toast;
 
 import com.example.lnlibrary.R;
 import com.victor.lnlibrary.config.Config;
+import com.victor.lnlibrary.dao.UpdateTask;
+import com.victor.update.UpdateUtil;
 
 public class MainActivity extends Activity{
 
+	Activity mActivity = this;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -42,7 +48,8 @@ public class MainActivity extends Activity{
 		Config.setNightmode(settings.getBoolean("nightmode", false));
 		Config.setAwake(settings.getBoolean("awake", false));
 		
-		
+		UpdateTask mUpdateTask = new UpdateTask(this);
+		mUpdateTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
 	}
 
 

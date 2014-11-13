@@ -1,6 +1,7 @@
 package com.victor.lnlibrary;
 
 import android.app.Fragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,8 @@ public class Fragment_Home extends Fragment{
 	    		}
 	    	}else{
 	    		blockList = new ArrayList<String>();
-	    		new BlockTask(getActivity(), this, mLayout).execute("");
+	    		BlockTask mBlockTask = new BlockTask(getActivity(), this, mLayout);
+	    		mBlockTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
 	    	}
 	     
 	    }else{

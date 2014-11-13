@@ -168,7 +168,8 @@ containing a value of this type.
         public static final int fragment_reading=0x7f030009;
         public static final int layout_block=0x7f03000a;
         public static final int layout_book=0x7f03000b;
-        public static final int seekpreference=0x7f03000c;
+        public static final int progress=0x7f03000c;
+        public static final int seekpreference=0x7f03000d;
     }
     public static final class menu {
         public static final int main=0x7f0b0000;

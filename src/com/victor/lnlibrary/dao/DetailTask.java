@@ -133,7 +133,8 @@ public class DetailTask extends AsyncTask<String, Integer, String>{
 				    	        chapterList.startAnimation(animation);
 			        		}
 			        	}else{
-			        		new ChapterTask(mActivity, detail.getLinkList().get(position), detail.getDossierList().get(position), chapterList, name).execute("");
+			        		ChapterTask mChapterTask = new ChapterTask(mActivity, detail.getLinkList().get(position), detail.getDossierList().get(position), chapterList, name);
+			        		mChapterTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
 			        	}
 			        }
 			    });
@@ -215,7 +216,8 @@ public class DetailTask extends AsyncTask<String, Integer, String>{
 				    	        chapterList.startAnimation(animation);
 			        		}
 			        	}else{
-			        		new ChapterTask(mActivity, detail.getLinkList().get(position), detail.getDossierList().get(position), chapterList, name).execute("");
+			        		ChapterTask mChapterTask = new ChapterTask(mActivity, detail.getLinkList().get(position), detail.getDossierList().get(position), chapterList, name);
+			        		mChapterTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
 			        	}
 			        }
 			    });

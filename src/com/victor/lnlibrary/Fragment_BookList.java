@@ -1,6 +1,7 @@
 package com.victor.lnlibrary;
 
 import android.app.Fragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,8 @@ public class Fragment_BookList extends Fragment{
 		    progressBar.setLayoutParams(params);
 			progressBar.setIndeterminate(true);
 			mLayout.addView(progressBar, 0);*/
-		    new FuncTask(getActivity(), mLayout, command, title).execute("");
+		    FuncTask mFuncTask = new FuncTask(getActivity(), mLayout, command, title);
+		    mFuncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
 		    return view;
 		}else{
 			return view;

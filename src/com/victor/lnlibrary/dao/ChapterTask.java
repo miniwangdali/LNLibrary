@@ -99,11 +99,13 @@ public class ChapterTask extends AsyncTask<String, Integer, String>{
 			    			}else{
 			    				
 
-			    				new TempChapterTask(mActivity, bookname, title, chapterText.getText().toString()).execute("");
+			    				TempChapterTask mTempChapterTask = new TempChapterTask(mActivity, bookname, title, chapterText.getText().toString());
+			    				mTempChapterTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
 			    			}
 			    		}else{
 			    			
-			    			new TempChapterTask(mActivity, bookname, title, chapterText.getText().toString()).execute("");
+			    			TempChapterTask mTempChapterTask = new TempChapterTask(mActivity, bookname, title, chapterText.getText().toString());
+			    			mTempChapterTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
 			    		}
 			    	}
 			    });	

@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -176,7 +177,8 @@ public class BookLayout extends LinearLayout{
         	bookcover.setLayoutParams(params);
         	bookcover.setImageDrawable(drawable);
     	}else{
-    		new ImageLoadTask((Activity)getContext(), bookcover, bookBrief.getImageLink(), bookBrief.getTitle(), "bookcover").execute("");
+    		ImageLoadTask mImageLoadTask = new ImageLoadTask((Activity)getContext(), bookcover, bookBrief.getImageLink(), bookBrief.getTitle(), "bookcover");
+    		mImageLoadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
     	}
     	setOnClickListener(new OnClickListener(){
     		@Override

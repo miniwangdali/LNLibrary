@@ -43,11 +43,13 @@ public class FuncTask extends AsyncTask<String, Integer, String>{
 			if(StaticConfig.hasInternet(mActivity)){
 				if(command.equals("block")){
 					BlockItems blockItems = new BlockItems(param);
-					new BriefTask(mActivity, mLayout, blockItems.getBookList(), blockItems.getBooklinkList(), pd).execute("");
+					BriefTask mBriefTask = new BriefTask(mActivity, mLayout, blockItems.getBookList(), blockItems.getBooklinkList(), pd);
+					mBriefTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
 					return "block";
 				}else if(command.equals("search")){
 					SearchItems searchItems = new SearchItems(param);
-					new BriefTask(mActivity, mLayout, searchItems.getBookList(), searchItems.getLinkList(), pd).execute("");
+					BriefTask mBriefTask = new BriefTask(mActivity, mLayout, searchItems.getBookList(), searchItems.getLinkList(), pd);
+					mBriefTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
 					return "search";
 				}else{
 					return null;

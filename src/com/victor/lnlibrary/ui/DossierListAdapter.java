@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.util.DisplayMetrics;
 import android.util.SparseArray;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.victor.lnlibrary.book.Dossier;
 import com.victor.lnlibrary.book.FileOperator;
 import com.victor.lnlibrary.book.ImageOperator;
 import com.victor.lnlibrary.config.StaticConfig;
+import com.victor.lnlibrary.dao.DetailTask;
 import com.victor.lnlibrary.dao.DownloadTask;
 import com.victor.lnlibrary.dao.ImageLoadTask;
 import java.util.List;
@@ -87,7 +89,8 @@ public class DossierListAdapter extends BaseAdapter{
             	dossiercover.setLayoutParams(params);
             	dossiercover.setImageDrawable(drawable);
     		}else{
-    			new ImageLoadTask(mActivity, dossiercover, imagelinkList.get(position), book, "dossier-" + position).execute("");
+    			ImageLoadTask mImageLoadTask = new ImageLoadTask(mActivity, dossiercover, imagelinkList.get(position), book, "dossier-" + position);
+    			mImageLoadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
     		}
     		TextView dossiername = (TextView)convertView.findViewById(R.id.title);
     		dossiername.setText(title.get(position));
@@ -152,7 +155,8 @@ public class DossierListAdapter extends BaseAdapter{
 						if(StaticConfig.hasInternet(mActivity)){
 							try{
 								Dossier dossier = Library.getBook(book).getDossier(dossiername);
-					            new DownloadTask(mActivity, dossier, book, chapterlink, progress).execute("");
+					            DownloadTask mDownloadTask = new DownloadTask(mActivity, dossier, book, chapterlink, progress);
+					            mDownloadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
 					        }catch(Exception e){
 					            Library.getBook(book).getDossier(dossiername).setDownloaded(false);
 					            Library.getTempBook().getDossier(dossiername).setDownloaded(false);
