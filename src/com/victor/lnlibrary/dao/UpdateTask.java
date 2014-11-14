@@ -4,6 +4,10 @@ import com.victor.lnlibrary.htmlparser.Update;
 import com.victor.update.UpdateUtil;
 
 import android.app.Activity;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.widget.Toast;
@@ -14,7 +18,7 @@ public class UpdateTask extends AsyncTask<String, Integer, String> {
 	private String newVersionName;
 	private String newVersionInfo;
 	private String oldVersionName;
-	
+	private String downloadLink;
 
 	public UpdateTask(Activity activity) {
 		super();
@@ -27,7 +31,29 @@ public class UpdateTask extends AsyncTask<String, Integer, String> {
 	protected void onPostExecute(String result) {
 		// TODO Auto-generated method stub
 		if(result.equals("update")){
-			Toast.makeText(mActivity, "有新版本!", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(mActivity, "有新版本!", Toast.LENGTH_SHORT).show();
+			Builder mBuilder = new Builder(mActivity);
+			mBuilder.setTitle("发现新版本！");
+			mBuilder.setMessage(newVersionInfo);
+			mBuilder.setPositiveButton("下载", new OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					apkDownTask mApkDownTask = new apkDownTask(mActivity, downloadLink);
+					mApkDownTask.executeOnExecutor(THREAD_POOL_EXECUTOR, "");
+				}
+			});
+			mBuilder.setNegativeButton("下次再说", new OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			Dialog mDialog = mBuilder.create();
+			mDialog.show();
 		}
 		super.onPostExecute(result);
 	}
@@ -51,7 +77,8 @@ public class UpdateTask extends AsyncTask<String, Integer, String> {
 			Update mUpdate = new Update();
 			newVersionName = mUpdate.getVersionName();
 			newVersionInfo = mUpdate.getNewVersionInfo();
-		
+			downloadLink = mUpdate.getDownloadLink();
+			
 			oldVersionName = mActivity.getPackageManager().getPackageInfo(mActivity.getPackageName(), 0).versionName;
 			if(oldVersionName != newVersionName && newVersionName != null){
 				return "update";
