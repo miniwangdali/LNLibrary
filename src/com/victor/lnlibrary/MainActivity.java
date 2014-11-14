@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.example.lnlibrary.R;
 import com.victor.lnlibrary.config.Config;
 import com.victor.lnlibrary.dao.UpdateTask;
-import com.victor.update.UpdateUtil;
 
 public class MainActivity extends Activity{
 

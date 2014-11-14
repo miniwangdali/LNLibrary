@@ -4,7 +4,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import com.victor.lnlibrary.htmlparser.Update;
-import com.victor.update.UpdateUtil;
 
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
