@@ -1,5 +1,8 @@
 package com.victor.lnlibrary.dao;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 import com.victor.lnlibrary.htmlparser.Update;
 import com.victor.update.UpdateUtil;
 
@@ -41,7 +44,7 @@ public class UpdateTask extends AsyncTask<String, Integer, String> {
 				public void onClick(DialogInterface dialog, int which) {
 					// TODO Auto-generated method stub
 					apkDownTask mApkDownTask = new apkDownTask(mActivity, downloadLink);
-					mApkDownTask.executeOnExecutor(THREAD_POOL_EXECUTOR, "");
+					mApkDownTask.executeOnExecutor(Executors.newCachedThreadPool(), "");
 				}
 			});
 			mBuilder.setNegativeButton("下次再说", new OnClickListener() {

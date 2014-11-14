@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.widget.Toast;
 
 public class apkDownTask extends AsyncTask<String, Integer, String> {
 
@@ -71,7 +72,9 @@ public class apkDownTask extends AsyncTask<String, Integer, String> {
                 count += numread;
                 progress = (int) (((float) count / length) * 100);
                 // 更新进度
-                publishProgress(progress);
+                updateNotification.setLatestEventInfo(mActivity, "轻小说文库", progress + "%", updatePendingIntent);
+        		
+        		updateNotificationManager.notify(0, updateNotification);
                 //下载完成
                 if(numread <= 0){
                 	break;
@@ -80,17 +83,37 @@ public class apkDownTask extends AsyncTask<String, Integer, String> {
             }
             fos.close();
             is.close();
+            
+            return "accomplished";
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            return e.toString();
         } catch (IOException e) {
             e.printStackTrace();
+            return e.toString();
         }
-		return null;
 	}
 
 	@Override
 	protected void onPostExecute(String result) {
 		// TODO Auto-generated method stub
+		if(result.equals("accomplished")){
+	        File apkFile = new File(savePath + fileName);
+	        if (apkFile.exists()) {
+	        	updateIntent = new Intent(Intent.ACTION_VIEW);
+	        
+	        	updateIntent.setDataAndType(Uri.fromFile(apkFile),
+	        			"application/vnd.android.package-archive");
+	        
+	        	updatePendingIntent = PendingIntent.getActivity(mActivity,0,updateIntent,0);
+	        	updateNotification.tickerText = "下载完成";
+	        	updateNotification.setLatestEventInfo(mActivity, "轻小说文库", "下载完成", updatePendingIntent);
+	        
+	        	updateNotificationManager.notify(0, updateNotification);
+	        }
+		}else{
+			Toast.makeText(mActivity, "更新失败：" + result, Toast.LENGTH_LONG).show();
+		}
 		super.onPostExecute(result);
 	}
 
@@ -114,25 +137,7 @@ public class apkDownTask extends AsyncTask<String, Integer, String> {
 	protected void onProgressUpdate(Integer... values) {
 		// TODO Auto-generated method stub
 		
-		updateNotification.setLatestEventInfo(mActivity, "轻小说文库", progress + "%", updatePendingIntent);
-		
-		updateNotificationManager.notify(0, updateNotification);
-		
 		super.onProgressUpdate(values);
 	}
 
-	/**
-     * 安装APK
-     */
-    private void installApk() {
-        File apkFile = new File(savePath + fileName);
-        if (!apkFile.exists()) {
-            return;
-        }
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setDataAndType(Uri.parse("file://" + apkFile.toString()),
-                "application/vnd.android.package-archive");
-        //mActivity.startActivity(i);
-    }
-	
 }
