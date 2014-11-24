@@ -32,7 +32,7 @@ public class UpdateTask extends AsyncTask<String, Integer, String> {
 	@Override
 	protected void onPostExecute(String result) {
 		// TODO Auto-generated method stub
-		if(result.equals("update")){
+		if(result != null && result.equals("update")){
 			//Toast.makeText(mActivity, "有新版本!", Toast.LENGTH_SHORT).show();
 			Builder mBuilder = new Builder(mActivity);
 			mBuilder.setTitle("发现新版本！");

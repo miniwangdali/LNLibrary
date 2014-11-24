@@ -23,6 +23,9 @@ public class Update {
 			parser();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			versionName = null;
+			newVersionInfo = null;
+			downloadLink = null;
 			e.printStackTrace();
 		}
 	}
