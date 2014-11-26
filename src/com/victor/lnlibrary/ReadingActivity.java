@@ -12,7 +12,9 @@ import android.content.SharedPreferences.Editor;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -665,6 +667,11 @@ public class ReadingActivity extends Activity{
 					ImageView imageView = new ImageView(self);
 					imageView.setLayoutParams(IMAGEPARAMS);
 					imageView.setImageBitmap(image);
+					if(Config.isNightmode()){
+						Drawable drawable = imageView.getDrawable();
+						drawable.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+						imageView.setImageDrawable(drawable);
+					}
 					imageView.setScaleType(ScaleType.FIT_CENTER);
 					readingContent.addView(imageView);
 					//viewList.add(imageView);
@@ -674,6 +681,11 @@ public class ReadingActivity extends Activity{
 					ImageLoadTask mImageLoadTask = new ImageLoadTask(self, imageView, imageList.get(i), bookname, "tempImage" + i);
 					mImageLoadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
 					imageView.setScaleType(ScaleType.FIT_CENTER);
+					if(Config.isNightmode()){
+						Drawable drawable = imageView.getDrawable();
+						drawable.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+						imageView.setImageDrawable(drawable);
+					}
 					readingContent.addView(imageView);
 					//viewList.add(imageView);
 				}
