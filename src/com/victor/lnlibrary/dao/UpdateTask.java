@@ -82,7 +82,7 @@ public class UpdateTask extends AsyncTask<String, Integer, String> {
 			downloadLink = mUpdate.getDownloadLink();
 			
 			oldVersionName = mActivity.getPackageManager().getPackageInfo(mActivity.getPackageName(), 0).versionName;
-			if(oldVersionName != newVersionName && newVersionName != null){
+			if( !oldVersionName.equals(newVersionName) && newVersionName != null){
 				return "update";
 			}else{
 				return null;
