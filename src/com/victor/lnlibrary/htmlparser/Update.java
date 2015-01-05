@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class Update {
@@ -32,11 +33,14 @@ public class Update {
 	
 	private void parser(){
 		if(doc != null){
-			Elements items = doc.select("span");
+			Elements items = doc.select("span.versioncode");
 			setVersionName(items.get(0).text());
-			items = doc.select("p");
-			setNewVersionInfo(items.get(0).text());
-			items = doc.select("div.download");
+			items = doc.select("ul.versioninfo").select("li");
+			setNewVersionInfo("更新内容：");
+			for(Element element : items){
+				setNewVersionInfo(newVersionInfo + "\n" + element.text());
+			}
+			items = doc.select("a.download");
 			setDownloadLink(items.get(0).select("a").attr("abs:href"));
 		}
 	}

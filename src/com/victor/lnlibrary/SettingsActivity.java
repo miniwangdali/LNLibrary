@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
@@ -90,6 +91,7 @@ public class SettingsActivity extends PreferenceActivity {
 			public boolean onPreferenceClick(Preference preference) {
 				// TODO Auto-generated method stub
 				UpdateTask mUpdateTask = new UpdateTask(mActivity);
+				mUpdateTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
 				return false;
 			}
 		});
