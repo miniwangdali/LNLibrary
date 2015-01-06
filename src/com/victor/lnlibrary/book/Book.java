@@ -126,4 +126,17 @@ public class Book{
  	public void setUpdatetime(String updatetime){
  		this.updatetime = updatetime;
  	}
+ 	
+ 	public boolean removeDossier(String dossiername){
+ 		for(int i = 0; i < dossiers.size(); i ++){
+ 			if(dossiername.equals(dossiers.get(i).getDossiertitle())){
+ 				Dossier dossier = dossiers.get(i);
+ 				dossier.setDownloaded(false);
+ 				dossier.getChapterContents().clear();
+ 				dossier.setLastRead(-1);
+ 				return true;
+ 			}
+ 		}
+		return false;
+ 	}
 }

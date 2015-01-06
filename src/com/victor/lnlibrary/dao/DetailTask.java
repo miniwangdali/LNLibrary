@@ -195,6 +195,11 @@ public class DetailTask extends AsyncTask<String, Integer, String>{
 			        				final TextView chapterText = new TextView(mActivity);
 					                chapterText.setText(Library.getTempBook().getDossiers().get(position).getChapters().get(i));
 					                chapterText.setGravity(Gravity.CENTER);
+					                chapterText.setPadding(0, 10, 0, 10);
+					                
+					                chapterText.setTextSize(14.0f);
+					                chapterText.setBackgroundResource(R.drawable.chapterselector);
+					                
 					                chapterList.addView(chapterText);
 					                chapterText.setOnClickListener(new OnClickListener(){
 					                	@Override

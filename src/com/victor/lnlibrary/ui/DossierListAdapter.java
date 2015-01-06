@@ -17,6 +17,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import android.widget.LinearLayout.LayoutParams;
 import com.example.lnlibrary.R;
 import com.victor.lnlibrary.ReadingActivity;
 import com.victor.lnlibrary.bean.Library;
+import com.victor.lnlibrary.book.BookParser;
 import com.victor.lnlibrary.book.Dossier;
 import com.victor.lnlibrary.book.FileOperator;
 import com.victor.lnlibrary.book.ImageOperator;
@@ -112,14 +114,48 @@ public class DossierListAdapter extends BaseAdapter{
     			download.setClickable(true);
     			ProgressBar progress = (ProgressBar)convertView.findViewById(R.id.progressbar);
     			progress.setProgress(100);
-    			final int lastread = Library.getTempBook().getDossier(title.get(position)).getLastRead();
+    			
+    			final String dossiername = title.get(position);
+    			//final String chapterlink = links.get(position);
+    			
+    			download.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						if(Library.getBook(book).removeDossier(dossiername)){
+							try{
+								Library.getTempBook().getDossier(dossiername).setDownloaded(false);
+								Library.getTempBook().getDossier(dossiername).getChapterContents().clear();
+								Library.getTempBook().getDossier(dossiername).setLastRead(-1);
+								
+								BookParser parser = new BookParser();
+								FileOperator operator = new FileOperator();
+							    operator.writeFile("Books", book + ".txt", parser.serialize(Library.getBook(book)));
+							    ((BaseAdapter)((ListView)mActivity.findViewById(R.id.dossierlist)).getAdapter()).notifyDataSetChanged();
+							    //notifyDataSetChanged();
+							    
+							}catch (Exception e) {
+								// TODO: handle exception
+								e.printStackTrace();
+								Toast.makeText(mActivity, e.toString(), Toast.LENGTH_SHORT).show();
+							}
+							
+						}else{
+							Toast.makeText(mActivity, "删除失败", Toast.LENGTH_SHORT).show();
+						}
+					}
+				});
+    			
+    			final int lastread = Library.getTempBook().getDossier(dossiername).getLastRead();
     			if(lastread < 0){
     				readTag.setText("从未读过");
     				readTag.setTextColor(Color.GRAY);
     				readTag.setClickable(false);
     			}else{
-    				final String dossiername = title.get(position);
+    				//final String dossiername = title.get(position);
     				readTag.setText("继续阅读");
+    				readTag.setTextColor(Color.BLACK);
     				readTag.setClickable(true);
     				readTag.setBackgroundResource(R.drawable.buttonselector);
     				readTag.setOnClickListener(new OnClickListener() {
