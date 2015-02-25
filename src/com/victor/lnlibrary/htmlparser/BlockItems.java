@@ -2,15 +2,14 @@ package com.victor.lnlibrary.htmlparser;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class BlockItems{
-	private List<String> bookList = null;
-	private List<String> booklinkList = null;
+	private ArrayList<String> bookList = null;
+	private ArrayList<String> booklinkList = null;
 	private Document doc = null;
 
 	public BlockItems(String blockname){
@@ -47,11 +46,11 @@ public class BlockItems{
 	}
 
 
-	public List<String> getBookList(){
+	public ArrayList<String> getBookList(){
 		return this.bookList;
 	}
 
-	public List<String> getBooklinkList(){
+	public ArrayList<String> getBooklinkList(){
 		return this.booklinkList;
 	}
 }

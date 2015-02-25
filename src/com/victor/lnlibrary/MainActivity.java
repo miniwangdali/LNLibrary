@@ -1,3 +1,9 @@
+/**
+ * 软件主要活动
+ * @author 蓝天新星
+ * @version 0.1.0
+ */
+
 package com.victor.lnlibrary;
 
 import android.app.ActionBar;

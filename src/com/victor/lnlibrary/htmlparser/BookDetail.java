@@ -2,7 +2,6 @@ package com.victor.lnlibrary.htmlparser;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -10,10 +9,10 @@ import org.jsoup.select.Elements;
 
 public class BookDetail{
 	private Document doc = null;
-	private List<String> dossierList = null;
-	private List<String> imageLinkList = null;
+	private ArrayList<String> dossierList = null;
+	private ArrayList<String> imageLinkList = null;
 	private String introduction = null;
-	private List<String> linkList = null;
+	private ArrayList<String> linkList = null;
 
 	public BookDetail(String link, String name){
 		try{
@@ -49,11 +48,11 @@ public class BookDetail{
 		}
 	}
 
-	public List<String> getDossierList() {
+	public ArrayList<String> getDossierList() {
 		return dossierList;
 	}
 
-	public List<String> getImageLinkList() {
+	public ArrayList<String> getImageLinkList() {
 		return imageLinkList;
 	}
 
@@ -61,7 +60,7 @@ public class BookDetail{
 		return introduction;
 	}
 
-	public List<String> getLinkList() {
+	public ArrayList<String> getLinkList() {
 		return linkList;
 	}
 	

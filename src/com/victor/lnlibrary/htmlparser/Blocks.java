@@ -2,14 +2,13 @@ package com.victor.lnlibrary.htmlparser;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class Blocks{
-	private List<String> blockList = null;
+	private ArrayList<String> blockList = null;
 	private Document doc = null;
 
 	public Blocks(){
@@ -37,7 +36,7 @@ public class Blocks{
 		}
 	}
 	
-	public List<String> getBlockList(){
+	public ArrayList<String> getBlockList(){
 		return blockList;
 	}
 }

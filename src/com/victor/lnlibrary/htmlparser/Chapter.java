@@ -2,7 +2,6 @@ package com.victor.lnlibrary.htmlparser;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -10,9 +9,9 @@ import org.jsoup.select.Elements;
 
 public class Chapter{
 	private String briefintroduction = null;
-	private List<String> chapterList = null;
+	private ArrayList<String> chapterList = null;
 	private Document doc = null;
-	private List<String> linkList = null;
+	private ArrayList<String> linkList = null;
 
 	public Chapter(String link){
 		try{
@@ -48,11 +47,11 @@ public class Chapter{
 		return briefintroduction;
 	}
 
-	public List<String> getChapterList() {
+	public ArrayList<String> getChapterList() {
 		return chapterList;
 	}
 
-	public List<String> getLinkList() {
+	public ArrayList<String> getLinkList() {
 		return linkList;
 	}
 	

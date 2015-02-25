@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -86,27 +87,36 @@ public class DetailTask extends AsyncTask<String, Integer, String>{
 			    		Dossier dossier = new Dossier();
 			    		dossier.setDossiertitle(detail.getDossierList().get(i));
 			            dossier.setDossierLink(detail.getLinkList().get(i));
-			            Library.getBook(name).getDossiers().add(dossier);
+			            Library.getBook(name).getDossiers().add(i, dossier);
 			    	}
 			    }
 			    Library.setTempBook(Library.getBook(name));
 			    
 			    ListView dossiers = (ListView)mLayout.findViewById(R.id.dossierlist);
+			    
+			    /*DossierListAdapter dossierListAdapter = (DossierListAdapter)dossiers.getAdapter();
+			    dossierListAdapter.setTitle(detail.getDossierList());
+			    dossierListAdapter.setLinks(detail.getLinkList());
+			    dossierListAdapter.setImagelinkList(detail.getImageLinkList());
+			    dossierListAdapter.notifyDataSetChanged();*/
+			    
 			    DossierListAdapter dossierAdapter = new DossierListAdapter(mActivity, name);
 			    dossierAdapter.setTitle(detail.getDossierList());
 			    dossierAdapter.setLinks(detail.getLinkList());
 			    dossierAdapter.setImagelinkList(detail.getImageLinkList());
 			    dossiers.setAdapter(dossierAdapter);
+			    
 			    dossiers.setOnItemClickListener(new OnItemClickListener(){
 			        @Override
-			    	public void onItemClick(AdapterView<?> adapterView, final View view, int position, long id){
+			    	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id){
+			        	final String dossiername = ((TextView)view.findViewById(R.id.title)).getText().toString();
 			        	LinearLayout chapterList = (LinearLayout)view.findViewById(R.id.chapterlist);
-			        	if(Library.getBook(name).getDossiers().get(position).getChapterContents().size() != 0){
+			        	if(Library.getBook(name).getDossier(dossiername).getChapterContents().size() != 0){
 			        		if (chapterList.getVisibility() != 0){
 			        			chapterList.removeAllViews();
-			        			for(int i = 0; i < Library.getBook(name).getDossiers().get(position).getChapterContents().size(); i ++){
+			        			for(int i = 0; i < Library.getBook(name).getDossier(dossiername).getChapterContents().size(); i ++){
 			        				final TextView chapterText = new TextView(mActivity);
-					                chapterText.setText(Library.getBook(name).getDossiers().get(position).getChapters().get(i));
+					                chapterText.setText(Library.getBook(name).getDossier(dossiername).getChapters().get(i));
 					                chapterText.setGravity(Gravity.CENTER);
 					                chapterText.setPadding(0, 10, 0, 10);
 					                
@@ -119,7 +129,7 @@ public class DetailTask extends AsyncTask<String, Integer, String>{
 					                    Intent intent = new Intent();
 					                    intent.setClass(mActivity, ReadingActivity.class);
 					                    intent.putExtra("bookname", name);
-					                    intent.putExtra("dossiername", ((TextView)view.findViewById(R.id.title)).getText().toString());
+					                    intent.putExtra("dossiername", dossiername);
 					                    intent.putExtra("chapter", chapterText.getText().toString());
 					                    mActivity.startActivity(intent);
 					                  }
@@ -184,16 +194,18 @@ public class DetailTask extends AsyncTask<String, Integer, String>{
 			    dossierAdapter.setLinks(detail.getLinkList());
 			    dossierAdapter.setImagelinkList(detail.getImageLinkList());
 			    dossiers.setAdapter(dossierAdapter);
+			    
 			    dossiers.setOnItemClickListener(new OnItemClickListener(){
 			        @Override
-			    	public void onItemClick(AdapterView<?> adapterView, final View view, int position, long id){
+			    	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id){
+			        	final String dossiername = ((TextView)view.findViewById(R.id.title)).getText().toString();
 			        	LinearLayout chapterList = (LinearLayout)view.findViewById(R.id.chapterlist);
-			        	if(Library.getTempBook().getDossiers().get(position).getChapterContents().size() != 0){
+			        	if(Library.getTempBook().getDossier(dossiername).getChapterContents().size() != 0){
 			        		if (chapterList.getVisibility() != 0){
 			        			chapterList.removeAllViews();
-			        			for(int i = 0; i < Library.getTempBook().getDossiers().get(position).getChapterContents().size(); i ++){
+			        			for(int i = 0; i < Library.getTempBook().getDossier(dossiername).getChapterContents().size(); i ++){
 			        				final TextView chapterText = new TextView(mActivity);
-					                chapterText.setText(Library.getTempBook().getDossiers().get(position).getChapters().get(i));
+					                chapterText.setText(Library.getTempBook().getDossier(dossiername).getChapters().get(i));
 					                chapterText.setGravity(Gravity.CENTER);
 					                chapterText.setPadding(0, 10, 0, 10);
 					                
@@ -207,7 +219,7 @@ public class DetailTask extends AsyncTask<String, Integer, String>{
 					                    Intent intent = new Intent();
 					                    intent.setClass(mActivity, ReadingActivity.class);
 					                    intent.putExtra("bookname", name);
-					                    intent.putExtra("dossiername", ((TextView)view.findViewById(R.id.title)).getText().toString());
+					                    intent.putExtra("dossiername", dossiername);
 					                    intent.putExtra("chapter", chapterText.getText().toString());
 					                    mActivity.startActivity(intent);
 					                  }

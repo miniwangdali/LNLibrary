@@ -62,13 +62,13 @@ public class Fragment_BookDetail extends Fragment{
 				mDetailTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
 				Book book = Library.getBook(title);
 				Library.setTempBook(book);
-				Library.getTempBook().setTitle(((TextView)mBookLayout.findViewById(R.id.bookname)).getText().toString());
+				/*Library.getTempBook().setTitle(((TextView)mBookLayout.findViewById(R.id.bookname)).getText().toString());
 				Library.getTempBook().setAuthor(((TextView)mBookLayout.findViewById(R.id.author)).getText().toString());
 				Library.getTempBook().setIllustrator(((TextView)mBookLayout.findViewById(R.id.illustrator)).getText().toString());
 				Library.getTempBook().setPublisher(((TextView)mBookLayout.findViewById(R.id.publisher)).getText().toString());
 				Library.getTempBook().setNewest(((TextView)mBookLayout.findViewById(R.id.newest)).getText().toString());
 				Library.getTempBook().setUpdatetime(((TextView)mBookLayout.findViewById(R.id.updatetime)).getText().toString());
-				Library.getTempBook().setBookLink(link);
+				Library.getTempBook().setBookLink(link);*/
 				
 				final ExpandableTextView introduction = (ExpandableTextView)mLayout.findViewById(R.id.introduction);
 			    introduction.setText(book.getIntroduction());
@@ -153,7 +153,7 @@ public class Fragment_BookDetail extends Fragment{
 			    dossierAdapter.setLinks(linkList);
 			    ListView dossiers = (ListView)view.findViewById(R.id.dossierlist);
 			    dossiers.setAdapter(dossierAdapter);
-			    dossiers.setOnItemClickListener(new OnItemClickListener(){
+			    /*dossiers.setOnItemClickListener(new OnItemClickListener(){
 			        @Override
 			    	public void onItemClick(AdapterView<?> adapterView, final View view, int position, long id){
 			        	LinearLayout chapterList = (LinearLayout)view.findViewById(R.id.chapterlist);
@@ -193,7 +193,7 @@ public class Fragment_BookDetail extends Fragment{
 			        		mChapterTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
 			        	}
 			        }
-			    });
+			    });*/
 				/*TextView save = (TextView)view.findViewById(R.id.save);
 				save.setText("已收藏");
 				save.setOnClickListener(new OnClickListener() {
@@ -419,12 +419,13 @@ public class Fragment_BookDetail extends Fragment{
 			    dossiers.setAdapter(dossierAdapter);
 			    dossiers.setOnItemClickListener(new OnItemClickListener(){
 			        @Override
-			    	public void onItemClick(AdapterView<?> adapterView, final View view, int position, long id){
+			    	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id){
+			        	final String dossiername = ((TextView)view.findViewById(R.id.title)).getText().toString();
 			        	LinearLayout chapterList = (LinearLayout)view.findViewById(R.id.chapterlist);
-			        	if(Library.getTempBook().getDossiers().get(position).getChapterContents().size() != 0){
+			        	if(Library.getTempBook().getDossier(dossiername).getChapterContents().size() != 0){
 			        		if (chapterList.getVisibility() != 0){
 			        			chapterList.removeAllViews();
-			        			for(int i = 0; i < Library.getTempBook().getDossiers().get(position).getChapterContents().size(); i ++){
+			        			for(int i = 0; i < Library.getTempBook().getDossier(dossiername).getChapterContents().size(); i ++){
 			        				final TextView chapterText = new TextView(getActivity());
 					                chapterText.setText(Library.getTempBook().getDossiers().get(position).getChapters().get(i));
 					                chapterText.setGravity(Gravity.CENTER);
@@ -439,7 +440,7 @@ public class Fragment_BookDetail extends Fragment{
 					                    Intent intent = new Intent();
 					                    intent.setClass(getActivity(), ReadingActivity.class);
 					                    intent.putExtra("bookname", title);
-					                    intent.putExtra("dossiername", ((TextView)view.findViewById(R.id.title)).getText().toString());
+					                    intent.putExtra("dossiername", dossiername);
 					                    intent.putExtra("chapter", chapterText.getText().toString());
 					                    getActivity().startActivity(intent);
 					                  }

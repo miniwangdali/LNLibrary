@@ -29,7 +29,7 @@ public class Book{
 		Iterator<Dossier> iterator = dossiers.iterator();
 		while (iterator.hasNext()) {
 			Dossier dossier = (Dossier) iterator.next();
-			if(dossiername.equals(dossier.getDossiertitle())){
+			if(dossiername.equals(dossier.getDossiertitle().toString())){
 				return dossier;
 			}
 		}

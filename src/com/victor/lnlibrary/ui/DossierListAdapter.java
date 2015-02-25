@@ -9,18 +9,22 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.DisplayMetrics;
 import android.util.SparseArray;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout.LayoutParams;
 
 import com.example.lnlibrary.R;
@@ -31,7 +35,7 @@ import com.victor.lnlibrary.book.Dossier;
 import com.victor.lnlibrary.book.FileOperator;
 import com.victor.lnlibrary.book.ImageOperator;
 import com.victor.lnlibrary.config.StaticConfig;
-import com.victor.lnlibrary.dao.DetailTask;
+import com.victor.lnlibrary.dao.ChapterTask;
 import com.victor.lnlibrary.dao.DownloadTask;
 import com.victor.lnlibrary.dao.ImageLoadTask;
 import java.util.List;
@@ -226,4 +230,50 @@ public class DossierListAdapter extends BaseAdapter{
 	public void setTitle(List<String> dossierList){
     	title = dossierList;
 	}
+
+	
+	
+	/*@Override
+	public void onItemClick(AdapterView<?> adapterView, final View view, int position, long id) {
+		// TODO Auto-generated method stub
+		Toast.makeText(mActivity, "a", Toast.LENGTH_SHORT).show();
+		LinearLayout chapterList = (LinearLayout)view.findViewById(R.id.chapterlist);
+		if(Library.getBook(book).getDossier(title.get(position)).getChapterContents().size() != 0){
+    		if (chapterList.getVisibility() != 0){
+    			chapterList.removeAllViews();
+    			for(int i = 0; i < Library.getBook(book).getDossier(title.get(position)).getChapterContents().size(); i ++){
+    				final TextView chapterText = new TextView(mActivity);
+	                chapterText.setText(Library.getBook(book).getDossier(title.get(position)).getChapters().get(i));
+	                chapterText.setGravity(Gravity.CENTER);
+	                chapterText.setPadding(0, 10, 0, 10);
+	                
+	                chapterText.setTextSize(14.0f);
+	                chapterText.setBackgroundResource(R.drawable.chapterselector);
+	                chapterList.addView(chapterText);
+	                chapterText.setOnClickListener(new OnClickListener(){
+	                	@Override
+	                	public void onClick(View v){
+	                    Intent intent = new Intent();
+	                    intent.setClass(mActivity, ReadingActivity.class);
+	                    intent.putExtra("bookname", book);
+	                    intent.putExtra("dossiername", ((TextView)view.findViewById(R.id.title)).getText().toString());
+	                    intent.putExtra("chapter", chapterText.getText().toString());
+	                    mActivity.startActivity(intent);
+	                  }
+	                });
+	    			
+    			}
+    			Expand_Custom_Animation animation = new Expand_Custom_Animation(chapterList, 500);
+    	        chapterList.startAnimation(animation);
+    		}else{
+    			Expand_Custom_Animation animation = new Expand_Custom_Animation(chapterList, 500);
+    	        chapterList.startAnimation(animation);
+    		}
+    	}else{
+    		ChapterTask mChapterTask = new ChapterTask(mActivity, links.get(position), title.get(position), chapterList, book);
+    		mChapterTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
+    	}
+	}*/
+	
+	
 }

@@ -2,7 +2,6 @@ package com.victor.lnlibrary.htmlparser;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,7 +15,7 @@ public class BookBrief{
 	private String imageLink = null;
 	private String newest = null;
 	private String publisher = null;
-	private List<String> tempList = null;
+	private ArrayList<String> tempList = null;
 	private String title = null;
 	private String updatetime = null;
 
