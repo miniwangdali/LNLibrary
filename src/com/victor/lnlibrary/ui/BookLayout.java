@@ -177,6 +177,12 @@ public class BookLayout extends LinearLayout{
         	bookcover.setLayoutParams(params);
         	bookcover.setImageDrawable(drawable);
     	}else{
+    		if(bookBrief.getImageLink() != null){
+    			ImageLoadTask mImageLoadTask = new ImageLoadTask((Activity)getContext(), bookcover, bookBrief.getImageLink(), bookBrief.getTitle(), "bookcover");
+        		mImageLoadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
+			}else{
+				bookcover.setImageResource(R.drawable.image_load_error);
+			}
     		ImageLoadTask mImageLoadTask = new ImageLoadTask((Activity)getContext(), bookcover, bookBrief.getImageLink(), bookBrief.getTitle(), "bookcover");
     		mImageLoadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
     	}

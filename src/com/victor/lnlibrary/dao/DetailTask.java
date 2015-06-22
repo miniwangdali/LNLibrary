@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -46,7 +45,12 @@ public class DetailTask extends AsyncTask<String, Integer, String>{
 		// TODO Auto-generated method stub
 		try{
 			detail = new BookDetail(link, name);
-			return "success";
+			if(detail.getDossierList().size() != 0){
+				return "success";
+			}else{
+				return "connection error";
+			}
+			
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -93,12 +97,6 @@ public class DetailTask extends AsyncTask<String, Integer, String>{
 			    Library.setTempBook(Library.getBook(name));
 			    
 			    ListView dossiers = (ListView)mLayout.findViewById(R.id.dossierlist);
-			    
-			    /*DossierListAdapter dossierListAdapter = (DossierListAdapter)dossiers.getAdapter();
-			    dossierListAdapter.setTitle(detail.getDossierList());
-			    dossierListAdapter.setLinks(detail.getLinkList());
-			    dossierListAdapter.setImagelinkList(detail.getImageLinkList());
-			    dossierListAdapter.notifyDataSetChanged();*/
 			    
 			    DossierListAdapter dossierAdapter = new DossierListAdapter(mActivity, name);
 			    dossierAdapter.setTitle(detail.getDossierList());

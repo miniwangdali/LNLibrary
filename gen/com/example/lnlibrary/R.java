@@ -96,15 +96,16 @@ containing a value of this type.
         public static final int ic_setting_progress=0x7f02001b;
         public static final int ic_setting_read=0x7f02001c;
         public static final int icon=0x7f02001d;
-        public static final int launchbackground=0x7f02001e;
-        public static final int listlayer=0x7f02001f;
-        public static final int listselector=0x7f020020;
-        public static final int loadingpage=0x7f020021;
-        public static final int minusselector=0x7f020022;
-        public static final int plusselector=0x7f020023;
-        public static final int progressbar=0x7f020024;
-        public static final int saveanim=0x7f020025;
-        public static final int yangpizhi=0x7f020026;
+        public static final int image_load_error=0x7f02001e;
+        public static final int launchbackground=0x7f02001f;
+        public static final int listlayer=0x7f020020;
+        public static final int listselector=0x7f020021;
+        public static final int loadingpage=0x7f020022;
+        public static final int minusselector=0x7f020023;
+        public static final int plusselector=0x7f020024;
+        public static final int progressbar=0x7f020025;
+        public static final int saveanim=0x7f020026;
+        public static final int yangpizhi=0x7f020027;
     }
     public static final class id {
         public static final int action_settings=0x7f06002e;

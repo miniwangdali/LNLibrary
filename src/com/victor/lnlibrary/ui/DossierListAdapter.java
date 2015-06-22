@@ -3,6 +3,7 @@ package com.victor.lnlibrary.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -95,8 +96,13 @@ public class DossierListAdapter extends BaseAdapter{
             	dossiercover.setLayoutParams(params);
             	dossiercover.setImageDrawable(drawable);
     		}else{
-    			ImageLoadTask mImageLoadTask = new ImageLoadTask(mActivity, dossiercover, imagelinkList.get(position), book, "dossier-" + position);
-    			mImageLoadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
+    			if(imagelinkList != null){
+    				ImageLoadTask mImageLoadTask = new ImageLoadTask(mActivity, dossiercover, imagelinkList.get(position), book, "dossier-" + position);
+    				mImageLoadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
+    			}else{
+    				dossiercover.setImageResource(R.drawable.image_load_error);
+    			}
+    			
     		}
     		TextView dossiername = (TextView)convertView.findViewById(R.id.title);
     		dossiername.setText(title.get(position));

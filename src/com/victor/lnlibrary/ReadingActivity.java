@@ -678,6 +678,12 @@ public class ReadingActivity extends Activity{
 				}else{
 					ImageView imageView = new ImageView(self);
 					imageView.setLayoutParams(IMAGEPARAMS);
+					if(imageList.get(i) != null){
+						ImageLoadTask mImageLoadTask = new ImageLoadTask(self, imageView, imageList.get(i), bookname, "tempImage" + i);
+						mImageLoadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
+					}else{
+						imageView.setImageResource(R.drawable.image_load_error);
+					}
 					ImageLoadTask mImageLoadTask = new ImageLoadTask(self, imageView, imageList.get(i), bookname, "tempImage" + i);
 					mImageLoadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
 					imageView.setScaleType(ScaleType.FIT_CENTER);
