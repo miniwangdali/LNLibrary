@@ -20,7 +20,6 @@ public class Fragment_Home extends Fragment{
 	private List<String> blockList = null;
 	private LinearLayout mLayout;
 	
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {

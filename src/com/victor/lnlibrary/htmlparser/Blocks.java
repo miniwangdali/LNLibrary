@@ -14,7 +14,7 @@ public class Blocks{
 	public Blocks(){
 		try{
 			blockList = new ArrayList<String>();
-			doc = Jsoup.connect("http://lknovel.lightnovel.cn/").userAgent("lnlibrary").timeout(0).get();
+			doc = Jsoup.connect("http://www.linovel.com/").userAgent("lnlibrary").timeout(0).get();
 			parser();
 		}catch (IOException e){
 			e.printStackTrace();

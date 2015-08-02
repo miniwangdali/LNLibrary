@@ -72,9 +72,9 @@ public class FuncTask extends AsyncTask<String, Integer, String>{
 				BookLayout bookLayout = new BookLayout(mActivity, book);
 				bookLayout.setVisibility(View.INVISIBLE);
 			    mLayout.addView(bookLayout);
-			    Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.slide_down);
+			    //Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.slide_down);
 			    bookLayout.setVisibility(View.VISIBLE);
-			    bookLayout.startAnimation(animation);
+			    //bookLayout.startAnimation(animation);
 			}
 			pd.dismiss();
 		}else if(result.equals("block")){

@@ -7,6 +7,7 @@
             <solid android:color="#1f000000"/>
         </shape>
     </item>
+    
     <item android:drawable="@drawable/listselector"
         android:bottom="1dp">
         

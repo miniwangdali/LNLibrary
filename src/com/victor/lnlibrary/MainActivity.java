@@ -17,9 +17,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -31,6 +33,8 @@ import com.victor.lnlibrary.dao.UpdateTask;
 public class MainActivity extends Activity{
 
 	Activity mActivity = this;
+	DrawerLayout mDrawerLayout;
+	ActionBarDrawerToggle mDrawerToggle;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -39,12 +43,33 @@ public class MainActivity extends Activity{
 		ActionBar actionBar = getActionBar();
 		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbarlayer));
 		actionBar.setIcon(R.drawable.icon);
-		
+		actionBar.setHomeButtonEnabled(true);
 		
 		setContentView(R.layout.activity_main);
 		
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerToggle = new ActionBarDrawerToggle(mActivity,
+				mDrawerLayout,
+				R.drawable.icon,
+				R.string.app_name,
+				R.string.hello_world){
+			 public void onDrawerClosed(View view) {
+			        //getActionBar().setTitle(mTitle);
+			        invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+			    }
+			    public void onDrawerOpened(View drawerView) {
+			        //getActionBar().setTitle(mDrawerTitle);
+			        invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+			    }
+		};
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+		
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		ft.add(R.id.fragment_home, new Fragment_Home());
+		Fragment_BookList fragment_BookList = new Fragment_BookList();
+		fragment_BookList.setTitle("我的书库");
+		fragment_BookList.setCommand("mylibrary");
+		ft.add(R.id.fragment_home, fragment_BookList);
+		ft.add(R.id.left_drawer, new Fragment_Home());
 		ft.commit();
 		
 		SharedPreferences settings = getSharedPreferences("settings", Activity.MODE_PRIVATE);
@@ -61,6 +86,9 @@ public class MainActivity extends Activity{
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
+		if(mDrawerToggle.onOptionsItemSelected(item)){
+			return true;
+		}
 		switch (item.getItemId()) {
 		case R.id.menu_setting:
 			
@@ -94,4 +122,20 @@ public class MainActivity extends Activity{
 		return true;
 		
 	}
+
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onStop()
+	 */
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		finish();
+	}
+
+
+	
+	
+	
 }

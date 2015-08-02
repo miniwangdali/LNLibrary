@@ -30,7 +30,7 @@ public class ImageOperator{
 
 	public Bitmap loadImage(String imagename){
 		try{
-			Bitmap image = BitmapFactory.decodeStream(new FileInputStream(SDPATH + FILEPATH + "Images/" + imagename + ".png"));
+			Bitmap image = BitmapFactory.decodeStream(new FileInputStream(SDPATH + FILEPATH + "Images/" + imagename + ".ill"));
 			return image;
 		}catch (Exception e){
 			e.printStackTrace();
@@ -41,7 +41,7 @@ public class ImageOperator{
 	public boolean saveImage(Bitmap image, String bookname, String imagename){
 		FileOperator operator = new FileOperator();
 		try{
-			operator.writeFile("Images/" + bookname, imagename + ".png", image);
+			operator.writeFile("Images/" + bookname, imagename + ".ill", image);
 			return true;
 		}catch (Exception e){
 			e.printStackTrace();

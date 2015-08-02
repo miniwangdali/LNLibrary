@@ -20,7 +20,7 @@ public class SearchItems{
 			bookList = new ArrayList<String>();
 			linkList = new ArrayList<String>();
 			searchString = new String();
-			searchString = ("http://lknovel.lightnovel.cn/main/booklist/" + URLEncoder.encode(keyword, "utf8") + "/");
+			searchString = ("http://www.linovel.com/main/booklist/" + URLEncoder.encode(keyword, "utf8") + "/");
 			searchString = searchString.replace("+", " ");
 			doc = Jsoup.connect(searchString).userAgent("lnlibrary").timeout(0).get();
 			parser();

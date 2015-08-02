@@ -16,7 +16,7 @@ public class BlockItems{
 		try{
 			booklinkList = new ArrayList<String>();
 			bookList = new ArrayList<String>();
-			doc = Jsoup.connect("http://lknovel.lightnovel.cn/").userAgent("lnlibrary").timeout(0).get();
+			doc = Jsoup.connect("http://www.linovel.com/").userAgent("lnlibrary").timeout(0).get();
 			parser(blockname);
 		}catch (IOException e){
 			e.printStackTrace();

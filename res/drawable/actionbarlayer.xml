@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:bottom="0dp">
+    <!-- <item android:bottom="0dp">
         <shape>
             <solid android:color="#ffe0e0e0"/>
         </shape>
@@ -9,9 +9,9 @@
         <shape>
             <solid android:color="#ffbdbdbd"/>
         </shape>
-    </item>
+    </item> -->
     
-    <item android:bottom="2dp">
+    <item android:bottom="0dp">
         <shape>
             <solid android:color="#ff03a9f4"/>
         </shape>

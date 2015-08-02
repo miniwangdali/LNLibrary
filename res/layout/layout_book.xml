@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" 
-    android:background="@drawable/listlayer" 
-    android:layout_width="fill_parent" 
+    android:background="@drawable/listlayer"
+    android:layout_width="match_parent" 
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     style="@style/CustomBookLayout" >
@@ -22,7 +22,7 @@
         android:paddingBottom="10dp"
         android:layout_weight="7.0">
         <TextView android:id="@+id/bookname" 
-            android:layout_width="fill_parent" 
+            android:layout_width="match_parent" 
             android:layout_height="wrap_content" 
             android:singleLine="true"
             android:ellipsize="marquee"
@@ -31,23 +31,23 @@
             android:text="unknown" />
         <LinearLayout 
             android:orientation="horizontal" 
-            android:layout_width="fill_parent" 
+            android:layout_width="match_parent" 
             android:layout_height="wrap_content">
             <LinearLayout 
                 android:orientation="horizontal" 
                 android:layout_width="0.0dip" 
-                android:layout_height="fill_parent" 
+                android:layout_height="match_parent" 
                 android:layout_weight="1.0">
                 <TextView 
                     android:layout_width="wrap_content" 
-                    android:layout_height="fill_parent"
+                    android:layout_height="match_parent"
 
                     style="@style/InfoText" 
                     android:text="作者：" />
                 <TextView 
                     android:id="@+id/author" 
                     android:layout_width="wrap_content" 
-                    android:layout_height="fill_parent"
+                    android:layout_height="match_parent"
 
                     style="@style/InfoText" 
                     android:text="unknown" />
@@ -55,18 +55,18 @@
             <LinearLayout 
                 android:orientation="horizontal" 
                 android:layout_width="0.0dip" 
-                android:layout_height="fill_parent" 
+                android:layout_height="match_parent" 
                 android:layout_weight="1.0">
                 <TextView 
                     android:layout_width="wrap_content" 
-                    android:layout_height="fill_parent" 
+                    android:layout_height="match_parent" 
 
                     style="@style/InfoText"
                     android:text="插画：" />
                 <TextView 
                     android:id="@+id/illustrator" 
                     android:layout_width="wrap_content" 
-                    android:layout_height="fill_parent" 
+                    android:layout_height="match_parent" 
 					android:ellipsize="marquee"
                     style="@style/InfoText"
                     android:text="unknown" />
@@ -74,54 +74,54 @@
         </LinearLayout>
         <LinearLayout 
             android:orientation="horizontal" 
-            android:layout_width="fill_parent" 
+            android:layout_width="match_parent" 
             android:layout_height="wrap_content">
             <TextView 
                 android:layout_width="wrap_content" 
-                android:layout_height="fill_parent" 
+                android:layout_height="match_parent" 
 
                 style="@style/InfoText"
                 android:text="文库：" />
             <TextView 
                 android:id="@+id/publisher" 
                 android:layout_width="wrap_content" 
-                android:layout_height="fill_parent" 
+                android:layout_height="match_parent" 
 
                 style="@style/InfoText"
                 android:text="unknown" />
         </LinearLayout>
         <LinearLayout 
             android:orientation="horizontal" 
-            android:layout_width="fill_parent" 
+            android:layout_width="match_parent" 
             android:layout_height="wrap_content">
             <TextView 
                 android:layout_width="wrap_content" 
-                android:layout_height="fill_parent" 
+                android:layout_height="match_parent" 
 				
                 style="@style/InfoText"
                 android:text="最新章节：" />
             <TextView 
                 android:id="@+id/newest" 
                 android:layout_width="wrap_content" 
-                android:layout_height="fill_parent" 
+                android:layout_height="match_parent" 
 				android:ellipsize="marquee"
                 style="@style/InfoText"
                 android:text="unknown" />
         </LinearLayout>
         <LinearLayout 
             android:orientation="horizontal" 
-            android:layout_width="fill_parent" 
+            android:layout_width="match_parent" 
             android:layout_height="wrap_content">
             <TextView 
                 android:layout_width="wrap_content" 
-                android:layout_height="fill_parent" 
+                android:layout_height="match_parent" 
 
                 style="@style/InfoText"
                 android:text="更新日期：" />
             <TextView 
                 android:id="@+id/updatetime" 
                 android:layout_width="wrap_content" 
-                android:layout_height="fill_parent" 
+                android:layout_height="match_parent" 
 
                 style="@style/InfoText"
                 android:text="unknown" />

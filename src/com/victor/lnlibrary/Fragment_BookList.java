@@ -35,11 +35,6 @@ public class Fragment_BookList extends Fragment{
 		if(view == null){
 			view = inflater.inflate(R.layout.fragment_booklist, container, false);
 		    mLayout = (LinearLayout)view.findViewById(R.id.booklistlayout);
-		    /*ProgressBar progressBar = new ProgressBar(getActivity());
-		    LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		    progressBar.setLayoutParams(params);
-			progressBar.setIndeterminate(true);
-			mLayout.addView(progressBar, 0);*/
 		    FuncTask mFuncTask = new FuncTask(getActivity(), mLayout, command, title);
 		    mFuncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
 		    return view;
