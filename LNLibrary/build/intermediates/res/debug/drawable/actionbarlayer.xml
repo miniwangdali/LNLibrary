@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- <item android:bottom="0dp">
+        <shape>
+            <solid android:color="#ffe0e0e0"/>
+        </shape>
+    </item>
+    <item android:bottom="1dp">
+        <shape>
+            <solid android:color="#ffbdbdbd"/>
+        </shape>
+    </item> -->
+    
+    <item android:bottom="0dp">
+        <shape>
+            <solid android:color="#ff03a9f4"/>
+        </shape>
+    </item>
+
+</layer-list>
+<!-- From: file:/G:/StudioProject/LNLibrary/LNLibrary/src/main/res/drawable/actionbarlayer.xml -->

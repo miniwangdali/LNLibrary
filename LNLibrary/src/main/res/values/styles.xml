@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="AppBaseTheme" parent="@android:style/Theme.Holo.Light" />
+    <style name="AppTheme" parent="@style/AppBaseTheme" />
+    <style name="CustomLayout">
+        <item name="android:paddingLeft">5.0dip</item>
+        <item name="android:paddingTop">10.0dip</item>
+        <item name="android:paddingRight">5.0dip</item>
+        <item name="android:paddingBottom">10.0dip</item>
+        <item name="android:layout_marginLeft">0dip</item>
+        <item name="android:layout_marginTop">0dip</item>
+        <item name="android:layout_marginRight">0dip</item>
+        <item name="android:layout_marginBottom">0dip</item>
+    </style>
+    <style name="CustomBookLayout">
+        <item name="android:layout_marginBottom">2.0dip</item>
+    </style>
+    <style name="ReadingLayout">
+        <item name="android:layout_marginLeft">10.0dip</item>
+        <item name="android:layout_marginTop">0dip</item>
+        <item name="android:layout_marginRight">5.0dip</item>
+        <item name="android:layout_marginBottom">5.0dip</item>
+    </style>
+    <style name="TitleText">
+        <item name="android:textColor">#dd000000</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="SubTitleText">
+        <item name="android:textColor">#dd000000</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="InfoText">
+        <item name="android:textColor">#8a000000</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="ReadingText">
+        <item name="android:textSize">18sp</item>
+    </style>
+</resources>

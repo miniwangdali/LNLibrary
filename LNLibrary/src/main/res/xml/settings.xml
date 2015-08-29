@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/action_settings" >
+    <PreferenceCategory android:title="阅读设置">
+        <com.victor.lnlibrary.ui.SeekPreference android:key="fontsize"
+            android:title="字体大小"
+        	android:defaultValue="18" />
+        <com.victor.lnlibrary.ui.SeekPreference android:key="linespace"
+            android:title="行间距"
+        	android:defaultValue="1.0f" />
+        <CheckBoxPreference android:key="nightmode"
+            android:title="夜间模式"
+            android:summaryOn="已开启"
+            android:summaryOff="已关闭"
+            android:defaultValue="false" />
+        <CheckBoxPreference android:key="awake"
+            android:title="屏幕常亮"
+            android:summaryOn="已开启"
+            android:summaryOff="已关闭"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="软件信息">
+        <Preference android:key="checkupdate"
+            android:title="检查更新"
+            android:summary="unknown" />
+        <Preference android:key="about"
+            android:title="关于" />	
+        
+    </PreferenceCategory>
+
+</PreferenceScreen>

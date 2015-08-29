@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/background"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/loadingpage"
+    android:orientation="vertical" >
+
+    <LinearLayout android:id="@+id/blurlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="20dp"
+        android:orientation="vertical" >
+		<ImageView
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:scaleType="centerInside"
+        	android:src="@drawable/ic_launcher" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:gravity="center"
+            android:text="加载图书中..." />
+
+        <ProgressBar
+            android:id="@+id/loadingprogress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="10dp"
+            android:max="100"
+            android:progressDrawable="@drawable/progressbar" />
+    </LinearLayout>
+
+    
+
+</RelativeLayout>

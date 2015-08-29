@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/G:/StudioProject/LNLibrary/LNLibrary/src/main/res/values/attrs.xml -->
+    <eat-comment/>
+    <attr name="position">  
+        <enum name="left_top" value="0"/>  
+        <enum name="right_top" value="1"/>  
+        <enum name="right_bottom" value="2"/>  
+        <enum name="left_bottom" value="3"/>  
+    </attr>
+    <attr format="dimension" name="radius"/>
+    <!-- From: file:/G:/StudioProject/LNLibrary/LNLibrary/src/main/res/values/dimens.xml -->
+    <eat-comment/>
+    <color name="daytext">#dd000000</color>
+    <color name="nighttext">#36ffffdd</color>
+    <declare-styleable name="ExpandableTextView"><attr format="boolean" name="expanded"/><attr format="integer" name="minLines"/></declare-styleable>
+    <declare-styleable name="FoldMenu"><attr name="position"/><attr name="radius"/></declare-styleable>
+    <dimen name="activity_horizontal_margin">16.0dip</dimen>
+    <dimen name="activity_vertical_margin">16.0dip</dimen>
+    <!-- From: file:/G:/StudioProject/LNLibrary/LNLibrary/src/main/res/values/ids.xml -->
+    <eat-comment/>
+    <item name="tag" type="id"/>
+    <item name="tag_expandable_text_view_reused" type="id"/>
+    <!-- From: file:/G:/StudioProject/LNLibrary/LNLibrary/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="action_settings">设置</string>
+    <string name="app_name">轻小说文库</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="search_hint">小说名/作者/标题</string>
+    <string name="search_result">搜索结果</string>
+    <string name="title_activity_reading">ReadingActivity</string>
+    <!-- From: file:/G:/StudioProject/LNLibrary/LNLibrary/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="AppBaseTheme" parent="@android:style/Theme.Holo.Light"/>
+    <style name="AppTheme" parent="@style/AppBaseTheme"/>
+    <style name="CustomBookLayout">
+        <item name="android:layout_marginBottom">2.0dip</item>
+    </style>
+    <style name="CustomLayout">
+        <item name="android:paddingLeft">5.0dip</item>
+        <item name="android:paddingTop">10.0dip</item>
+        <item name="android:paddingRight">5.0dip</item>
+        <item name="android:paddingBottom">10.0dip</item>
+        <item name="android:layout_marginLeft">0dip</item>
+        <item name="android:layout_marginTop">0dip</item>
+        <item name="android:layout_marginRight">0dip</item>
+        <item name="android:layout_marginBottom">0dip</item>
+    </style>
+    <style name="InfoText">
+        <item name="android:textColor">#8a000000</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="ReadingLayout">
+        <item name="android:layout_marginLeft">10.0dip</item>
+        <item name="android:layout_marginTop">0dip</item>
+        <item name="android:layout_marginRight">5.0dip</item>
+        <item name="android:layout_marginBottom">5.0dip</item>
+    </style>
+    <style name="ReadingText">
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="SubTitleText">
+        <item name="android:textColor">#dd000000</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="TitleText">
+        <item name="android:textColor">#dd000000</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+</resources>

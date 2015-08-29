@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="G:\StudioProject\LNLibrary\jsoup-1.7.3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="ab1f22cadc2f8b514e55ba368f5128056fe304da">
+        <dex dex="G:\StudioProject\LNLibrary\LNLibrary\build\intermediates\pre-dexed\release\jsoup-1.7.3-35a312255365d6dbcfa71d66b42102d570572f09.jar" />
+    </item>
+    <item
+        jar="G:\StudioProject\LNLibrary\LNLibrary\libs\android-support-v4.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="5896b0a4e377ac4242eb2bc785220c1c4fc052f4">
+        <dex dex="G:\StudioProject\LNLibrary\LNLibrary\build\intermediates\pre-dexed\release\android-support-v4-527f714e91d67a28907d39f56e90f25bb46a84cb.jar" />
+    </item>
+
+</items>
